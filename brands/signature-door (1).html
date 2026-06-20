@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Signature Door | Prime Windows &amp; Doors</title>
+<meta name="description" content="Signature Door custom handcrafted entry and interior doors. Available through Prime Windows &amp; Doors in Ocala, FL.">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#09090e;--bg2:#0d0f14;--bg3:#111318;--surf:rgba(18,17,14,.92);--gold:#b58f4a;--gold-pale:#d4af6a;--gold-dim:rgba(181,143,74,.08);--gold-glow:rgba(181,143,74,.35);--t1:#f5f0e8;--t2:#b8b0a2;--t3:#706a5e;--b:rgba(255,255,255,.06);--b2:rgba(181,143,74,.15);--sans:'Outfit',sans-serif;--serif:'Cormorant Garamond',serif;--mono:'JetBrains Mono','Fira Code',monospace}
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=JetBrains+Mono:wght@400;500&display=swap');
+body{background:var(--bg);color:var(--t1);font-family:var(--sans);line-height:1.7;-webkit-font-smoothing:antialiased}
+a{color:var(--gold);text-decoration:none;transition:color .2s}
+a:hover{color:var(--gold-pale)}
+.brand-page{max-width:900px;margin:0 auto;padding:3rem 2rem 5rem}
+.back-bar{padding:1.5rem 2rem;border-bottom:1px solid var(--b);position:sticky;top:0;z-index:100;background:rgba(9,9,14,.92);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
+.back-bar-inner{max-width:900px;margin:0 auto;display:flex;align-items:center;justify-content:space-between}
+.back-btn{display:inline-flex;align-items:center;gap:.5rem;font-family:var(--mono);font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);text-decoration:none;padding:.5rem 1rem;border:1px solid var(--b2);border-radius:3px;transition:all .25s}
+.back-btn:hover{background:var(--gold);color:var(--bg);box-shadow:0 0 20px var(--gold-glow)}
+.back-btn svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2}
+.brand-hero{text-align:center;padding:4rem 0 3rem;border-bottom:1px solid var(--b)}
+.brand-eyebrow{font-family:var(--mono);font-size:.6rem;letter-spacing:.22em;text-transform:uppercase;color:rgba(212,175,106,.65);margin-bottom:1rem}
+.brand-name{font-family:var(--sans);font-size:clamp(2.2rem,6vw,3.8rem);font-weight:800;letter-spacing:.04em;text-transform:uppercase;margin-bottom:1rem;background:linear-gradient(135deg,var(--t1) 0%,var(--gold) 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.brand-tagline{font-family:var(--serif);font-size:1.2rem;font-style:italic;color:var(--t2);max-width:500px;margin:0 auto}
+.brand-section{padding:3rem 0;border-bottom:1px solid var(--b)}
+.brand-section:last-child{border-bottom:none}
+.section-label{font-family:var(--mono);font-size:.58rem;letter-spacing:.22em;text-transform:uppercase;color:rgba(212,175,106,.65);margin-bottom:.8rem}
+.section-title{font-family:var(--sans);font-size:1.5rem;font-weight:700;margin-bottom:1.2rem;letter-spacing:.02em}
+.section-title em{font-style:normal;color:var(--gold)}
+.brand-text{font-size:.95rem;color:var(--t2);line-height:1.9;font-weight:300;max-width:700px}
+.brand-text+.brand-text{margin-top:1rem}
+.feature-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:1.5rem;margin-top:1.5rem}
+.feature-card{background:var(--surf);border:1px solid var(--b);padding:1.8rem;transition:border-color .3s,transform .3s}
+.feature-card:hover{border-color:var(--b2);transform:translateY(-3px)}
+.feature-card h3{font-family:var(--serif);font-size:1.1rem;font-weight:600;margin-bottom:.5rem}
+.feature-card p{font-size:.85rem;color:var(--t2);line-height:1.75;font-weight:300}
+.product-list{list-style:none;display:flex;flex-direction:column;gap:.6rem;margin-top:1rem}
+.product-list li{display:flex;align-items:flex-start;gap:.7rem;font-size:.9rem;color:var(--t2);line-height:1.6}
+.product-list li::before{content:"";min-width:10px;height:10px;margin-top:6px;background:var(--gold);flex-shrink:0;clip-path:polygon(10% 50%,40% 78%,90% 18%,100% 28%,40% 92%,0% 60%)}
+.cta-section{text-align:center;padding:4rem 0 2rem}
+.cta-title{font-family:var(--sans);font-size:1.3rem;font-weight:700;margin-bottom:.6rem}
+.cta-sub{font-size:.9rem;color:var(--t2);margin-bottom:2rem;font-weight:300}
+.btn-row{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap}
+.btn-prim{font-family:var(--mono);font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;padding:.85rem 2.2rem;background:var(--gold);color:var(--bg);border:none;border-radius:2px;cursor:pointer;text-decoration:none;display:inline-block;transition:all .25s;font-weight:500}
+.btn-prim:hover{background:var(--gold-pale);box-shadow:0 0 18px var(--gold-glow);transform:translateY(-2px);color:var(--bg)}
+.btn-ghost{font-family:var(--mono);font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;padding:.85rem 2.2rem;background:rgba(181,143,74,.07);color:var(--t1);border:1px solid var(--b2);border-radius:2px;cursor:pointer;text-decoration:none;display:inline-block;transition:all .25s}
+.btn-ghost:hover{border-color:var(--gold);color:var(--gold);transform:translateY(-1px)}
+.ext-link{display:inline-flex;align-items:center;gap:.4rem}
+.ext-link svg{width:12px;height:12px;stroke:currentColor;fill:none;stroke-width:2}
+.footer-note{text-align:center;padding:2rem 0;font-family:var(--mono);font-size:.6rem;color:var(--t3);letter-spacing:.08em}
+.footer-note a{color:var(--gold)}
+@media(max-width:600px){
+  .brand-page{padding:2rem 1.4rem 4rem}
+  .back-bar{padding:1rem 1.4rem}
+  .btn-row{flex-direction:column;align-items:center}
+  .btn-prim,.btn-ghost{width:100%;max-width:280px;text-align:center}
+  .feature-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<div class="back-bar">
+  <div class="back-bar-inner">
+    <a href="../index.html#brands" class="back-btn">
+      <svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+      Back to Brands
+    </a>
+    <a href="tel:3528877463" style="font-family:var(--mono);font-size:.72rem;letter-spacing:.08em;color:var(--gold)">352-887-7463</a>
+  </div>
+</div>
+
+<div class="brand-page">
+  <div class="brand-hero">
+    <div class="brand-eyebrow">Prime Windows &amp; Doors &mdash; Authorized Dealer</div>
+    <h1 class="brand-name">Signature Door</h1>
+    <p class="brand-tagline">Custom handcrafted doors that make an unforgettable first impression</p>
+  </div>
+
+  <div class="brand-section">
+    <div class="section-label">Overview</div>
+    <h2 class="section-title">About <em>Signature Door</em></h2>
+    <p class="brand-text">Signature Door is a boutique manufacturer specializing in custom handcrafted entry doors, interior doors, and wine cellar doors. Each Signature Door is built to order using premium materials and old-world craftsmanship techniques, resulting in a truly one-of-a-kind product. They offer an extraordinary range of wood species, glass options, iron accents, and finish choices, allowing homeowners to create a door that is uniquely theirs. Whether the design calls for a grand double-entry statement or a refined interior accent, Signature Door delivers artisan quality that elevates any home.</p>
+  </div>
+
+  <div class="brand-section">
+    <div class="section-label">Products</div>
+    <h2 class="section-title">Product <em>Lines</em></h2>
+    <ul class="product-list">
+      <li>Custom wood entry doors</li>
+      <li>Iron and wood combination doors</li>
+      <li>Wine cellar and specialty doors</li>
+      <li>Oversized and pivot entry doors</li>
+      <li>Custom glass and decorative ironwork</li>
+      <li>Matching sidelites and transoms</li>
+    </ul>
+  </div>
+
+  <div class="brand-section">
+    <div class="section-label">Why Signature Door</div>
+    <h2 class="section-title">Key <em>Features</em></h2>
+    <div class="feature-grid">
+      <div class="feature-card">
+        <h3>Truly Custom</h3>
+        <p>Every door is designed and built specifically for your project. No standard sizes or cookie-cutter designs — just handcrafted doors made exactly to your vision and specifications.</p>
+      </div>
+      <div class="feature-card">
+        <h3>Premium Materials</h3>
+        <p>Crafted from the finest hardwoods, wrought iron, and decorative glass. Each material is selected for beauty, durability, and character that only improves with age.</p>
+      </div>
+      <div class="feature-card">
+        <h3>Artisan Craftsmanship</h3>
+        <p>Built by skilled craftsmen using traditional woodworking techniques combined with modern precision. The result is a door that is as structurally sound as it is visually stunning.</p>
+      </div>
+      <div class="feature-card">
+        <h3>Statement Entries</h3>
+        <p>Your front door sets the tone for your entire home. Signature Door creates entries that make a lasting impression and dramatically enhance curb appeal and property value.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="cta-section">
+    <div class="cta-title">Interested in Signature Door for Your Home?</div>
+    <p class="cta-sub">Our team can walk you through every Signature Door option and help you find the perfect fit. Free consultations, always.</p>
+    <div class="btn-row">
+      <a href="../index.html#contact" class="btn-prim">Get a Free Quote</a>
+      <a href="https://www.signaturedoor.com" target="_blank" rel="noopener noreferrer" class="btn-ghost ext-link">
+        Visit SignatureDoor.com
+        <svg viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3"/></svg>
+      </a>
+    </div>
+  </div>
+
+  <div class="footer-note">
+    <a href="../index.html#brands">&larr; Back to All Brands</a> &nbsp;&middot;&nbsp; &copy; 2025 <a href="../index.html">Prime Windows &amp; Doors</a> &nbsp;&middot;&nbsp; Ocala, FL
+  </div>
+</div>
+
+</body>
+</html>

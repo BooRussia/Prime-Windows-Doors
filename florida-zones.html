@@ -1,0 +1,1000 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Florida Window &amp; Door Code Zones | Prime Windows &amp; Doors</title>
+<meta name="description" content="County-level reference map of Florida's High-Velocity Hurricane Zone, Wind-Borne Debris Region, and ultimate design wind speeds per the 2023 Florida Building Code (8th Edition) and ASCE 7-22.">
+<link rel="icon" type="image/png" href="Prime-favicon.png">
+<link rel="apple-touch-icon" href="Prime-favicon.png">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=JetBrains+Mono:wght@400;500&display=swap');
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#09090e;--bg2:#0d0f14;--surf:rgba(18,17,14,.92);--gold:#b58f4a;--gold-pale:#d4af6a;--gold-glow:rgba(181,143,74,.35);--t1:#f5f0e8;--t2:#b8b0a2;--t3:#706a5e;--b:rgba(255,255,255,.06);--b2:rgba(181,143,74,.15);--sans:'Outfit',sans-serif;--serif:'Cormorant Garamond',serif;--mono:'JetBrains Mono','Fira Code',monospace;--hvhz:#d8565a;--wbdr:#e8c37a;--w180:#7a1f28;--w170:#b83340;--w160:#d45a48;--w150:#d98a50;--w140:#d4b26a;--w130:#8fa67e;--w120:#4a7a8f;--w110:#36516b}
+html{background:var(--bg);overflow-x:hidden}
+body{background:var(--bg);color:var(--t1);font-family:var(--sans);line-height:1.65;-webkit-font-smoothing:antialiased;min-height:100vh}
+a{color:var(--gold);text-decoration:none;transition:color .2s}
+a:hover{color:var(--gold-pale)}
+
+.back-bar{padding:1.5rem 2rem;border-bottom:1px solid var(--b);position:sticky;top:0;z-index:1000;background:rgba(9,9,14,.92);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
+.back-bar-inner{max-width:1320px;margin:0 auto;display:flex;align-items:center;justify-content:space-between}
+.back-btn{display:inline-flex;align-items:center;gap:.5rem;font-family:var(--mono);font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);padding:.5rem 1rem;border:1px solid var(--b2);border-radius:3px;transition:all .25s}
+.back-btn:hover{background:var(--gold);color:var(--bg);box-shadow:0 0 20px var(--gold-glow)}
+.back-btn svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2}
+
+.page{max-width:1320px;margin:0 auto;padding:2.2rem 2rem 4rem}
+.page-hero{text-align:center;padding:1.5rem 0 2.2rem;position:relative}
+.page-hero::before{content:'';position:absolute;top:40%;left:50%;transform:translate(-50%,-50%);width:740px;height:420px;background:radial-gradient(ellipse at center,rgba(181,143,74,.14) 0%,rgba(181,143,74,.04) 40%,transparent 70%);pointer-events:none;z-index:0}
+.page-hero>*{position:relative;z-index:1}
+.page-eyebrow{font-family:var(--mono);font-size:.6rem;letter-spacing:.22em;text-transform:uppercase;color:rgba(212,175,106,.7);margin-bottom:1rem}
+.page-title{font-family:var(--sans);font-size:clamp(2rem,5vw,3.4rem);font-weight:800;letter-spacing:.03em;text-transform:uppercase;margin-bottom:.6rem;background:linear-gradient(135deg,var(--t1) 0%,var(--gold-pale) 55%,var(--gold) 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;line-height:1.05}
+.page-title em{font-style:normal;color:var(--gold)}
+.page-accent{width:52px;height:1.5px;background:linear-gradient(90deg,transparent,var(--gold),transparent);margin:.4rem auto 1.1rem}
+.page-sub{font-family:var(--serif);font-size:1.1rem;font-style:italic;color:var(--t2);max-width:620px;margin:0 auto;line-height:1.55}
+
+.zone-toggle{display:flex;justify-content:center;gap:.6rem;margin:1.8rem 0 .6rem;flex-wrap:wrap}
+.zt-btn{font-family:var(--mono);font-size:.66rem;letter-spacing:.14em;text-transform:uppercase;padding:.7rem 1.3rem 0.7rem 2.1rem;background:rgba(181,143,74,.04);color:var(--t2);border:1px solid var(--b2);border-radius:2px;cursor:pointer;transition:all .25s;font-weight:500;position:relative;overflow:hidden}
+.zt-btn::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(181,143,74,.18),rgba(181,143,74,0));opacity:0;transition:opacity .3s;pointer-events:none}
+.zt-btn::after{content:'';position:absolute;left:.85rem;top:50%;transform:translateY(-50%);width:11px;height:11px;border:1px solid var(--b2);border-radius:2px;background:rgba(255,255,255,.02);transition:all .22s}
+.zt-btn:hover{border-color:var(--gold);color:var(--gold);transform:translateY(-1px)}
+.zt-btn:hover::before{opacity:.6}
+.zt-btn:hover::after{border-color:var(--gold)}
+.zt-btn.active{background:rgba(181,143,74,.12);color:var(--gold-pale);border-color:var(--gold);box-shadow:0 0 14px var(--gold-glow)}
+.zt-btn.active::before{opacity:0}
+.zt-btn.active::after{background:var(--gold);border-color:var(--gold);box-shadow:0 0 8px var(--gold-glow),inset 0 0 0 2px rgba(9,9,14,.85)}
+.toggle-hint{text-align:center;font-family:var(--mono);font-size:.52rem;letter-spacing:.18em;text-transform:uppercase;color:var(--t3);margin-bottom:1rem;opacity:.65}
+.aux-toggle{display:flex;justify-content:center;margin:0 0 1.4rem;gap:1rem;flex-wrap:wrap}
+.sat-switch{display:inline-flex;align-items:center;gap:.7rem;cursor:pointer;user-select:none;font-family:var(--mono);font-size:.58rem;letter-spacing:.18em;text-transform:uppercase;color:var(--t2);transition:color .22s}
+.sat-switch:hover{color:var(--gold-pale)}
+.sat-switch input{position:absolute;opacity:0;pointer-events:none}
+.sat-track{position:relative;display:inline-block;width:34px;height:18px;background:rgba(255,255,255,.06);border:1px solid var(--b2);border-radius:20px;transition:background .25s,border-color .25s}
+.sat-thumb{position:absolute;top:2px;left:2px;width:12px;height:12px;border-radius:50%;background:var(--t3);transition:all .28s cubic-bezier(.22,1,.36,1)}
+.sat-switch input:checked + .sat-track{background:rgba(181,143,74,.28);border-color:var(--gold)}
+.sat-switch input:checked + .sat-track .sat-thumb{left:18px;background:var(--gold);box-shadow:0 0 10px var(--gold-glow)}
+
+.map-shell{position:relative;border:1px solid var(--b2);border-radius:4px;overflow:hidden;background:var(--bg2);box-shadow:0 20px 60px rgba(0,0,0,.5),inset 0 0 0 1px rgba(255,255,255,.02)}
+#flMap{width:100%;height:640px;background:var(--bg2);outline:none}
+.leaflet-container{background:var(--bg2) !important;font-family:var(--mono);outline:none}
+.leaflet-container.sat-on{background:#000 !important}
+.leaflet-interactive{outline:none}
+.leaflet-control-attribution{background:rgba(9,9,14,.65) !important;color:rgba(245,240,232,.3) !important;font-family:var(--mono);font-size:.5rem;letter-spacing:.05em;border:none}
+.leaflet-control-attribution a{color:rgba(212,175,106,.55) !important}
+.leaflet-control-zoom{border:1px solid var(--b2) !important;background:rgba(9,9,14,.85) !important;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+.leaflet-control-zoom a{background:transparent !important;color:var(--gold) !important;border:none !important;border-bottom:1px solid var(--b2) !important;font-family:var(--mono);font-weight:400;transition:all .2s}
+.leaflet-control-zoom a:last-child{border-bottom:none !important}
+.leaflet-control-zoom a:hover{background:var(--gold) !important;color:var(--bg) !important}
+.recenter-btn{position:absolute;top:84px;left:10px;z-index:501;width:30px;height:30px;display:flex;align-items:center;justify-content:center;background:rgba(9,9,14,.85);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border:1px solid var(--b2);border-radius:2px;color:var(--gold);cursor:pointer;transition:all .22s;padding:0}
+.recenter-btn:hover{background:var(--gold);color:var(--bg);box-shadow:0 0 16px var(--gold-glow)}
+.recenter-btn svg{width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;transition:transform .5s cubic-bezier(.22,1,.36,1)}
+.recenter-btn:hover svg{transform:rotate(180deg)}
+
+.legend{position:absolute;bottom:16px;left:16px;background:rgba(9,9,14,.88);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border:1px solid var(--b2);border-radius:3px;padding:.9rem 1.05rem;z-index:500;max-width:260px;font-family:var(--mono);transition:opacity .3s}
+.legend-section{margin-bottom:.7rem}
+.legend-section:last-child{margin-bottom:0}
+.legend-title{font-size:.5rem;letter-spacing:.22em;text-transform:uppercase;color:rgba(212,175,106,.75);margin-bottom:.45rem;font-weight:500}
+.legend-section + .legend-section{padding-top:.55rem;border-top:1px solid rgba(255,255,255,.05)}
+.legend-row{display:flex;align-items:center;gap:.6rem;margin-bottom:.3rem;font-size:.58rem;letter-spacing:.08em;color:var(--t2);line-height:1.4}
+.legend-row:last-child{margin-bottom:0}
+.legend-swatch{width:14px;height:10px;border-radius:1px;flex-shrink:0;border:1px solid rgba(255,255,255,.1)}
+.legend-empty{font-size:.55rem;letter-spacing:.1em;color:var(--t3);font-style:italic;font-family:var(--serif);text-transform:none}
+
+.info-panel{position:absolute;top:16px;right:16px;width:320px;max-width:calc(100% - 32px);background:rgba(9,9,14,.92);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border:1px solid var(--b2);border-radius:3px;padding:1.3rem 1.35rem 1.2rem;z-index:500;opacity:0;transform:translateX(12px);pointer-events:none;transition:opacity .35s,transform .35s}
+.info-panel.visible{opacity:1;transform:translateX(0);pointer-events:auto}
+.info-eyebrow{font-family:var(--mono);font-size:.5rem;letter-spacing:.22em;text-transform:uppercase;color:rgba(212,175,106,.65);margin-bottom:.4rem;display:flex;align-items:center;gap:.5rem}
+.info-eyebrow::before{content:'';width:6px;height:6px;border-radius:50%;background:#f5e6b5;box-shadow:0 0 8px rgba(245,230,181,.75);animation:selPulse 1.8s ease-in-out infinite}
+@keyframes selPulse{0%,100%{opacity:.55;transform:scale(1)}50%{opacity:1;transform:scale(1.25)}}
+.info-county{font-family:var(--sans);font-size:1.35rem;font-weight:800;letter-spacing:.02em;text-transform:uppercase;color:var(--t1);margin-bottom:.3rem;line-height:1.1}
+.info-subcounty{font-family:var(--mono);font-size:.55rem;letter-spacing:.1em;color:var(--t3);margin-bottom:.7rem;text-transform:uppercase}
+.info-tier{display:inline-flex;align-items:center;gap:.45rem;font-family:var(--mono);font-size:.5rem;letter-spacing:.16em;text-transform:uppercase;padding:.32rem .6rem .3rem;border-radius:2px;border:1px solid;margin-bottom:.95rem;font-weight:500}
+.info-tier-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0;box-shadow:0 0 6px currentColor}
+.tier-V{color:#9bd086;border-color:rgba(155,208,134,.35);background:rgba(155,208,134,.06)}
+.tier-V .info-tier-dot{background:#9bd086;color:rgba(155,208,134,.7)}
+.tier-C{color:#e89a5c;border-color:rgba(232,154,92,.4);background:rgba(232,154,92,.08)}
+.tier-C .info-tier-dot{background:#e89a5c;color:rgba(232,154,92,.7)}
+.tier-I{color:rgba(212,175,106,.85);border-color:rgba(212,175,106,.3);background:rgba(212,175,106,.05)}
+.tier-I .info-tier-dot{background:rgba(212,175,106,.85);color:rgba(212,175,106,.5)}
+.tier-note{font-family:var(--serif);font-style:italic;font-size:.78rem;color:var(--t2);margin:.4rem 0 .6rem;line-height:1.5;padding:.6rem .7rem;border-left:2px solid currentColor;background:rgba(255,255,255,.015);border-radius:1px}
+.tier-note.tier-C{color:rgba(232,154,92,.95)}
+.tier-note.tier-I{color:rgba(212,175,106,.85)}
+.tier-note.tier-V{color:#9bd086}
+.info-divider{height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent);margin:.9rem 0;opacity:.4}
+.info-row{display:flex;justify-content:space-between;align-items:flex-start;gap:.7rem;padding:.35rem 0;font-family:var(--mono);font-size:.6rem;letter-spacing:.05em}
+.info-label{color:var(--t3);letter-spacing:.14em;text-transform:uppercase;font-size:.5rem;flex-shrink:0;padding-top:2px}
+.info-val{color:var(--gold-pale);font-weight:500;text-align:right;letter-spacing:.06em}
+.info-val.hv{color:var(--hvhz);font-weight:700}
+.info-req{margin-top:1rem;padding:.85rem 0 .1rem;border-top:1px solid rgba(255,255,255,.05);font-family:var(--sans);font-size:.78rem;color:var(--t2);line-height:1.6;font-weight:300}
+.info-req strong{color:var(--gold);font-weight:600}
+.info-close{position:absolute;top:10px;right:12px;width:22px;height:22px;display:flex;align-items:center;justify-content:center;border:none;background:transparent;color:var(--t3);cursor:pointer;font-family:var(--mono);font-size:1rem;transition:color .2s;line-height:1}
+.info-close:hover{color:var(--gold)}
+
+.hint{text-align:center;font-family:var(--mono);font-size:.55rem;letter-spacing:.16em;text-transform:uppercase;color:var(--t3);margin-top:1.1rem;opacity:.7}
+
+.sources-block{margin-top:3.5rem;padding:2rem 2rem 1.6rem;border:1px solid var(--b);border-radius:3px;background:rgba(255,255,255,.015)}
+.sources-title{font-family:var(--mono);font-size:.5rem;letter-spacing:.22em;text-transform:uppercase;color:rgba(212,175,106,.65);margin-bottom:1rem}
+.sources-list{list-style:none;display:flex;flex-direction:column;gap:.45rem;counter-reset:src}
+.sources-list li{display:flex;gap:.6rem;align-items:baseline;font-family:var(--mono);font-size:.58rem;letter-spacing:.06em;color:rgba(245,240,232,.42);line-height:1.65}
+.sources-list li::before{counter-increment:src;content:counter(src);color:rgba(212,175,106,.7);font-weight:600;min-width:.9rem;font-size:.6rem}
+.sources-list a{color:inherit;border-bottom:1px dotted rgba(212,175,106,.22);transition:color .2s,border-color .2s;padding-bottom:1px}
+.sources-list a:hover{color:var(--gold);border-bottom-color:var(--gold)}
+.disclaimer{font-family:var(--mono);font-size:.52rem;letter-spacing:.08em;color:rgba(245,240,232,.32);margin-top:1.3rem;padding-top:1rem;border-top:1px solid rgba(255,255,255,.04);line-height:1.75}
+.disclaimer strong{color:rgba(212,175,106,.82);font-weight:600}
+
+.verify-block{margin-top:3rem;padding:2rem 2rem 1.8rem;border:1px solid var(--b2);border-radius:3px;background:linear-gradient(135deg,rgba(181,143,74,.04) 0%,rgba(181,143,74,0) 100%)}
+.verify-title{font-family:var(--sans);font-size:1.1rem;font-weight:700;letter-spacing:.04em;color:var(--gold-pale);margin-bottom:.7rem;text-transform:uppercase}
+.verify-intro{font-family:var(--sans);font-size:.88rem;color:var(--t2);line-height:1.65;margin-bottom:1.2rem;font-weight:300}
+.verify-intro strong{color:var(--gold-pale);font-weight:600}
+.verify-tier-bar{display:flex;align-items:center;gap:.7rem;flex-wrap:wrap;padding:.7rem .9rem;margin:0 0 1.2rem;border:1px solid var(--b2);border-radius:2px;background:rgba(255,255,255,.02);font-family:var(--mono);font-size:.6rem;letter-spacing:.08em;color:var(--t2)}
+.verify-tier-bar .vt-label{font-size:.5rem;letter-spacing:.18em;text-transform:uppercase;color:var(--t3)}
+.verify-tier-bar .vt-county{color:var(--gold-pale);font-weight:600;letter-spacing:.06em}
+.verify-tier-bar .vt-pill{display:inline-flex;align-items:center;gap:.4rem;padding:.25rem .55rem;border-radius:2px;border:1px solid;font-size:.5rem;letter-spacing:.16em;text-transform:uppercase}
+.verify-tier-bar .vt-pill::before{content:'';width:6px;height:6px;border-radius:50%;background:currentColor;box-shadow:0 0 6px currentColor}
+.verify-list{list-style:none;display:flex;flex-direction:column;gap:.95rem;counter-reset:vr;padding:0}
+.verify-list li{display:flex;gap:.85rem;align-items:flex-start;font-family:var(--sans);font-size:.82rem;color:var(--t2);line-height:1.6;font-weight:300}
+.verify-list li::before{counter-increment:vr;content:counter(vr);flex-shrink:0;width:22px;height:22px;display:flex;align-items:center;justify-content:center;background:rgba(181,143,74,.08);border:1px solid var(--b2);border-radius:50%;color:var(--gold);font-family:var(--mono);font-size:.62rem;font-weight:600;margin-top:1px}
+.verify-list strong{color:var(--gold-pale);font-weight:600}
+.verify-list .v-method{font-family:var(--sans);font-weight:600;color:var(--t1);font-size:.86rem;display:block;margin-bottom:.2rem;letter-spacing:.01em}
+.verify-list .v-tag{display:inline-block;font-family:var(--mono);font-size:.5rem;letter-spacing:.16em;text-transform:uppercase;color:rgba(212,175,106,.7);margin-left:.6rem;padding:.15rem .45rem;border:1px solid var(--b2);border-radius:2px;vertical-align:1px}
+.verify-list .v-tag.v-primary{color:#9bd086;border-color:rgba(155,208,134,.35)}
+.verify-list a{color:var(--gold);border-bottom:1px dotted rgba(212,175,106,.3);padding-bottom:1px;transition:color .2s,border-color .2s}
+.verify-list a:hover{color:var(--gold-pale);border-color:var(--gold)}
+.verify-list .v-cta{display:inline-flex;align-items:center;gap:.4rem;margin-top:.4rem;font-family:var(--mono);font-size:.58rem;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);padding:.45rem .8rem;border:1px solid var(--b2);border-radius:2px;text-decoration:none;transition:all .22s}
+.verify-list .v-cta:hover{background:var(--gold);color:var(--bg);border-color:var(--gold);box-shadow:0 0 14px var(--gold-glow)}
+.verify-list .v-cta svg{width:11px;height:11px;stroke:currentColor;fill:none;stroke-width:2}
+
+.footer-note{text-align:center;padding:2.5rem 0 0;font-family:var(--mono);font-size:.6rem;color:var(--t3);letter-spacing:.08em}
+.footer-note a{color:var(--gold)}
+
+@media(max-width:800px){
+  .page{padding:1.4rem 1rem 2.4rem}
+  .back-bar{padding:.9rem 1rem}
+  .back-btn{font-size:.64rem;padding:.45rem .8rem}
+  .page-hero{padding:1rem 0 1.6rem}
+  .page-title{font-size:clamp(1.7rem,6vw,2.4rem)}
+  .page-sub{font-size:1rem}
+  .zone-toggle{gap:.35rem;margin:1.2rem 0 .7rem}
+  .zt-btn{flex:1 1 calc(50% - .2rem);min-width:0;padding:.7rem .35rem;font-size:.54rem;letter-spacing:.1em}
+  .aux-toggle{margin:0 0 1rem}
+  .sat-switch{font-size:.54rem;letter-spacing:.14em}
+  #flMap{height:min(62vh, 520px);min-height:380px}
+  .map-shell{border-radius:3px}
+  .info-panel{width:calc(100% - 20px);top:auto;bottom:10px;right:10px;left:10px;padding:1rem 1.1rem;transform:translateY(14px);max-height:55%;overflow-y:auto;-webkit-overflow-scrolling:touch}
+  .info-panel.visible{transform:translateY(0)}
+  .info-county{font-size:1.1rem}
+  .info-req{font-size:.74rem}
+  .legend{top:auto;bottom:10px;left:auto;right:10px;max-width:150px;padding:.55rem .7rem}
+  .legend-title{font-size:.46rem;margin-bottom:.4rem;letter-spacing:.16em}
+  .legend-row{font-size:.5rem;gap:.45rem;margin-bottom:.26rem;letter-spacing:.04em}
+  .legend-swatch{width:11px;height:8px}
+  .recenter-btn{top:auto;bottom:10px;left:10px;width:32px;height:32px}
+  .hint{font-size:.5rem;letter-spacing:.12em;margin-top:.9rem;padding:0 .5rem}
+  .verify-block{padding:1.4rem 1.2rem;margin-top:2.4rem}
+  .verify-title{font-size:.95rem}
+  .verify-intro,.verify-list li{font-size:.78rem;line-height:1.55}
+  .sources-block{padding:1.5rem 1.2rem 1.3rem;margin-top:2rem}
+  .sources-list li{font-size:.56rem}
+  .disclaimer{font-size:.5rem;letter-spacing:.06em}
+}
+@media(max-width:480px){
+  .page{padding:1.2rem .8rem 2rem}
+  #flMap{height:min(60vh,460px);min-height:340px}
+  .page-title{font-size:1.85rem;letter-spacing:.02em}
+  .page-sub{font-size:.9rem;padding:0 .4rem}
+  .zt-btn{font-size:.5rem;padding:.65rem .3rem;letter-spacing:.08em}
+  .legend{max-width:132px}
+  .info-panel{padding:.85rem 1rem}
+  .back-bar-inner a[href^="tel"]{font-size:.62rem}
+}
+/* Touch/pointer hygiene */
+#flMap{touch-action:none;-ms-touch-action:none}
+.leaflet-container{-webkit-tap-highlight-color:transparent}
+@media(pointer:coarse){
+  .leaflet-control-zoom a{width:34px !important;height:34px !important;line-height:32px !important;font-size:20px !important}
+  .info-close{width:32px;height:32px;font-size:1.3rem}
+  .zt-btn{min-height:42px}
+}
+</style>
+</head>
+<body>
+
+<div class="back-bar">
+  <div class="back-bar-inner">
+    <a href="index.html" class="back-btn">
+      <svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+      Back to Home
+    </a>
+    <a href="tel:3528877463" style="font-family:var(--mono);font-size:.72rem;letter-spacing:.08em;color:var(--gold)">352-887-7463</a>
+  </div>
+</div>
+
+<div class="page">
+
+  <div class="page-hero">
+    <div class="page-eyebrow">2023 Florida Building Code &middot; 8th Edition</div>
+    <h1 class="page-title">Florida Window &amp; Door <em>Code Zones</em></h1>
+    <div class="page-accent"></div>
+    <p class="page-sub">County-level reference of the High-Velocity Hurricane Zone, Wind-Borne Debris Region, and ultimate design wind speeds (V<sub>ult</sub>) across all 67 Florida counties, per FBC 1609 and ASCE 7-22.</p>
+  </div>
+
+  <div class="zone-toggle" role="group" aria-label="Zone layer toggles (stackable)">
+    <button class="zt-btn active" data-layer="hvhz" role="checkbox" aria-checked="true">HVHZ</button>
+    <button class="zt-btn" data-layer="wbdr" role="checkbox" aria-checked="false">Wind-Borne Debris Region</button>
+    <button class="zt-btn" data-layer="coast1" role="checkbox" aria-checked="false">1-Mile MHWL</button>
+    <button class="zt-btn" data-layer="wind" role="checkbox" aria-checked="false">Wind Speed</button>
+    <button class="zt-btn" data-layer="windlines" role="checkbox" aria-checked="false">FBC Wind Zone Lines</button>
+    <button class="zt-btn" data-layer="vzone" role="checkbox" aria-checked="false">FEMA V-Zones</button>
+  </div>
+  <div class="toggle-hint">Stackable &middot; combine layers freely</div>
+  <div class="aux-toggle">
+    <label class="sat-switch">
+      <input type="checkbox" id="satToggle">
+      <span class="sat-track"><span class="sat-thumb"></span></span>
+      <span class="sat-label">Satellite base layer</span>
+    </label>
+  </div>
+
+  <div class="map-shell">
+    <div id="flMap" role="img" aria-label="Interactive Florida county zone map"></div>
+    <button class="recenter-btn" id="recenterBtn" aria-label="Recenter map on Florida" title="Recenter on Florida">
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/><circle cx="12" cy="12" r="9" opacity=".35"/></svg>
+    </button>
+    <div class="legend" id="legend">
+      <div id="legendBody"></div>
+    </div>
+    <div class="info-panel" id="infoPanel" aria-live="polite">
+      <button class="info-close" id="infoClose" aria-label="Close">&times;</button>
+      <div class="info-eyebrow">County Detail</div>
+      <div class="info-county" id="infoCounty">&mdash;</div>
+      <div class="info-subcounty" id="infoSub">Florida</div>
+      <div class="info-tier" id="infoTier"><span class="info-tier-dot"></span><span id="infoTierLabel">&mdash;</span></div>
+      <div class="info-row"><span class="info-label">HVHZ</span><span class="info-val" id="infoHVHZ">&mdash;</span></div>
+      <div class="info-row"><span class="info-label">Wind-Borne Debris</span><span class="info-val" id="infoWBDR">&mdash;</span></div>
+      <div class="info-row"><span class="info-label">Ultimate Wind</span><span class="info-val" id="infoWind">&mdash;</span></div>
+      <div class="tier-note" id="infoTierNote"></div>
+      <div class="info-req" id="infoReq"></div>
+    </div>
+  </div>
+
+  <div class="hint">Click any county for requirements &middot; Pinch or scroll to zoom</div>
+
+  <div class="verify-block">
+    <div class="verify-title">Verification Pathway</div>
+    <p class="verify-intro">Per FBC 1609.2, the Wind-Borne Debris Region is defined as areas <strong>within 1 mile of the coastal mean high water line where V<sub>ult</sub> &ge; 130 mph</strong>, OR <strong>anywhere V<sub>ult</sub> &ge; 140 mph</strong>. The 1-mile MHWL boundary cannot be reliably drawn at statewide scale, so the standard determination process for any parcel follows the steps below in order. Click any county on the map to auto-target the lookup links below to that jurisdiction.</p>
+    <div class="verify-tier-bar" id="verifyTierBar">
+      <span class="vt-label">Currently Targeting</span>
+      <span class="vt-county" id="vtCounty">All of Florida</span>
+      <span class="vt-pill tier-I" id="vtPill"><span id="vtTierName">No county selected</span></span>
+    </div>
+    <ol class="verify-list">
+      <li>
+        <div>
+          <span class="v-method">ATC Hazards by Location<span class="v-tag v-primary">Primary Tool</span></span>
+          The Applied Technology Council's free site-specific lookup using the exact ASCE 7-22 methodology adopted by the FBC. Returns V<sub>ult</sub>, Exposure Category, and Wind-Borne Debris status at any latitude/longitude. This is the answer for the majority of cases.
+          <br><a class="v-cta" id="atcCta" href="https://hazards.atcouncil.org/" target="_blank" rel="noopener noreferrer">
+            <svg viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3"/></svg>
+            Open ATC Hazards
+          </a>
+        </div>
+      </li>
+      <li>
+        <div>
+          <span class="v-method">Local Building Department (AHJ)<span class="v-tag">Final Authority</span></span>
+          The Authority Having Jurisdiction issues the binding determination. The permit office can confirm V<sub>ult</sub>, Exposure Category, distance to mean high water, and WBDR status for your specific parcel, including any local amendments. They are the only entity that can rule definitively.
+          <br><a class="v-cta" id="ahjCta" href="https://www.google.com/search?q=Florida+county+building+department+permit+office" target="_blank" rel="noopener noreferrer">
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+            Find Permit Office
+          </a>
+        </div>
+      </li>
+      <li>
+        <div>
+          <span class="v-method">FEMA Flood Zone (NFHL)<span class="v-tag">Heuristic Check</span></span>
+          Coastal V-zones and most coastal A-zones overlap the WBDR. Useful as a sanity check before purchasing, but not the legal definition. Pull your parcel's flood zone designation alongside the AHJ's WBDR call.
+          <br><a class="v-cta" href="https://msc.fema.gov/portal/search" target="_blank" rel="noopener noreferrer">
+            <svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            FEMA Flood Map
+          </a>
+        </div>
+      </li>
+      <li>
+        <div>
+          <span class="v-method">Licensed Wind Mitigation Inspector<span class="v-tag">Insurance Path</span></span>
+          A Florida-licensed inspector documents Exposure Category and WBDR status on the Uniform Mitigation Verification form (OIR-B1-1802), which insurers require for windstorm credits. This is the path most homeowners take by default through their insurance carrier.
+        </div>
+      </li>
+      <li>
+        <div>
+          <span class="v-method">Florida-Licensed Structural Engineer<span class="v-tag">Complex Sites</span></span>
+          Required for Risk Category III/IV buildings and any parcel where Exposure Category, mean roof height, or topographic effects are not straightforward. The engineer's sealed wind-load calculation is the standard for permitting.
+        </div>
+      </li>
+    </ol>
+  </div>
+
+  <div class="sources-block">
+    <div class="sources-title">Sources &amp; References</div>
+    <ol class="sources-list">
+      <li><a href="https://floridabuilding.org/c/default.aspx" target="_blank" rel="noopener noreferrer">Florida Building Commission &mdash; 2023 Florida Building Code, 8th Edition</a></li>
+      <li><a href="https://codes.iccsafe.org/content/FBC2023P1" target="_blank" rel="noopener noreferrer">FBC Building Section 1609.2 &mdash; Wind-Borne Debris Region definition</a></li>
+      <li><a href="https://codes.iccsafe.org/content/FBC2023P1" target="_blank" rel="noopener noreferrer">FBC Section 1620 / Residential R301.2.1.2 &mdash; HVHZ designations (Miami-Dade &amp; Broward)</a></li>
+      <li><a href="https://www.asce.org/publications-and-news/asce-7" target="_blank" rel="noopener noreferrer">ASCE 7-22 &mdash; Minimum Design Loads &amp; Ultimate Wind Speed Maps</a></li>
+      <li><a href="https://hazards.atcouncil.org/" target="_blank" rel="noopener noreferrer">ATC Hazards by Location &mdash; Site-specific V<sub>ult</sub> and WBDR lookup</a></li>
+      <li>County cartographic boundaries &mdash; U.S. Census Bureau TIGER/Line 2023 (1:500,000)</li>
+    </ol>
+    <p class="disclaimer"><strong>Important Disclaimer &middot; Read Before Use.</strong> This map is provided strictly as a <strong>general educational reference</strong> based on the 2023 Florida Building Code (8th Edition) and ASCE 7-22 as published. The optional <strong>1-Mile MHWL Buffer</strong> overlay is a geometric approximation drawn 1 statute mile inland from the simplified U.S. Census coastline polygon; it is <strong>not</strong> the legally binding mean-high-water-line tidal datum used by the AHJ and may differ from the official boundary by hundreds of feet near rivers, inlets, marshes, and barrier islands. County designations are county-dominant values only. Actual code requirements depend on parcel-specific factors including exact distance to mean high water, exposure category (B, C, or D), mean roof height, building risk category, local amendments, and AHJ interpretation. <strong>Do not rely on this map alone for purchasing, permitting, or insurance decisions. Always confirm requirements with your local building department (AHJ) and the ATC Hazards by Location tool before specifying or installing windows and doors.</strong> Prime Windows &amp; Doors makes no warranty, express or implied, regarding the accuracy or currency of this information and assumes no liability for decisions made in reliance on it.</p>
+  </div>
+
+  <div class="footer-note">
+    <a href="index.html">&larr; Back to Home</a> &nbsp;&middot;&nbsp; &copy; 2026 <a href="index.html">Prime Windows &amp; Doors</a> &nbsp;&middot;&nbsp; Ocala, FL
+  </div>
+</div>
+
+<script src="data/florida-counties.js"></script>
+<script src="data/florida-state.js"></script>
+<script src="data/florida-coastal-1mi.js"></script>
+<script src="data/florida-wind-zones-cat2.js"></script>
+<script>
+// FEMA V-zones (1.35 MB) is heavy — load lazily only when the toggle is
+// first activated, so the page boot stays fast for users who never open it.
+window.__loadFemaVZones = function(cb){
+  if(window.FL_FEMA_VZONES){ cb(); return; }
+  const s = document.createElement('script');
+  s.src = 'data/florida-fema-vzones.js';
+  s.onload = cb;
+  s.onerror = function(){ console.error('Failed to load FEMA V-zones data'); cb(); };
+  document.head.appendChild(s);
+};
+</script>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+<script>
+// ── FBC ZONE DATA (per county, county-dominant values) ──────────────────────
+// HVHZ: Miami-Dade & Broward only (FBC Section 1620 / R301.2.1.2).
+// Wind-Borne Debris Region (FBC 1609.2): areas within 1 mile of the coastal
+// mean high water line where Vult ≥ 130 mph, OR any area where Vult ≥ 140 mph.
+// "d:true" flags counties whose dominant area meets either criterion. Parcel-
+// level WBDR status near the 1-mile MHWL boundary requires AHJ verification.
+// Ultimate wind speeds per ASCE 7-22 / FBC maps (Risk Category II).
+const ZONES = {
+  'Miami-Dade':{w:170,h:true, d:true, s:'South Atlantic'},
+  'Broward':   {w:170,h:true, d:true, s:'South Atlantic'},
+  'Monroe':    {w:180,h:false,d:true, s:'Florida Keys'},
+  'Palm Beach':{w:165,h:false,d:true, s:'Treasure Coast'},
+  'Martin':    {w:160,h:false,d:true, s:'Treasure Coast'},
+  'St. Lucie': {w:150,h:false,d:true, s:'Treasure Coast'},
+  'Indian River':{w:150,h:false,d:true, s:'Treasure Coast'},
+  'Brevard':   {w:150,h:false,d:true, s:'Space Coast'},
+  'Volusia':   {w:140,h:false,d:true, s:'Atlantic North'},
+  'Flagler':   {w:135,h:false,d:true, s:'Atlantic North'},
+  'St. Johns': {w:135,h:false,d:true, s:'Atlantic North'},
+  'Duval':     {w:130,h:false,d:true, s:'First Coast'},
+  'Nassau':    {w:130,h:false,d:true, s:'First Coast'},
+  'Collier':   {w:160,h:false,d:true, s:'Southwest Gulf'},
+  'Lee':       {w:155,h:false,d:true, s:'Southwest Gulf'},
+  'Charlotte': {w:150,h:false,d:true, s:'Southwest Gulf'},
+  'Sarasota':  {w:150,h:false,d:true, s:'Southwest Gulf'},
+  'Manatee':   {w:145,h:false,d:true, s:'Suncoast'},
+  'Pinellas':  {w:145,h:false,d:true, s:'Suncoast'},
+  'Hillsborough':{w:140,h:false,d:true,s:'Tampa Bay'},
+  'Pasco':     {w:135,h:false,d:true, s:'Nature Coast'},
+  'Hernando':  {w:135,h:false,d:true, s:'Nature Coast'},
+  'Citrus':    {w:130,h:false,d:true, s:'Nature Coast'},
+  'Levy':      {w:130,h:false,d:true, s:'Big Bend'},
+  'Dixie':     {w:130,h:false,d:true, s:'Big Bend'},
+  'Taylor':    {w:130,h:false,d:true, s:'Big Bend'},
+  'Jefferson': {w:130,h:false,d:true, s:'Big Bend'},
+  'Wakulla':   {w:135,h:false,d:true, s:'Big Bend'},
+  'Franklin':  {w:140,h:false,d:true, s:'Forgotten Coast'},
+  'Gulf':      {w:145,h:false,d:true, s:'Forgotten Coast'},
+  'Bay':       {w:150,h:false,d:true, s:'Emerald Coast'},
+  'Walton':    {w:145,h:false,d:true, s:'Emerald Coast'},
+  'Okaloosa':  {w:140,h:false,d:true, s:'Emerald Coast'},
+  'Santa Rosa':{w:140,h:false,d:true, s:'Emerald Coast'},
+  'Escambia':  {w:140,h:false,d:true, s:'Emerald Coast'},
+  'Glades':    {w:150,h:false,d:true, s:'Inland South'},
+  'Hendry':    {w:150,h:false,d:true, s:'Inland South'},
+  'Okeechobee':{w:145,h:false,d:true, s:'Inland South'},
+  'Highlands': {w:140,h:false,d:true, s:'Inland Central'},
+  'DeSoto':    {w:145,h:false,d:true, s:'Inland South'},
+  'Hardee':    {w:140,h:false,d:true, s:'Inland Central'},
+  'Polk':      {w:140,h:false,d:true, s:'Inland Central'},
+  'Osceola':   {w:140,h:false,d:true, s:'Central Florida'},
+  'Orange':    {w:135,h:false,d:false,s:'Central Florida'},
+  'Seminole':  {w:135,h:false,d:false,s:'Central Florida'},
+  'Lake':      {w:130,h:false,d:false,s:'Central Florida'},
+  'Sumter':    {w:130,h:false,d:false,s:'Central Florida'},
+  'Marion':    {w:130,h:false,d:false,s:'North Central'},
+  'Alachua':   {w:125,h:false,d:false,s:'North Central'},
+  'Gilchrist': {w:125,h:false,d:false,s:'North Central'},
+  'Putnam':    {w:130,h:false,d:false,s:'North Central'},
+  'Clay':      {w:125,h:false,d:false,s:'North Central'},
+  'Bradford':  {w:125,h:false,d:false,s:'North Central'},
+  'Union':     {w:120,h:false,d:false,s:'North Florida'},
+  'Baker':     {w:120,h:false,d:false,s:'North Florida'},
+  'Columbia':  {w:120,h:false,d:false,s:'North Florida'},
+  'Suwannee':  {w:120,h:false,d:false,s:'North Florida'},
+  'Lafayette': {w:120,h:false,d:false,s:'North Florida'},
+  'Hamilton':  {w:115,h:false,d:false,s:'North Florida'},
+  'Madison':   {w:115,h:false,d:false,s:'North Florida'},
+  'Leon':      {w:125,h:false,d:false,s:'Big Bend'},
+  'Gadsden':   {w:120,h:false,d:false,s:'Panhandle'},
+  'Liberty':   {w:130,h:false,d:false,s:'Panhandle'},
+  'Calhoun':   {w:135,h:false,d:false,s:'Panhandle'},
+  'Jackson':   {w:130,h:false,d:false,s:'Panhandle'},
+  'Washington':{w:140,h:false,d:true, s:'Panhandle'},
+  'Holmes':    {w:135,h:false,d:false,s:'Panhandle'}
+};
+
+const COLORS = {
+  hvhz:{yes:'#d8565a',no:'#20242d'},
+  wbdr:{yes:'#e0b868',no:'#20242d'},
+  wind:function(v){
+    if(v>=170)return'#b83340';
+    if(v>=160)return'#d45a48';
+    if(v>=150)return'#d98a50';
+    if(v>=140)return'#d4b26a';
+    if(v>=130)return'#8fa67e';
+    if(v>=120)return'#4a7a8f';
+    return'#36516b';
+  }
+};
+
+const LEGENDS = {
+  hvhz:[
+    ['High-Velocity Hurricane Zone (Miami-Dade & Broward)','#d8565a'],
+    ['Outside HVHZ','#20242d']
+  ],
+  wbdr:[
+    ['Wind-Borne Debris Region (county-dominant)','#e0b868'],
+    ['Outside WBDR','#20242d']
+  ],
+  coast1:[
+    ['1-Mile MHWL Buffer (FBC 1609.2 WBDR trigger if V_ult ≥ 130 mph)','#d97757']
+  ],
+  windlines:[
+    ['140 mph contour — WBDR inland of this line','#e8a356'],
+    ['130 mph contour — WBDR if within 1 mi MHWL','#d9c266'],
+    ['150 mph','#d98a50'],
+    ['160 mph','#d45a48'],
+    ['170 mph','#b83340'],
+    ['Other contours (120, 180)','#7fa685']
+  ],
+  vzone:[
+    ['FEMA V & VE Zone (Coastal High Hazard)','#ff5d8f'],
+    ['= WBDR boundary in counties with V-zone amendment (e.g. Citrus)','transparent']
+  ],
+  wind:[
+    ['170 + mph (Ultimate)','#b83340'],
+    ['160 mph','#d45a48'],
+    ['150 mph','#d98a50'],
+    ['140 mph','#d4b26a'],
+    ['130 mph','#8fa67e'],
+    ['120 mph','#4a7a8f'],
+    ['< 120 mph','#36516b']
+  ]
+};
+
+const REQS = {
+  hvhzYes: "Inside the <strong>High-Velocity Hurricane Zone</strong> (FBC Section 1620). All exterior glazing &mdash; windows, doors, skylights &mdash; must be <strong>impact-rated</strong> and approved under a Miami-Dade NOA tested to TAS 201/202/203. Shutters alone do not satisfy HVHZ glazing requirements.",
+  wbdrYes: "County dominant area falls within the <strong>Wind-Borne Debris Region</strong> (FBC 1609.2): within 1 mile of the coastal mean high water line where V<sub>ult</sub> &ge; 130 mph, OR anywhere V<sub>ult</sub> &ge; 140 mph. Exterior glazing in opening protection areas must be <strong>impact-rated</strong> per ASTM E1886 / E1996, or protected with approved <strong>code-compliant shutters</strong>. Verify your specific parcel's WBDR status with the AHJ &mdash; portions of this county may sit outside the 1-mile MHWL boundary.",
+  inland: "County dominant area is outside HVHZ and the Wind-Borne Debris Region under FBC 1609.2. Standard design pressures apply per ASCE 7-22 at the county's ultimate wind speed. Impact-rated glazing remains <strong>optional but recommended</strong> for storm durability and potential insurance mitigation credits."
+};
+
+// ── DATA TIER SYSTEM ────────────────────────────────────────────────────────
+// Each county is classified by the quality of WBDR/MHWL data available:
+//   V — Verified: county publishes its own MHW or WBDR line, ingested directly
+//   C — Coastal Approximation: simplified Census coastline, tidal canals/rivers
+//       and ICW push the actual MHW line significantly inland from what's drawn
+//   I — Inland Approximation: no tidal complexity issue; status uses the
+//       county-dominant V_ult value
+const VERIFIED_COUNTIES = new Set([
+  // Citrus: per Citrus County Code of Ordinances (confirmed by Citrus
+  // Building Division), the WBDR is defined as all lands seaward of the
+  // most landward reach of the V-zone contour lines on the FIRM. The FEMA
+  // V-Zone overlay on this map IS the legally binding WBDR for Citrus.
+  'Citrus',
+]);
+const COASTAL_COUNTIES = new Set([
+  'Nassau','Duval','St. Johns','Flagler','Volusia','Brevard','Indian River',
+  'St. Lucie','Martin','Palm Beach','Broward','Miami-Dade','Monroe',
+  'Collier','Lee','Charlotte','Sarasota','Manatee','Hillsborough','Pinellas',
+  'Pasco','Hernando','Citrus','Levy','Dixie','Taylor','Jefferson','Wakulla',
+  'Franklin','Gulf','Bay','Walton','Okaloosa','Santa Rosa','Escambia'
+]);
+function tierFor(name){
+  if(VERIFIED_COUNTIES.has(name)) return 'V';
+  if(COASTAL_COUNTIES.has(name)) return 'C';
+  return 'I';
+}
+// Some counties define WBDR via a non-default rule (e.g. Citrus uses FEMA
+// V-zones instead of the 1-mile MHWL trigger). Map the verified rule per
+// county so the info panel can show the correct boundary explanation.
+const VERIFIED_RULE = {
+  'Citrus': {
+    rule:'FEMA V-Zone',
+    cite:'Citrus County Code of Ordinances · WBDR = all lands seaward of the most landward V-zone contour on the FIRM',
+    layer:'vzone',
+    note:'WBDR boundary in Citrus is set by local code amendment to match the FEMA Flood Insurance Rate Map V-zone (coastal high hazard area). Toggle the FEMA V-Zones layer to see the legally binding boundary; if your parcel falls inside it, impact-rated glazing is required.'
+  }
+};
+const TIERS = {
+  V: {
+    label:'Verified County Rule',
+    short:'Verified',
+    note:'County publishes its own Wind-Borne Debris Region rule and the boundary shown here matches that rule directly.'
+  },
+  C: {
+    label:'Approximated · Tidal Complexity',
+    short:'Approx · Tidal',
+    note:'No county-published WBDR line is available. The 1-mile buffer shown follows the simplified U.S. Census coastline and DOES NOT trace tidal canals, rivers, bays, or the Intracoastal Waterway. Areas like Crystal River, the ICW corridor, and the Big Bend coast may sit far further inland from MHW than the line suggests. Verify your parcel before specifying glazing.'
+  },
+  I: {
+    label:'Approximated · Inland County',
+    short:'Approx · Inland',
+    note:'Inland county. Status reflects the county-dominant ultimate design wind speed per ASCE 7-22 and FBC 1609.2. Confirm parcel-level V_ult and any local amendments with the AHJ or via ATC Hazards before specifying glazing.'
+  }
+};
+
+// ── MAP SETUP ────────────────────────────────────────────────────────────────
+const map = L.map('flMap',{
+  attributionControl:true,
+  zoomControl:true,
+  scrollWheelZoom:'center',
+  touchZoom:true,
+  bounceAtZoomLimits:false,
+  minZoom:5,
+  maxZoom:12,
+  zoomSnap:0,
+  zoomDelta:.5,
+  wheelPxPerZoomLevel:100,
+  wheelDebounceTime:25,
+  zoomAnimation:true,
+  fadeAnimation:true,
+  markerZoomAnimation:true,
+  inertia:true,
+  tap:true,
+  tapTolerance:18,
+  preferCanvas:true
+}).setView([27.8,-83.5], 6.5);
+
+// Map trackpad pinch (Ctrl+wheel) and native wheel directly to a continuous
+// setZoomAround, bypassing Leaflet's internal debounce for a silkier feel.
+// Disable Leaflet's built-in scroll-wheel handler so our handler is authoritative.
+map.scrollWheelZoom.disable();
+(function(){
+  var container = map.getContainer();
+  var pending = null;
+  var rafScheduled = false;
+  function applyPending(){
+    rafScheduled = false;
+    if(!pending) return;
+    map.setZoomAround(pending.ll, pending.z, {animate:false});
+    pending = null;
+  }
+  container.addEventListener('wheel', function(e){
+    e.preventDefault();
+    var rect = container.getBoundingClientRect();
+    var point = L.point(e.clientX - rect.left, e.clientY - rect.top);
+    var ll = map.containerPointToLatLng(point);
+    // Trackpad pinch emits Ctrl+wheel with small deltas — use finer increments.
+    var k = e.ctrlKey ? 0.015 : 0.004;
+    var delta = Math.max(-.75, Math.min(.75, -e.deltaY * k));
+    var baseZoom = pending ? pending.z : map.getZoom();
+    var newZoom = Math.max(map.getMinZoom(), Math.min(map.getMaxZoom(), baseZoom + delta));
+    pending = {ll:ll, z:newZoom};
+    if(!rafScheduled){
+      rafScheduled = true;
+      requestAnimationFrame(applyPending);
+    }
+  }, {passive:false});
+})();
+const FL_HOME = L.latLngBounds([[24.4,-87.7],[31.2,-79.9]]);
+
+map.attributionControl.setPrefix('');
+
+const activeLayers = {hvhz:true, wbdr:false, coast1:false, wind:false, windlines:false, vzone:false};
+let activeLayer=null;
+let coast1Layer=null;
+let windLinesLayer=null;
+let vzoneLayer=null;
+let satLayer=null;
+let satOn=false;
+let hoveredName=null;
+let selectedName=null;
+let selectedPathLayer=null;
+
+function baseFillOpacity(){return satOn?.42:.82;}
+function countyStrokeColor(){return satOn?'rgba(245,224,160,.45)':'rgba(181,143,74,.28)';}
+function countyStrokeWeight(){return satOn?1.1:.8;}
+
+// Priority order for county fill when multiple layers stack:
+// HVHZ (if county is HVHZ) > WBDR (if county is WBDR) > Wind Speed > neutral base.
+function styleFor(name){
+  const z = ZONES[name] || {w:120,h:false,d:false};
+  let fill = '#20242d';
+  if(activeLayers.hvhz && z.h)       fill = COLORS.hvhz.yes;
+  else if(activeLayers.wbdr && z.d)  fill = COLORS.wbdr.yes;
+  else if(activeLayers.wind)         fill = COLORS.wind(z.w);
+  return{
+    fillColor:fill,
+    fillOpacity:baseFillOpacity(),
+    color:countyStrokeColor(),
+    weight:countyStrokeWeight(),
+    className:'fl-county'
+  };
+}
+
+const SELECTED_STYLE = {
+  weight:3.2,
+  color:'#f5e6b5',
+  fillOpacity:0,
+  fill:false,
+  dashArray:null
+};
+
+function applySelectedStyle(layer){
+  layer.setStyle(SELECTED_STYLE);
+  layer.bringToFront();
+}
+
+function clearSelection(){
+  if(selectedPathLayer && selectedName){
+    selectedPathLayer.setStyle(styleFor(selectedName));
+  }
+  selectedName = null;
+  selectedPathLayer = null;
+  resetVerifyTarget();
+}
+
+function onEachFeature(feature, layer){
+  const name = feature.properties.NAME;
+  layer.on({
+    mouseover:function(e){
+      hoveredName = name;
+      if(selectedName === name) return;
+      e.target.setStyle({weight:1.8,color:'#d4af6a',fillOpacity:.94});
+      e.target.bringToFront();
+    },
+    mouseout:function(e){
+      hoveredName = null;
+      if(selectedName === name){ applySelectedStyle(e.target); return; }
+      e.target.setStyle(styleFor(name));
+    },
+    click:function(e){
+      if(selectedPathLayer && selectedName && selectedName !== name){
+        selectedPathLayer.setStyle(styleFor(selectedName));
+      }
+      selectedName = name;
+      selectedPathLayer = e.target;
+      applySelectedStyle(e.target);
+      showInfo(name);
+      map.flyToBounds(e.target.getBounds(),{padding:[40,40],maxZoom:8.5,duration:.9,easeLinearity:.3});
+    }
+  });
+  layer.bindTooltip(name,{
+    direction:'top',
+    offset:[0,-4],
+    className:'fl-tooltip',
+    sticky:true
+  });
+}
+
+function renderLayer(){
+  if(activeLayer){ map.removeLayer(activeLayer); }
+  activeLayer = L.geoJSON(window.FL_COUNTIES,{
+    style:function(f){return styleFor(f.properties.NAME);},
+    onEachFeature:onEachFeature
+  }).addTo(map);
+  setTimeout(function(){
+    map.fitBounds(activeLayer.getBounds(),{padding:[20,20],animate:false});
+  },20);
+  ensureCoast1Layer();
+  ensureWindLinesLayer();
+  ensureVZoneLayer();
+}
+
+// Dedicated pane keeps the 1-mile coastal overlay above the county canvas
+// regardless of per-feature bringToFront() calls that reorder canvas renderers.
+map.createPane('coast1Pane');
+map.getPane('coast1Pane').style.zIndex = 450;
+map.getPane('coast1Pane').style.pointerEvents = 'none';
+const coast1Renderer = L.canvas({pane:'coast1Pane'});
+
+function coast1Style(){
+  return {
+    fillColor:'#d97757',
+    fillOpacity:satOn?.42:.55,
+    color:'#f0a585',
+    weight:1.1,
+    dashArray:'5,3',
+    className:'fl-coast1'
+  };
+}
+
+function ensureCoast1Layer(){
+  if(activeLayers.coast1){
+    if(!coast1Layer && window.FL_COASTAL_1MI){
+      coast1Layer = L.geoJSON(window.FL_COASTAL_1MI,{
+        style:coast1Style,
+        interactive:false,
+        renderer:coast1Renderer,
+        pane:'coast1Pane',
+        smoothFactor:1.4
+      });
+    }
+    if(coast1Layer){ coast1Layer.addTo(map); coast1Layer.setStyle(coast1Style()); }
+  } else if(coast1Layer && map.hasLayer(coast1Layer)){
+    map.removeLayer(coast1Layer);
+  }
+}
+
+// FBC 2023 Figure 1609.3(2) — ASCE 7-22 Risk Cat II wind speed contour lines.
+// Source: UF GeoPlan / FGDL state-adopted dataset. Each line is the boundary
+// between two wind speed bands. The 130 mph and 140 mph lines are the
+// regulatory triggers under FBC 1609.2 for Wind-Borne Debris Region.
+map.createPane('windLinesPane');
+map.getPane('windLinesPane').style.zIndex = 460;
+map.getPane('windLinesPane').style.pointerEvents = 'none';
+const windLinesRenderer = L.canvas({pane:'windLinesPane'});
+
+function windLineColor(speed){
+  if(speed>=170) return '#b83340';
+  if(speed>=160) return '#d45a48';
+  if(speed>=150) return '#d98a50';
+  if(speed>=140) return '#e8a356';
+  if(speed>=130) return '#d9c266';
+  if(speed>=120) return '#7fa685';
+  return '#5b8597';
+}
+function windLineStyle(f){
+  const sp = f.properties.speed;
+  // Thicken regulatory triggers (130, 140) so users see them first
+  const isTrigger = (sp===130 || sp===140);
+  return {
+    color: windLineColor(sp),
+    weight: isTrigger ? 2.6 : 1.5,
+    opacity: satOn ? 0.88 : 0.95,
+    dashArray: isTrigger ? null : '6,4',
+    lineCap: 'round',
+    lineJoin: 'round'
+  };
+}
+
+// FEMA NFHL V & VE zones for Florida, dissolved per county. In any county
+// whose local code amendment defines WBDR by reference to FIRM V-zones
+// (Citrus is the canonical example), this layer IS the legally binding
+// Wind-Borne Debris Region boundary.
+map.createPane('vzonePane');
+map.getPane('vzonePane').style.zIndex = 455;
+map.getPane('vzonePane').style.pointerEvents = 'none';
+const vzoneRenderer = L.canvas({pane:'vzonePane'});
+
+function vzoneStyle(){
+  return {
+    fillColor:'#ff5d8f',
+    fillOpacity:satOn?.32:.5,
+    color:'#ff8eb5',
+    weight:1.3,
+    dashArray:null,
+    className:'fl-vzone'
+  };
+}
+
+function buildVZoneLayer(){
+  if(!window.FL_FEMA_VZONES) return;
+  vzoneLayer = L.geoJSON(window.FL_FEMA_VZONES,{
+    style:vzoneStyle,
+    interactive:false,
+    renderer:vzoneRenderer,
+    pane:'vzonePane',
+    smoothFactor:1.6
+  });
+}
+
+function ensureVZoneLayer(){
+  if(activeLayers.vzone){
+    if(!vzoneLayer){
+      // Lazy-load the 1.35 MB GeoJSON the first time the toggle is hit.
+      window.__loadFemaVZones(function(){
+        if(!activeLayers.vzone) return;  // user toggled off mid-load
+        buildVZoneLayer();
+        if(vzoneLayer){ vzoneLayer.addTo(map); vzoneLayer.setStyle(vzoneStyle()); }
+      });
+      return;
+    }
+    vzoneLayer.addTo(map); vzoneLayer.setStyle(vzoneStyle());
+  } else if(vzoneLayer && map.hasLayer(vzoneLayer)){
+    map.removeLayer(vzoneLayer);
+  }
+}
+
+function ensureWindLinesLayer(){
+  if(activeLayers.windlines){
+    if(!windLinesLayer && window.FL_WIND_ZONES_2023){
+      windLinesLayer = L.geoJSON(window.FL_WIND_ZONES_2023,{
+        style:windLineStyle,
+        interactive:true,
+        renderer:windLinesRenderer,
+        pane:'windLinesPane',
+        smoothFactor:1.0,
+        onEachFeature:function(f, layer){
+          const sp = f.properties.speed;
+          const note = (sp===140) ? ' · WBDR everywhere inland of this line' :
+                       (sp===130) ? ' · WBDR if within 1 mile of MHWL' : '';
+          layer.bindTooltip('V_ult ' + sp + ' mph' + note,{
+            direction:'top',
+            sticky:true,
+            className:'fl-tooltip'
+          });
+        }
+      });
+    }
+    if(windLinesLayer){
+      windLinesLayer.addTo(map);
+      windLinesLayer.eachLayer(function(l){ l.setStyle(windLineStyle(l.feature)); });
+    }
+  } else if(windLinesLayer && map.hasLayer(windLinesLayer)){
+    map.removeLayer(windLinesLayer);
+  }
+}
+
+document.getElementById('recenterBtn').addEventListener('click',function(){
+  document.getElementById('infoPanel').classList.remove('visible');
+  clearSelection();
+  map.flyToBounds(FL_HOME,{padding:[20,20],duration:.95,easeLinearity:.3});
+});
+
+const LEGEND_TITLES = {
+  hvhz:'HVHZ Designation',
+  wbdr:'Wind-Borne Debris Region',
+  coast1:'1-Mile MHWL Buffer',
+  windlines:'FBC 2023 Wind Speed Contours',
+  vzone:'FEMA V-Zone (Coastal High Hazard)',
+  wind:'Ultimate Wind Speed (V_ult)'
+};
+// Render order reflects county-fill priority so the legend matches what you see.
+const LEGEND_ORDER = ['hvhz','wbdr','wind','coast1','windlines','vzone'];
+
+function renderLegend(){
+  const body = document.getElementById('legendBody');
+  const active = LEGEND_ORDER.filter(function(k){return activeLayers[k];});
+  if(!active.length){
+    body.innerHTML = '<div class="legend-empty">No layers active</div>';
+    return;
+  }
+  body.innerHTML = active.map(function(k){
+    const rows = LEGENDS[k].map(function(r){
+      return '<div class="legend-row"><span class="legend-swatch" style="background:'+r[1]+'"></span>'+r[0]+'</div>';
+    }).join('');
+    return '<div class="legend-section"><div class="legend-title">'+LEGEND_TITLES[k]+'</div>'+rows+'</div>';
+  }).join('');
+}
+
+function showInfo(name){
+  const z = ZONES[name] || {w:120,h:false,d:false,s:'Florida'};
+  const t = tierFor(name);
+  const tier = TIERS[t];
+  const panel = document.getElementById('infoPanel');
+  document.getElementById('infoCounty').textContent = name + ' County';
+  document.getElementById('infoSub').textContent = z.s;
+
+  const tierEl = document.getElementById('infoTier');
+  tierEl.className = 'info-tier tier-' + t;
+  document.getElementById('infoTierLabel').textContent = tier.label;
+
+  const hvhzEl = document.getElementById('infoHVHZ');
+  hvhzEl.textContent = z.h ? 'Yes' : 'No';
+  hvhzEl.className = 'info-val' + (z.h ? ' hv' : '');
+  document.getElementById('infoWBDR').textContent = z.d ? 'Yes' : 'No';
+  document.getElementById('infoWind').textContent = z.w + ' mph';
+
+  const noteEl = document.getElementById('infoTierNote');
+  noteEl.className = 'tier-note tier-' + t;
+  // Verified counties may have a county-specific rule that overrides the
+  // generic V-tier note (e.g. Citrus uses FEMA V-zones).
+  const rule = (t==='V') ? VERIFIED_RULE[name] : null;
+  noteEl.textContent = rule ? rule.note : tier.note;
+
+  let req;
+  if(z.h) req = REQS.hvhzYes;
+  else if(z.d) req = REQS.wbdrYes;
+  else req = REQS.inland;
+  document.getElementById('infoReq').innerHTML = req;
+  panel.classList.add('visible');
+
+  updateVerifyTarget(name, t);
+}
+
+function updateVerifyTarget(name, t){
+  const tier = TIERS[t];
+  document.getElementById('vtCounty').textContent = name + ' County';
+  const pill = document.getElementById('vtPill');
+  pill.className = 'vt-pill tier-' + t;
+  document.getElementById('vtTierName').textContent = tier.short;
+  // ATC link is the same root tool; deep-linking with coords isn't supported,
+  // but the geocode handoff lands users in the right place.
+  document.getElementById('atcCta').href = 'https://hazards.atcouncil.org/';
+  // AHJ deep search prefilled with the county name + permit-office keywords.
+  const q = encodeURIComponent(name + ' County Florida building department permit office phone');
+  document.getElementById('ahjCta').href = 'https://www.google.com/search?q=' + q;
+}
+
+function resetVerifyTarget(){
+  document.getElementById('vtCounty').textContent = 'All of Florida';
+  const pill = document.getElementById('vtPill');
+  pill.className = 'vt-pill tier-I';
+  document.getElementById('vtTierName').textContent = 'No county selected';
+  document.getElementById('atcCta').href = 'https://hazards.atcouncil.org/';
+  document.getElementById('ahjCta').href = 'https://www.google.com/search?q=Florida+county+building+department+permit+office';
+}
+
+document.getElementById('infoClose').addEventListener('click',function(){
+  document.getElementById('infoPanel').classList.remove('visible');
+  clearSelection();
+  map.flyToBounds(FL_HOME,{padding:[20,20],duration:.95,easeLinearity:.3});
+});
+
+document.querySelectorAll('.zt-btn').forEach(function(btn){
+  btn.addEventListener('click',function(){
+    const key = btn.dataset.layer;
+    activeLayers[key] = !activeLayers[key];
+    btn.classList.toggle('active', activeLayers[key]);
+    btn.setAttribute('aria-checked', activeLayers[key] ? 'true' : 'false');
+    if(activeLayer){
+      activeLayer.eachLayer(function(l){
+        const n = l.feature.properties.NAME;
+        if(selectedName === n){ applySelectedStyle(l); }
+        else { l.setStyle(styleFor(n)); }
+      });
+    }
+    ensureCoast1Layer();
+    ensureWindLinesLayer();
+    ensureVZoneLayer();
+    renderLegend();
+  });
+});
+
+document.getElementById('satToggle').addEventListener('change',function(e){
+  satOn = e.target.checked;
+  if(satOn){
+    if(!satLayer){
+      satLayer = L.tileLayer(
+        'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
+        {attribution:'Imagery &copy; Esri, Maxar, Earthstar Geographics, USDA, USGS',maxZoom:18,opacity:.85}
+      );
+    }
+    satLayer.addTo(map);
+    satLayer.bringToBack();
+    map.getContainer().classList.add('sat-on');
+  } else if(satLayer){
+    map.removeLayer(satLayer);
+    map.getContainer().classList.remove('sat-on');
+  }
+  if(activeLayer){
+    activeLayer.eachLayer(function(l){
+      const n = l.feature.properties.NAME;
+      if(selectedName === n){ applySelectedStyle(l); }
+      else { l.setStyle(styleFor(n)); }
+    });
+  }
+  if(coast1Layer && map.hasLayer(coast1Layer)){
+    coast1Layer.setStyle(coast1Style());
+  }
+  if(windLinesLayer && map.hasLayer(windLinesLayer)){
+    windLinesLayer.eachLayer(function(l){ l.setStyle(windLineStyle(l.feature)); });
+  }
+  if(vzoneLayer && map.hasLayer(vzoneLayer)){
+    vzoneLayer.setStyle(vzoneStyle());
+  }
+});
+
+// Leaflet tooltip style override
+const styleEl = document.createElement('style');
+styleEl.textContent = '.leaflet-tooltip.fl-tooltip{background:rgba(9,9,14,.92);border:1px solid rgba(181,143,74,.25);color:#d4af6a;font-family:"JetBrains Mono",monospace;font-size:.58rem;letter-spacing:.12em;text-transform:uppercase;padding:4px 9px;border-radius:2px;box-shadow:0 4px 14px rgba(0,0,0,.5);white-space:nowrap}.leaflet-tooltip.fl-tooltip::before{display:none}';
+document.head.appendChild(styleEl);
+
+renderLayer();
+renderLegend();
+resetVerifyTarget();
+</script>
+</body>
+</html>

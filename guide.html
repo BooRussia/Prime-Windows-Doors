@@ -1,0 +1,2359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>The Complete Window &amp; Door Guide | Prime Windows &amp; Doors</title>
+    <meta name="description" content="Prime Windows &amp; Doors' authoritative guide to windows and doors — glass science, energy ratings, Florida hurricane codes, buying tips, and more. Serving Ocala and all of Florida.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:wght@600;700;800;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; font-size: 16px; }
+
+        :root {
+            --gold:          #b58f4a;
+            --gold-light:    #c9a558;
+            --gold-bright:   #dfc07a;
+            --gold-dim:      #8a6a2e;
+            --gold-glow:     rgba(181,143,74,0.10);
+            --gold-border:   rgba(181,143,74,0.16);
+            --gold-border-h: rgba(181,143,74,0.40);
+            --bg:            #080807;
+            --bg-1:          #0c0b09;
+            --bg-2:          #111009;
+            --bg-3:          #181610;
+            --bg-4:          #201e16;
+            --text:          #f5f0e8;
+            --text-muted:    #887f72;
+            --text-soft:     #b8b0a2;
+            --white:         #f5f0e8;
+            --radius-sm:     8px;
+            --radius:        14px;
+            --radius-lg:     20px;
+            --radius-xl:     28px;
+            --nav-h:         70px;
+        }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: 'Inter', sans-serif;
+            line-height: 1.8;
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
+        }
+
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-track { background: var(--bg-1); }
+        ::-webkit-scrollbar-thumb { background: var(--gold-dim); border-radius: 2px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--gold); }
+
+        h1, h2, h3, h4 {
+            font-family: 'Barlow', sans-serif;
+            font-weight: 800;
+            line-height: 1.15;
+            color: var(--white);
+        }
+
+        p { margin-bottom: 1.1rem; color: var(--text); }
+        p:last-child { margin-bottom: 0; }
+        strong { color: var(--white); font-weight: 600; }
+        a { color: var(--gold-light); text-decoration: none; transition: color 0.2s; }
+        a:hover { color: var(--gold-bright); }
+
+        .gold-rule {
+            display: block;
+            width: 44px;
+            height: 2px;
+            background: linear-gradient(90deg, var(--gold), var(--gold-bright));
+            border-radius: 1px;
+            margin-top: 14px;
+            margin-bottom: 30px;
+        }
+
+        /* ===== NAVBAR ===== */
+        .nav {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(8,8,7,0.96);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border-bottom: 1px solid var(--gold-border);
+            height: var(--nav-h);
+        }
+
+        .nav-inner {
+            max-width: 1440px;
+            margin: 0 auto;
+            padding: 0 28px;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+        }
+
+        .nav-brand {
+            display: flex;
+            align-items: center;
+            gap: 11px;
+            flex-shrink: 0;
+            text-decoration: none;
+        }
+
+        .nav-logo-img {
+            height: 44px;
+            width: auto;
+            filter: drop-shadow(0 0 10px rgba(181,143,74,0.25));
+        }
+
+        .nav-brand-text { display: flex; flex-direction: column; }
+
+        .nav-brand-title {
+            font-family: 'Barlow', sans-serif;
+            font-weight: 800;
+            font-size: 0.92rem;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+            color: var(--white);
+            line-height: 1.1;
+        }
+
+        .nav-brand-sub {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.58rem;
+            font-weight: 500;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: var(--gold);
+            margin-top: 3px;
+            display: block;
+        }
+
+        .nav-links {
+            display: none;
+            align-items: center;
+            gap: 2px;
+        }
+
+        @media (min-width: 1024px) { .nav-links { display: flex; } }
+
+        .nav-link {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.73rem;
+            font-weight: 500;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            color: var(--text-soft);
+            padding: 7px 12px;
+            border-radius: var(--radius-sm);
+            transition: color 0.2s, background 0.2s;
+            cursor: pointer;
+            border: none;
+            background: none;
+        }
+
+        .nav-link:hover { color: var(--gold-light); background: var(--gold-glow); }
+
+        .nav-actions { display: flex; align-items: center; gap: 8px; }
+
+        .btn-gold {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            padding: 8px 18px;
+            background: var(--gold);
+            color: #080807;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.68rem;
+            font-weight: 700;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            border-radius: 3px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.25s;
+            box-shadow: 0 2px 12px rgba(181,143,74,0.18);
+            white-space: nowrap;
+            text-decoration: none;
+        }
+
+        .btn-gold:hover {
+            background: var(--gold-bright);
+            box-shadow: 0 4px 20px rgba(181,143,74,0.34);
+            transform: translateY(-1px);
+            color: #080807;
+        }
+
+        .btn-ghost-nav {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            padding: 7px 16px;
+            background: transparent;
+            color: var(--gold);
+            font-family: 'Inter', sans-serif;
+            font-size: 0.68rem;
+            font-weight: 600;
+            letter-spacing: 0.10em;
+            text-transform: uppercase;
+            border-radius: 3px;
+            border: 1px solid var(--gold-border);
+            cursor: pointer;
+            transition: all 0.25s;
+            white-space: nowrap;
+            text-decoration: none;
+        }
+
+        .btn-ghost-nav:hover {
+            background: var(--gold-glow);
+            border-color: var(--gold-border-h);
+            color: var(--gold-bright);
+        }
+
+        .hamburger {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 38px;
+            height: 38px;
+            background: var(--bg-3);
+            border: 1px solid var(--gold-border);
+            border-radius: var(--radius-sm);
+            color: var(--gold-light);
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: background 0.2s, border-color 0.2s;
+        }
+
+        .hamburger:hover { background: var(--gold-glow); border-color: var(--gold-border-h); }
+
+        @media (min-width: 1024px) { .hamburger { display: none; } }
+
+        /* ===== MOBILE DRAWER ===== */
+        .mobile-drawer {
+            position: fixed;
+            inset: 0;
+            z-index: 200;
+            pointer-events: none;
+        }
+
+        .drawer-backdrop {
+            position: absolute;
+            inset: 0;
+            background: rgba(0,0,0,0.88);
+            backdrop-filter: blur(6px);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .mobile-drawer.open .drawer-backdrop { opacity: 1; pointer-events: all; }
+
+        .drawer-panel {
+            position: absolute;
+            top: 0; right: 0; bottom: 0;
+            width: min(300px, 86vw);
+            background: var(--bg-2);
+            border-left: 1px solid var(--gold-border);
+            overflow-y: auto;
+            transform: translateX(100%);
+            transition: transform 0.35s cubic-bezier(0.4,0,0.2,1);
+            display: flex;
+            flex-direction: column;
+            pointer-events: none;
+        }
+
+        .mobile-drawer.open .drawer-panel { transform: translateX(0); pointer-events: all; }
+
+        .drawer-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 20px 22px;
+            border-bottom: 1px solid var(--gold-border);
+        }
+
+        .drawer-header span {
+            font-family: 'Barlow', sans-serif;
+            font-size: 1rem;
+            font-weight: 800;
+            color: var(--white);
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+        }
+
+        .icon-btn {
+            width: 34px; height: 34px;
+            background: var(--bg-3);
+            border: 1px solid var(--gold-border);
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: var(--text-soft);
+            font-size: 0.9rem;
+            transition: all 0.2s;
+        }
+
+        .icon-btn:hover { color: var(--gold-light); border-color: var(--gold-border-h); background: var(--gold-glow); }
+
+        .drawer-nav { padding: 12px 10px; flex: 1; }
+
+        .drawer-nav-link {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 13px;
+            border-radius: var(--radius-sm);
+            color: var(--text);
+            font-size: 0.85rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: none;
+            background: none;
+            width: 100%;
+            text-align: left;
+        }
+
+        .drawer-nav-link:hover { background: var(--gold-glow); color: var(--gold-light); }
+
+        .drawer-nav-link .num {
+            width: 24px; height: 24px;
+            background: var(--gold-border);
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.65rem;
+            font-weight: 700;
+            color: var(--gold);
+            flex-shrink: 0;
+        }
+
+        .drawer-cta {
+            padding: 16px 14px;
+            border-top: 1px solid var(--gold-border);
+        }
+
+        .drawer-cta a {
+            display: block;
+            text-align: center;
+            padding: 12px;
+            background: var(--gold);
+            color: #080807;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.72rem;
+            font-weight: 700;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            border-radius: 3px;
+            text-decoration: none;
+            transition: background 0.2s;
+        }
+
+        .drawer-cta a:hover { background: var(--gold-bright); color: #080807; }
+
+        /* ===== HERO ===== */
+        .hero {
+            position: relative;
+            overflow: hidden;
+            padding: clamp(68px, 10vw, 120px) 0 clamp(68px, 9vw, 105px);
+            background: var(--bg-1);
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -200px; right: -100px;
+            width: 650px; height: 650px;
+            background: radial-gradient(circle, rgba(181,143,74,0.09) 0%, transparent 65%);
+            pointer-events: none;
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            bottom: -120px; left: -80px;
+            width: 440px; height: 440px;
+            background: radial-gradient(circle, rgba(181,143,74,0.05) 0%, transparent 65%);
+            pointer-events: none;
+        }
+
+        .hero-inner {
+            max-width: 1440px;
+            margin: 0 auto;
+            padding: 0 28px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 52px;
+            align-items: center;
+        }
+
+        @media (min-width: 1024px) {
+            .hero-grid { grid-template-columns: 1fr 340px; gap: 64px; }
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--gold-glow);
+            border: 1px solid var(--gold-border-h);
+            color: var(--gold-light);
+            font-size: 0.63rem;
+            font-weight: 700;
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+            padding: 7px 14px;
+            border-radius: 2px;
+            margin-bottom: 26px;
+        }
+
+        .hero-eyebrow {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.65rem;
+            font-weight: 600;
+            letter-spacing: 0.22em;
+            text-transform: uppercase;
+            color: rgba(181,143,74,0.7);
+            margin-bottom: 14px;
+            display: block;
+        }
+
+        .hero-title {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: clamp(2.8rem, 8.5vw, 7rem);
+            font-weight: 400;
+            line-height: 0.95;
+            letter-spacing: 0.025em;
+            color: var(--white);
+            margin-bottom: 26px;
+        }
+
+        .hero-title .gold-text {
+            background: linear-gradient(135deg, var(--gold) 0%, var(--gold-bright) 55%, var(--gold) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-desc {
+            font-size: clamp(0.95rem, 1.7vw, 1.08rem);
+            color: var(--text-soft);
+            max-width: 540px;
+            margin-bottom: 38px;
+            line-height: 1.8;
+        }
+
+        .hero-cta-group {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .btn-hero {
+            display: inline-flex;
+            align-items: center;
+            gap: 9px;
+            padding: 13px 28px;
+            background: var(--gold);
+            color: #080807;
+            font-family: 'Barlow', sans-serif;
+            font-size: 0.82rem;
+            font-weight: 800;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            border-radius: 3px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.25s;
+            box-shadow: 0 4px 22px rgba(181,143,74,0.24);
+        }
+
+        .btn-hero:hover {
+            background: var(--gold-bright);
+            box-shadow: 0 6px 30px rgba(181,143,74,0.38);
+            transform: translateY(-2px);
+        }
+
+        .btn-hero-ghost {
+            display: inline-flex;
+            align-items: center;
+            gap: 9px;
+            padding: 12px 26px;
+            background: transparent;
+            color: var(--gold);
+            font-family: 'Barlow', sans-serif;
+            font-size: 0.82rem;
+            font-weight: 700;
+            letter-spacing: 0.10em;
+            text-transform: uppercase;
+            border-radius: 3px;
+            border: 1px solid rgba(181,143,74,0.4);
+            cursor: pointer;
+            transition: all 0.25s;
+            text-decoration: none;
+        }
+
+        .btn-hero-ghost:hover {
+            background: var(--gold-glow);
+            border-color: var(--gold-border-h);
+            color: var(--gold-bright);
+            transform: translateY(-1px);
+        }
+
+        /* Hero card */
+        .hero-card {
+            background: var(--bg-2);
+            border: 1px solid var(--gold-border);
+            border-radius: var(--radius-xl);
+            padding: 34px 30px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--gold), transparent);
+        }
+
+        .hero-card-icon { font-size: 2.4rem; margin-bottom: 18px; display: block; }
+
+        .hero-card h3 {
+            font-family: 'Barlow', sans-serif;
+            font-size: 1.15rem;
+            font-weight: 800;
+            margin-bottom: 12px;
+            color: var(--white);
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+        }
+
+        .hero-card p { font-size: 0.845rem; color: var(--text-soft); line-height: 1.72; }
+
+        .hero-checklist { margin-top: 22px; display: flex; flex-direction: column; gap: 10px; }
+
+        .hero-checklist-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.8rem;
+            color: var(--text-soft);
+        }
+
+        .hero-checklist-item i { color: var(--gold); font-size: 0.65rem; flex-shrink: 0; }
+
+        /* ===== LAYOUT ===== */
+        .layout {
+            max-width: 1440px;
+            margin: 0 auto;
+            padding: 56px 28px;
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 44px;
+            align-items: start;
+        }
+
+        @media (min-width: 1024px) {
+            .layout { grid-template-columns: 252px 1fr; gap: 52px; padding: 56px 36px; }
+        }
+
+        /* ===== SIDEBAR ===== */
+        .sidebar { display: none; }
+
+        @media (min-width: 1024px) {
+            .sidebar {
+                display: block;
+                position: sticky;
+                top: calc(var(--nav-h) + 24px);
+                max-height: calc(100vh - var(--nav-h) - 48px);
+                overflow-y: auto;
+            }
+        }
+
+        .toc-card {
+            background: var(--bg-2);
+            border: 1px solid var(--gold-border);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+        }
+
+        .toc-card-header {
+            padding: 18px 20px;
+            border-bottom: 1px solid var(--gold-border);
+            display: flex;
+            align-items: center;
+            gap: 9px;
+        }
+
+        .toc-card-header i { color: var(--gold); font-size: 0.78rem; }
+
+        .toc-card-header span {
+            font-family: 'Barlow', sans-serif;
+            font-size: 0.78rem;
+            font-weight: 800;
+            color: var(--white);
+            letter-spacing: 0.10em;
+            text-transform: uppercase;
+        }
+
+        .toc-list { list-style: none; padding: 8px; }
+
+        .toc-item a {
+            display: flex;
+            align-items: center;
+            gap: 9px;
+            padding: 9px 11px;
+            border-radius: var(--radius-sm);
+            font-size: 0.755rem;
+            font-weight: 500;
+            color: var(--text-soft);
+            transition: all 0.2s;
+            cursor: pointer;
+            line-height: 1.4;
+        }
+
+        .toc-item a:hover { background: var(--gold-glow); color: var(--gold-light); }
+        .toc-item a.active { background: var(--gold-glow); color: var(--gold-light); font-weight: 600; }
+
+        .toc-num {
+            width: 18px; height: 18px;
+            background: var(--bg-4);
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.58rem;
+            font-weight: 700;
+            color: var(--gold-dim);
+            flex-shrink: 0;
+        }
+
+        .toc-item a.active .toc-num { background: rgba(181,143,74,0.18); color: var(--gold); }
+
+        .toc-cta {
+            padding: 14px 10px 10px;
+            border-top: 1px solid var(--gold-border);
+        }
+
+        .toc-cta a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 7px;
+            padding: 11px;
+            background: var(--gold);
+            color: #080807;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.65rem;
+            font-weight: 700;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            border-radius: 3px;
+            text-decoration: none;
+            transition: background 0.2s;
+        }
+
+        .toc-cta a:hover { background: var(--gold-bright); color: #080807; }
+
+        /* ===== FLOATING TOC ===== */
+        .floating-toc-btn {
+            position: fixed;
+            bottom: calc(24px + env(safe-area-inset-bottom));
+            right: 20px;
+            z-index: 90;
+            width: 50px; height: 50px;
+            background: var(--gold);
+            border-radius: 3px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #080807;
+            font-size: 1rem;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 4px 20px rgba(181,143,74,0.34);
+            transition: all 0.25s;
+        }
+
+        .floating-toc-btn:hover { transform: scale(1.06); box-shadow: 0 6px 28px rgba(181,143,74,0.48); }
+
+        @media (min-width: 1024px) { .floating-toc-btn { display: none; } }
+
+        /* ===== MOBILE TOC OVERLAY ===== */
+        .toc-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 200;
+            pointer-events: none;
+        }
+
+        .toc-overlay-backdrop {
+            position: absolute;
+            inset: 0;
+            background: rgba(0,0,0,0.90);
+            backdrop-filter: blur(8px);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .toc-overlay.open .toc-overlay-backdrop { opacity: 1; pointer-events: all; }
+
+        .toc-overlay-panel {
+            position: absolute;
+            bottom: 0; left: 0; right: 0;
+            background: var(--bg-2);
+            border-top: 1px solid var(--gold-border);
+            border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+            max-height: 82vh;
+            overflow-y: auto;
+            padding-bottom: calc(16px + env(safe-area-inset-bottom));
+            transform: translateY(100%);
+            transition: transform 0.38s cubic-bezier(0.4,0,0.2,1);
+            pointer-events: none;
+        }
+
+        .toc-overlay.open .toc-overlay-panel { transform: translateY(0); pointer-events: all; }
+
+        .toc-overlay-header {
+            position: sticky;
+            top: 0;
+            background: var(--bg-2);
+            padding: 20px 22px 16px;
+            border-bottom: 1px solid var(--gold-border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .toc-overlay-header span {
+            font-family: 'Barlow', sans-serif;
+            font-size: 1rem;
+            font-weight: 800;
+            color: var(--white);
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+        }
+
+        .toc-overlay-list { list-style: none; padding: 10px 14px 6px; }
+
+        .toc-overlay-item a {
+            display: flex;
+            align-items: center;
+            gap: 13px;
+            padding: 13px 14px;
+            border-radius: var(--radius-sm);
+            color: var(--text);
+            font-size: 0.88rem;
+            font-weight: 500;
+            transition: all 0.2s;
+            cursor: pointer;
+        }
+
+        .toc-overlay-item a:hover { background: var(--gold-glow); color: var(--gold-light); }
+
+        .toc-ol-num {
+            width: 28px; height: 28px;
+            background: var(--bg-4);
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7rem;
+            font-weight: 700;
+            color: var(--gold);
+            flex-shrink: 0;
+        }
+
+        /* ===== CONTENT ===== */
+        .content { min-width: 0; }
+
+        .section {
+            scroll-margin-top: calc(var(--nav-h) + 24px);
+            padding-bottom: 72px;
+            border-bottom: 1px solid var(--gold-border);
+            margin-bottom: 72px;
+        }
+
+        .section:last-of-type { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+
+        .section-label {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.62rem;
+            font-weight: 700;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: var(--gold);
+            background: var(--gold-glow);
+            border: 1px solid var(--gold-border);
+            padding: 6px 13px;
+            border-radius: 2px;
+            margin-bottom: 16px;
+        }
+
+        .section > h1 {
+            font-size: clamp(1.8rem, 3.8vw, 2.6rem);
+            letter-spacing: 0.02em;
+            margin-bottom: 6px;
+            text-transform: uppercase;
+        }
+
+        .lead {
+            font-size: clamp(0.92rem, 1.55vw, 1.05rem);
+            color: var(--text-soft);
+            margin-top: 6px;
+            margin-bottom: 44px;
+            max-width: 720px;
+            line-height: 1.82;
+        }
+
+        .subsection-title {
+            font-family: 'Barlow', sans-serif;
+            font-weight: 800;
+            font-size: clamp(1.1rem, 2.3vw, 1.5rem);
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+            margin-top: 56px;
+            margin-bottom: 22px;
+            display: flex;
+            align-items: center;
+            gap: 13px;
+            color: var(--white);
+        }
+
+        .subsection-title::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: var(--gold-border);
+        }
+
+        .body-text {
+            font-size: 0.9rem;
+            color: var(--text-soft);
+            line-height: 1.82;
+            margin-bottom: 22px;
+            max-width: 740px;
+        }
+
+        /* ===== CARDS ===== */
+        .card-grid-2 {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 18px;
+            margin: 28px 0;
+        }
+
+        @media (min-width: 640px) { .card-grid-2 { grid-template-columns: 1fr 1fr; } }
+
+        .card-grid-3 {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 18px;
+            margin: 28px 0;
+        }
+
+        @media (min-width: 600px) { .card-grid-3 { grid-template-columns: 1fr 1fr; } }
+        @media (min-width: 900px) { .card-grid-3 { grid-template-columns: 1fr 1fr 1fr; } }
+
+        .card {
+            background: var(--bg-2);
+            border: 1px solid var(--gold-border);
+            border-radius: var(--radius-lg);
+            padding: 24px;
+            transition: all 0.25s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card::after {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--gold-dim), transparent);
+            opacity: 0;
+            transition: opacity 0.25s;
+        }
+
+        .card:hover {
+            border-color: var(--gold-border-h);
+            background: var(--bg-3);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 32px rgba(0,0,0,0.45);
+        }
+
+        .card:hover::after { opacity: 1; }
+
+        .card h3 {
+            font-size: 0.88rem;
+            font-weight: 800;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            margin-bottom: 14px;
+            display: flex;
+            align-items: center;
+            gap: 9px;
+        }
+
+        .card h3 i { color: var(--gold); font-size: 0.82rem; }
+
+        .card ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+
+        .card ul li {
+            display: flex;
+            gap: 10px;
+            font-size: 0.845rem;
+            color: var(--text-soft);
+            line-height: 1.55;
+        }
+
+        .card ul li::before {
+            content: '';
+            display: block;
+            width: 4px; height: 4px;
+            border-radius: 50%;
+            background: var(--gold);
+            flex-shrink: 0;
+            margin-top: 9px;
+        }
+
+        .card p { font-size: 0.845rem; color: var(--text-soft); line-height: 1.68; margin: 0; }
+
+        .kv-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px 12px; }
+        .kv-item strong { display: block; font-size: 0.78rem; color: var(--white); margin-bottom: 3px; letter-spacing: 0.02em; }
+        .kv-item span { font-size: 0.735rem; color: var(--text-muted); }
+
+        /* Window cards */
+        .window-card {
+            background: var(--bg-2);
+            border: 1px solid var(--gold-border);
+            border-radius: var(--radius-lg);
+            padding: 22px 18px;
+            transition: all 0.25s;
+            text-align: center;
+        }
+
+        .window-card:hover { border-color: var(--gold-border-h); background: var(--bg-3); transform: translateY(-3px); }
+        .window-card .emoji { font-size: 2.2rem; display: block; margin-bottom: 12px; }
+        .window-card strong { display: block; color: var(--white); font-size: 0.82rem; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 7px; }
+        .window-card p { font-size: 0.775rem; color: var(--text-muted); margin: 0; }
+
+        /* Process steps */
+        .process-steps { list-style: none; margin: 28px 0; position: relative; }
+
+        .process-step {
+            display: flex;
+            gap: 22px;
+            align-items: flex-start;
+            padding-bottom: 32px;
+            position: relative;
+        }
+
+        .process-step:last-child { padding-bottom: 0; }
+
+        .process-step:not(:last-child)::before {
+            content: '';
+            position: absolute;
+            left: 19px; top: 40px; bottom: 0;
+            width: 2px;
+            background: linear-gradient(to bottom, var(--gold-dim), transparent);
+        }
+
+        .step-num {
+            width: 40px; height: 40px;
+            background: linear-gradient(135deg, var(--gold-dim), var(--gold));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Barlow', sans-serif;
+            font-size: 0.85rem;
+            font-weight: 900;
+            color: #080807;
+            flex-shrink: 0;
+            box-shadow: 0 0 12px rgba(181,143,74,0.18);
+        }
+
+        .step-body { padding-top: 7px; }
+
+        .step-body h4 {
+            font-size: 0.95rem;
+            font-weight: 800;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+            color: var(--white);
+            margin-bottom: 7px;
+        }
+
+        .step-body p {
+            font-size: 0.845rem;
+            color: var(--text-soft);
+            line-height: 1.76;
+            margin: 0;
+        }
+
+        /* Materials */
+        .material-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 13px;
+            margin: 24px 0;
+        }
+
+        @media (min-width: 560px) { .material-grid { grid-template-columns: 1fr 1fr; } }
+        @media (min-width: 860px) { .material-grid { grid-template-columns: 1fr 1fr 1fr; } }
+
+        .material-card {
+            background: var(--bg-2);
+            border: 1px solid var(--gold-border);
+            border-radius: var(--radius);
+            padding: 18px 20px;
+            transition: border-color 0.2s;
+        }
+
+        .material-card:hover { border-color: var(--gold-border-h); }
+
+        .material-pct {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 2rem;
+            color: var(--gold);
+            line-height: 1;
+            margin-bottom: 5px;
+        }
+
+        .material-name {
+            font-weight: 700;
+            font-size: 0.82rem;
+            color: var(--white);
+            margin-bottom: 5px;
+            display: block;
+            letter-spacing: 0.02em;
+        }
+
+        .material-desc { font-size: 0.775rem; color: var(--text-muted); line-height: 1.6; }
+
+        /* Glass cards */
+        .glass-card-item {
+            background: var(--bg-2);
+            border: 1px solid var(--gold-border);
+            border-radius: var(--radius-lg);
+            padding: 22px;
+            transition: all 0.25s;
+        }
+
+        .glass-card-item:hover { border-color: var(--gold-border-h); background: var(--bg-3); transform: translateY(-2px); }
+
+        .glass-tag {
+            display: inline-block;
+            background: var(--gold-glow);
+            border: 1px solid var(--gold-border);
+            color: var(--gold);
+            font-size: 0.58rem;
+            font-weight: 700;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            padding: 4px 9px;
+            border-radius: 2px;
+            margin-bottom: 12px;
+        }
+
+        .glass-card-item h4 { font-size: 0.9rem; font-weight: 800; margin-bottom: 9px; letter-spacing: 0.03em; }
+        .glass-card-item p { font-size: 0.82rem; color: var(--text-soft); line-height: 1.7; margin: 0; }
+
+        /* Surface positions */
+        .surface-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 11px;
+            margin: 18px 0;
+        }
+
+        @media (min-width: 560px) { .surface-grid { grid-template-columns: 1fr 1fr; } }
+        @media (min-width: 900px) { .surface-grid { grid-template-columns: repeat(4, 1fr); } }
+
+        .surface-card {
+            background: var(--bg-3);
+            border: 1px solid var(--gold-border);
+            border-radius: var(--radius);
+            padding: 16px;
+            text-align: center;
+        }
+
+        .surface-card .s-num {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 2rem;
+            color: var(--gold);
+            line-height: 1;
+            margin-bottom: 7px;
+        }
+
+        .surface-card .s-label { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--white); margin-bottom: 5px; display: block; }
+        .surface-card .s-desc { font-size: 0.72rem; color: var(--text-muted); line-height: 1.55; }
+
+        /* Low-E grid */
+        .lowe-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 14px;
+            margin: 20px 0;
+        }
+
+        @media (min-width: 600px) { .lowe-grid { grid-template-columns: 1fr 1fr; } }
+
+        .lowe-card {
+            background: var(--bg-3);
+            border: 1px solid var(--gold-border);
+            border-radius: var(--radius);
+            padding: 20px;
+        }
+
+        .lowe-card h4 { font-size: 0.88rem; font-weight: 800; letter-spacing: 0.04em; margin-bottom: 9px; }
+        .lowe-card p { font-size: 0.8rem; color: var(--text-muted); margin: 0; line-height: 1.68; }
+
+        /* Table */
+        .table-wrap {
+            background: var(--bg-2);
+            border: 1px solid var(--gold-border);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            margin: 28px 0;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .table-bar {
+            padding: 16px 22px;
+            border-bottom: 1px solid var(--gold-border);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .table-bar i { color: var(--gold); font-size: 0.8rem; }
+
+        .table-bar span {
+            font-family: 'Barlow', sans-serif;
+            font-size: 0.78rem;
+            font-weight: 800;
+            color: var(--white);
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+        }
+
+        table { width: 100%; border-collapse: collapse; font-size: 0.845rem; min-width: 460px; }
+        thead tr { background: var(--bg-3); }
+
+        th {
+            padding: 13px 20px;
+            text-align: left;
+            font-size: 0.62rem;
+            font-weight: 700;
+            letter-spacing: 0.13em;
+            text-transform: uppercase;
+            color: var(--gold);
+            border-bottom: 1px solid var(--gold-border);
+            white-space: nowrap;
+        }
+
+        td {
+            padding: 14px 20px;
+            border-bottom: 1px solid rgba(181,143,74,0.06);
+            color: var(--text-soft);
+            vertical-align: top;
+            line-height: 1.55;
+        }
+
+        tbody tr:last-child td { border-bottom: none; }
+        tbody tr:hover td { background: rgba(181,143,74,0.04); }
+        td strong { color: var(--white); font-weight: 600; }
+
+        /* Callout */
+        .callout {
+            background: var(--bg-2);
+            border: 1px solid var(--gold-border);
+            border-left: 3px solid var(--gold);
+            border-radius: 0 var(--radius) var(--radius) 0;
+            padding: 22px 26px;
+            margin: 32px 0;
+        }
+
+        .callout-label {
+            font-size: 0.62rem;
+            font-weight: 700;
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+            color: var(--gold);
+            margin-bottom: 9px;
+            display: flex;
+            align-items: center;
+            gap: 7px;
+        }
+
+        .callout p { font-size: 0.875rem; color: var(--text-soft); margin: 0; line-height: 1.76; }
+
+        /* Florida */
+        .florida-wrap {
+            background: var(--bg-2);
+            border: 1px solid rgba(181,143,74,0.20);
+            border-radius: var(--radius-xl);
+            padding: clamp(28px, 5vw, 50px);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .florida-wrap::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--gold-dim), var(--gold-bright), var(--gold-dim));
+        }
+
+        .florida-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(181,143,74,0.10);
+            border: 1px solid rgba(181,143,74,0.28);
+            color: var(--gold-light);
+            font-size: 0.62rem;
+            font-weight: 700;
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+            padding: 6px 13px;
+            border-radius: 2px;
+            margin-bottom: 16px;
+        }
+
+        .florida-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 18px;
+            margin: 36px 0;
+        }
+
+        @media (min-width: 640px) { .florida-grid { grid-template-columns: 1fr 1fr; } }
+
+        .florida-sub {
+            background: var(--bg-3);
+            border: 1px solid var(--gold-border);
+            border-radius: var(--radius);
+            padding: 22px;
+        }
+
+        .florida-sub h3 { font-size: 0.88rem; font-weight: 800; letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 14px; }
+
+        .fl-list { list-style: none; display: flex; flex-direction: column; gap: 13px; margin-top: 4px; }
+        .fl-list li { display: flex; gap: 11px; font-size: 0.845rem; color: var(--text-soft); line-height: 1.58; }
+        .fl-list li i { color: var(--gold-light); font-size: 0.72rem; flex-shrink: 0; margin-top: 5px; }
+
+        .florida-alert {
+            background: rgba(181,143,74,0.07);
+            border: 1px solid rgba(181,143,74,0.20);
+            border-radius: var(--radius);
+            padding: 20px 24px;
+            font-size: 0.845rem;
+            color: var(--text-soft);
+            margin-top: 28px;
+            line-height: 1.76;
+        }
+
+        /* ===== INLINE CTA BAND ===== */
+        .cta-band {
+            background: var(--bg-2);
+            border: 1px solid var(--gold-border);
+            border-radius: var(--radius-lg);
+            padding: 32px 30px;
+            margin: 48px 0;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-band::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--gold), transparent);
+        }
+
+        .cta-band-text h3 {
+            font-size: 1.15rem;
+            font-weight: 800;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+            margin-bottom: 6px;
+        }
+
+        .cta-band-text p {
+            font-size: 0.845rem;
+            color: var(--text-soft);
+            margin: 0;
+            max-width: 440px;
+        }
+
+        .cta-band-actions { display: flex; gap: 12px; flex-wrap: wrap; }
+
+        /* ===== FOOTER ===== */
+        .footer-outer {
+            border-top: 1px solid var(--gold-border);
+            background: var(--bg-1);
+        }
+
+        .footer {
+            max-width: 1440px;
+            margin: 0 auto;
+            padding: 44px 36px 36px;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 32px;
+            margin-bottom: 36px;
+        }
+
+        @media (min-width: 768px) {
+            .footer-grid { grid-template-columns: 1fr 1fr 1fr; gap: 24px; }
+        }
+
+        .footer-col-title {
+            font-family: 'Barlow', sans-serif;
+            font-size: 0.68rem;
+            font-weight: 800;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: var(--gold);
+            margin-bottom: 14px;
+            display: block;
+        }
+
+        .footer-col p { font-size: 0.78rem; color: var(--text-muted); line-height: 1.72; margin: 0 0 8px; }
+        .footer-col a { color: var(--text-muted); font-size: 0.78rem; transition: color 0.2s; }
+        .footer-col a:hover { color: var(--gold-light); }
+
+        .footer-phone {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.88rem;
+            font-weight: 600;
+            letter-spacing: 0.06em;
+            color: var(--gold);
+            text-decoration: none;
+            transition: color 0.2s;
+            display: inline-block;
+            margin-top: 4px;
+        }
+
+        .footer-phone:hover { color: var(--gold-bright); }
+
+        .footer-divider {
+            height: 1px;
+            background: var(--gold-border);
+            margin-bottom: 22px;
+        }
+
+        .footer-bottom {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            align-items: flex-start;
+        }
+
+        @media (min-width: 640px) {
+            .footer-bottom { flex-direction: row; justify-content: space-between; align-items: center; }
+        }
+
+        .footer-bottom p { font-size: 0.72rem; color: var(--text-muted); margin: 0; }
+
+        .footer-back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.68rem;
+            font-weight: 600;
+            letter-spacing: 0.10em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            text-decoration: none;
+            transition: color 0.2s;
+            padding: 7px 12px;
+            border: 1px solid var(--gold-border);
+            border-radius: 3px;
+        }
+
+        .footer-back-link:hover { color: var(--gold-light); border-color: var(--gold-border-h); background: var(--gold-glow); }
+
+        /* Print */
+        @media print {
+            .nav, .sidebar, .floating-toc-btn, .mobile-drawer, .toc-overlay, .cta-band, .footer-outer { display: none !important; }
+            body { background: white; color: black; }
+            .layout { display: block; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ===== NAVBAR ===== -->
+    <nav class="nav">
+        <div class="nav-inner">
+            <a class="nav-brand" href="index.html">
+                <img class="nav-logo-img"
+                     src="https://res.cloudinary.com/drhayhi5y/image/upload/e_bgremoval/e_trim/c_scale,h_88/f_png/v1775817870/IMG_4178_h2yjji.png"
+                     alt="Prime Windows &amp; Doors logo">
+                <div class="nav-brand-text">
+                    <span class="nav-brand-title">Prime Windows &amp; Doors</span>
+                    <span class="nav-brand-sub">Resource Guide</span>
+                </div>
+            </a>
+
+            <div class="nav-links">
+                <button class="nav-link" onclick="goTo('fundamentals')">Fundamentals</button>
+                <button class="nav-link" onclick="goTo('types')">Types</button>
+                <button class="nav-link" onclick="goTo('glass')">Glass Science</button>
+                <button class="nav-link" onclick="goTo('ratings')">Ratings</button>
+                <button class="nav-link" onclick="goTo('florida')">Florida</button>
+                <button class="nav-link" onclick="goTo('buying')">Buying Guide</button>
+            </div>
+
+            <div class="nav-actions">
+                <a class="btn-ghost-nav" href="index.html">
+                    <i class="fa-solid fa-house"></i>
+                    <span>Back to Site</span>
+                </a>
+                <button class="btn-gold" onclick="window.print()">
+                    <i class="fa-solid fa-print"></i>
+                    <span>Save PDF</span>
+                </button>
+                <button class="hamburger" onclick="openDrawer()" aria-label="Open menu">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ===== MOBILE DRAWER ===== -->
+    <div class="mobile-drawer" id="mobile-drawer">
+        <div class="drawer-backdrop" onclick="closeDrawer()"></div>
+        <div class="drawer-panel">
+            <div class="drawer-header">
+                <span>Navigation</span>
+                <button class="icon-btn" onclick="closeDrawer()"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <nav class="drawer-nav">
+                <button class="drawer-nav-link" onclick="goTo('fundamentals');closeDrawer()">
+                    <span class="num">1</span> Fundamentals
+                </button>
+                <button class="drawer-nav-link" onclick="goTo('types');closeDrawer()">
+                    <span class="num">2</span> Types of Windows &amp; Doors
+                </button>
+                <button class="drawer-nav-link" onclick="goTo('glass');closeDrawer()">
+                    <span class="num">3</span> Glass — From Sand to Window
+                </button>
+                <button class="drawer-nav-link" onclick="goTo('ratings');closeDrawer()">
+                    <span class="num">4</span> Ratings &amp; Performance
+                </button>
+                <button class="drawer-nav-link" onclick="goTo('florida');closeDrawer()">
+                    <span class="num">5</span> Florida Hurricane Standards
+                </button>
+                <button class="drawer-nav-link" onclick="goTo('buying');closeDrawer()">
+                    <span class="num">6</span> Buying, Installation &amp; Maintenance
+                </button>
+            </nav>
+            <div class="drawer-cta">
+                <a href="index.html">Get a Free Quote — 352-887-7463</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== HERO ===== -->
+    <header class="hero">
+        <div class="hero-inner">
+            <div class="hero-grid">
+                <div>
+                    <span class="hero-eyebrow">Prime Windows &amp; Doors · Ocala, FL</span>
+                    <div class="hero-badge">
+                        <i class="fa-solid fa-book-open"></i>
+                        The Complete Resource Guide &nbsp;·&nbsp; 2026 Edition
+                    </div>
+                    <h1 class="hero-title">
+                        Everything You Need<br>to Know About<br><span class="gold-text">Windows &amp; Doors</span>
+                    </h1>
+                    <p class="hero-desc">
+                        From the chemistry of raw glass to Florida hurricane certification — one authoritative source for every decision you'll face, built by the people who install them every day.
+                    </p>
+                    <div class="hero-cta-group">
+                        <button class="btn-hero" onclick="goTo('fundamentals')">
+                            Start Reading
+                            <i class="fa-solid fa-arrow-right"></i>
+                        </button>
+                        <a class="btn-hero-ghost" href="index.html">
+                            <i class="fa-solid fa-phone"></i>
+                            Get a Free Quote
+                        </a>
+                    </div>
+                </div>
+
+                <div class="hero-card">
+                    <span class="hero-card-icon">🏠</span>
+                    <h3>Built for Florida Homeowners</h3>
+                    <p>From glass manufacturing science to hurricane-proof certification — one authoritative source for everything fenestration.</p>
+                    <div class="hero-checklist">
+                        <div class="hero-checklist-item">
+                            <i class="fa-solid fa-check"></i>
+                            <span>Full glass manufacturing process explained</span>
+                        </div>
+                        <div class="hero-checklist-item">
+                            <i class="fa-solid fa-check"></i>
+                            <span>Tempering, laminating &amp; IGU assembly</span>
+                        </div>
+                        <div class="hero-checklist-item">
+                            <i class="fa-solid fa-check"></i>
+                            <span>NFRC energy ratings decoded</span>
+                        </div>
+                        <div class="hero-checklist-item">
+                            <i class="fa-solid fa-check"></i>
+                            <span>Florida HVHZ &amp; hurricane codes</span>
+                        </div>
+                        <div class="hero-checklist-item">
+                            <i class="fa-solid fa-check"></i>
+                            <span>Frame materials, installation &amp; maintenance</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- ===== MAIN LAYOUT ===== -->
+    <div class="layout">
+
+        <!-- SIDEBAR -->
+        <aside class="sidebar">
+            <div class="toc-card">
+                <div class="toc-card-header">
+                    <i class="fa-solid fa-list-ul"></i>
+                    <span>Contents</span>
+                </div>
+                <ul class="toc-list" id="toc-list"></ul>
+                <div class="toc-cta">
+                    <a href="index.html">
+                        <i class="fa-solid fa-phone"></i>
+                        Free Quote · 352-887-7463
+                    </a>
+                </div>
+            </div>
+        </aside>
+
+        <!-- CONTENT -->
+        <main class="content">
+
+            <!-- SECTION 1 · FUNDAMENTALS -->
+            <section id="fundamentals" class="section">
+                <div class="section-label"><i class="fa-solid fa-star"></i> Section 01</div>
+                <h1>Fundamentals of Windows &amp; Doors</h1>
+                <span class="gold-rule"></span>
+                <p class="lead">Windows and doors are the "eyes and mouths" of any building — they govern light, air, security, energy efficiency, and curb appeal while standing between your interior and everything the weather throws at it. In Florida especially, getting them right is one of the highest-leverage decisions in any construction or renovation project.</p>
+
+                <div class="card-grid-2">
+                    <div class="card">
+                        <h3><i class="fa-solid fa-shield-halved"></i> Core Functions</h3>
+                        <ul>
+                            <li>Structural resistance to wind, windborne debris, and seismic loads</li>
+                            <li>Thermal performance — reducing heating and cooling energy costs</li>
+                            <li>Weather, water, and air infiltration resistance</li>
+                            <li>Security, privacy, and safe emergency egress</li>
+                            <li>Daylighting, natural ventilation, and views</li>
+                        </ul>
+                    </div>
+                    <div class="card">
+                        <h3><i class="fa-solid fa-puzzle-piece"></i> Anatomy of a Window</h3>
+                        <div class="kv-grid">
+                            <div class="kv-item">
+                                <strong>Frame</strong>
+                                <span>Outer structural border; anchors unit to rough opening</span>
+                            </div>
+                            <div class="kv-item">
+                                <strong>Sash / Panel</strong>
+                                <span>Movable section that holds the glass</span>
+                            </div>
+                            <div class="kv-item">
+                                <strong>Glazing</strong>
+                                <span>The glass unit — single, double, or triple pane</span>
+                            </div>
+                            <div class="kv-item">
+                                <strong>Spacer</strong>
+                                <span>Separates panes, holds gas fill, absorbs moisture</span>
+                            </div>
+                            <div class="kv-item">
+                                <strong>Hardware</strong>
+                                <span>Locks, hinges, cranks, rollers</span>
+                            </div>
+                            <div class="kv-item">
+                                <strong>Weatherstripping</strong>
+                                <span>Compressible seal; stops air and water</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="callout">
+                    <div class="callout-label"><i class="fa-solid fa-lightbulb"></i> The Golden Rule</div>
+                    <p>The product rating is only half the story. A perfectly rated window installed incorrectly — gaps in flashing, improper sealant, wrong fastener pattern — will underperform a mid-grade product installed flawlessly. Certification and installation are equally non-negotiable. This is why Prime Windows &amp; Doors pulls every permit and passes every inspection before close-out.</p>
+                </div>
+            </section>
+
+            <!-- SECTION 2 · TYPES -->
+            <section id="types" class="section">
+                <div class="section-label"><i class="fa-solid fa-border-all"></i> Section 02</div>
+                <h1>Types of Windows &amp; Doors</h1>
+                <span class="gold-rule"></span>
+                <p class="lead">Every opening serves a specific architectural purpose. The operating style you choose directly affects ventilation capacity, energy sealing, hurricane rating, cleaning access, and long-term hardware reliability.</p>
+
+                <h2 class="subsection-title">Window Operation Styles</h2>
+                <p class="body-text">These are the six most common residential window types. Each makes different trade-offs between view, airflow, sealing performance, and cost. In Florida's HVHZ, operating style also affects which impact certifications are achievable.</p>
+
+                <div class="card-grid-3">
+                    <div class="window-card">
+                        <span class="emoji">🪟</span>
+                        <strong>Fixed / Picture</strong>
+                        <p>Maximum view and light. No moving parts — no ventilation. Best energy sealing of any type.</p>
+                    </div>
+                    <div class="window-card">
+                        <span class="emoji">↕️</span>
+                        <strong>Double-Hung</strong>
+                        <p>Both sashes slide vertically. Tilt-in cleaning from inside. The most common residential window in the U.S.</p>
+                    </div>
+                    <div class="window-card">
+                        <span class="emoji">🔄</span>
+                        <strong>Casement</strong>
+                        <p>Crank-out on a hinge like a door. Compresses against the frame when closed — excellent air sealing and best ventilation per opening.</p>
+                    </div>
+                    <div class="window-card">
+                        <span class="emoji">↔️</span>
+                        <strong>Single / Double Slider</strong>
+                        <p>One or both sashes slide horizontally. Wide openings, slim profile. Ideal where vertical space is limited.</p>
+                    </div>
+                    <div class="window-card">
+                        <span class="emoji">🌺</span>
+                        <strong>Awning</strong>
+                        <p>Top-hinged, opens outward. The bottom seal tightens with wind pressure. Can ventilate during light rain.</p>
+                    </div>
+                    <div class="window-card">
+                        <span class="emoji">🏛️</span>
+                        <strong>Bay / Bow</strong>
+                        <p>Projects beyond the wall plane. Creates interior depth and seating. Combines fixed center with operable flankers.</p>
+                    </div>
+                </div>
+
+                <h2 class="subsection-title">Door Types &amp; Applications</h2>
+
+                <div class="card-grid-2">
+                    <div class="card">
+                        <h3><i class="fa-solid fa-door-open"></i> Entry &amp; Swing</h3>
+                        <ul>
+                            <li><strong>Single Entry</strong> — standard residential; available in steel, fiberglass, or wood</li>
+                            <li><strong>Double Entry</strong> — grand openings; active/inactive leaf configuration</li>
+                            <li><strong>French Doors</strong> — paired inswing or outswing glass panels; interior and exterior use</li>
+                            <li><strong>Dutch Doors</strong> — split horizontally; top and bottom open independently</li>
+                        </ul>
+                    </div>
+                    <div class="card">
+                        <h3><i class="fa-solid fa-arrows-left-right"></i> Sliding &amp; Folding</h3>
+                        <ul>
+                            <li><strong>Sliding Patio</strong> — space-efficient; one panel slides behind the other</li>
+                            <li><strong>Multipoint Lift-and-Slide</strong> — premium; hardware lifts panel off track for glass-smooth operation</li>
+                            <li><strong>Bifold / Accordion</strong> — folds flat to one side; creates full-width indoor-outdoor connection</li>
+                            <li><strong>Pocket Doors</strong> — disappear into wall cavity; zero floor clearance needed</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="card-grid-2">
+                    <div class="card">
+                        <h3><i class="fa-solid fa-ruler-combined"></i> Frame Material Comparison</h3>
+                        <ul>
+                            <li><strong>Vinyl (uPVC)</strong> — best value; low maintenance; good insulator; won't rot or corrode</li>
+                            <li><strong>Fiberglass</strong> — strongest thermal performance; resists warping; premium price point</li>
+                            <li><strong>Aluminum</strong> — slim sightlines; coastal salt resistance; conducts heat unless thermally broken</li>
+                            <li><strong>Wood</strong> — traditional aesthetic; excellent insulator; requires painting and periodic maintenance</li>
+                        </ul>
+                    </div>
+                    <div class="card">
+                        <h3><i class="fa-solid fa-shield-halved"></i> Impact vs. Non-Impact</h3>
+                        <ul>
+                            <li><strong>Non-impact</strong> — standard glass; lower cost; requires shutters in hurricane zones</li>
+                            <li><strong>Impact-rated</strong> — laminated glass; stays intact when struck; required in WBDR and HVHZ</li>
+                            <li><strong>Hybrid</strong> — impact glass + impact-rated frame tested together as a certified system</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION 3 · GLASS -->
+            <section id="glass" class="section">
+                <div class="section-label"><i class="fa-solid fa-flask"></i> Section 03</div>
+                <h1>Glass: From Sand to Window Pane</h1>
+                <span class="gold-rule"></span>
+                <p class="lead">Every piece of glass in your home began as a pile of raw minerals. Understanding the journey from raw material to finished, coated, laminated, gas-filled unit is the foundation for every performance specification, safety requirement, and product comparison you'll ever encounter.</p>
+
+                <h2 class="subsection-title">Phase 1 — Raw Materials</h2>
+                <p class="body-text">Float glass is a precisely controlled mixture of five primary raw materials, plus a critical recycled component. The ratio is not arbitrary — each ingredient plays a specific chemical role in the final glass composition.</p>
+
+                <div class="material-grid">
+                    <div class="material-card">
+                        <div class="material-pct">73%</div>
+                        <span class="material-name">Silica Sand (SiO₂)</span>
+                        <p class="material-desc">The primary glass-former. Creates the rigid three-dimensional network that makes glass strong and transparent. Must be high-purity — iron impurities cause a green tint.</p>
+                    </div>
+                    <div class="material-card">
+                        <div class="material-pct">13%</div>
+                        <span class="material-name">Soda Ash (Na₂CO₃)</span>
+                        <p class="material-desc">A flux that lowers the melting point of silica from ~1,700°C to ~1,500°C — critical for energy efficiency. Without it, glass manufacture would be economically impossible.</p>
+                    </div>
+                    <div class="material-card">
+                        <div class="material-pct">9%</div>
+                        <span class="material-name">Limestone &amp; Dolomite</span>
+                        <p class="material-desc">Adds calcium and magnesium oxide, which dramatically improve chemical durability. Without lime, "soda glass" would slowly dissolve in water over time.</p>
+                    </div>
+                    <div class="material-card">
+                        <div class="material-pct">4%</div>
+                        <span class="material-name">Salt Cake (Na₂SO₄)</span>
+                        <p class="material-desc">A fining agent — helps release trapped gas bubbles from the melt, resulting in clear, bubble-free glass. Also assists homogenization of the batch.</p>
+                    </div>
+                    <div class="material-card">
+                        <div class="material-pct">~25%</div>
+                        <span class="material-name">Cullet (Recycled Glass)</span>
+                        <p class="material-desc">Crushed, recycled glass from previous production or post-consumer sources. Lowers energy use by up to 2.5% per 10% cullet added. Every modern float plant uses it.</p>
+                    </div>
+                    <div class="material-card">
+                        <div class="material-pct">trace</div>
+                        <span class="material-name">Colorant Oxides</span>
+                        <p class="material-desc">Cobalt (blue), chromium (green), manganese (purple), iron (green/brown). Added in precise amounts to produce tinted glass products. Clear glass minimizes all impurities.</p>
+                    </div>
+                </div>
+
+                <h2 class="subsection-title">Phases 2–5 — The Float Process</h2>
+                <p class="body-text">The float glass process was invented by Sir Alastair Pilkington in 1952 and patented in 1959. It remains the dominant global method for producing flat glass. Every sheet of window glass made anywhere in the world today uses this process or a direct derivative.</p>
+
+                <ol class="process-steps">
+                    <li class="process-step">
+                        <div class="step-num">1</div>
+                        <div class="step-body">
+                            <h4>Batch Weighing &amp; Mixing</h4>
+                            <p>Raw materials are precisely weighed on computer-controlled scales accurate to grams, then blended in a mixer to ensure a completely homogeneous batch. Consistency here is critical — any variation in composition creates visible defects in finished glass. The batch is then conveyed directly into the furnace end wall.</p>
+                        </div>
+                    </li>
+                    <li class="process-step">
+                        <div class="step-num">2</div>
+                        <div class="step-body">
+                            <h4>Melting — The Furnace at 1,500°C</h4>
+                            <p>The continuous melting furnace operates 24 hours a day, 365 days a year — for 12 to 15 years without shutdown. Inside, temperatures reach 1,500°C (2,732°F). The raw batch floats on top of existing molten glass, slowly melting and mixing. The furnace is zoned: melting zone → refining zone → conditioning zone. Temperature drops gradually from 1,500°C to around 1,050°C at the furnace exit. Residence time: typically 24–28 hours.</p>
+                        </div>
+                    </li>
+                    <li class="process-step">
+                        <div class="step-num">3</div>
+                        <div class="step-body">
+                            <h4>The Float Bath — Why Tin?</h4>
+                            <p>Molten glass at ~1,050°C flows from the furnace onto a shallow bath of molten tin. Tin is ideal for three reasons: it's liquid between 232°C and 2,602°C (covering the entire working range), it's much denser than glass (so glass floats), and it's immiscible with glass (they don't mix). The glass spreads across the tin surface until it reaches a natural equilibrium thickness of ~6–7mm. Mechanical edge rollers control thickness from 0.4mm to 25mm. The bath is enclosed in a nitrogen/hydrogen atmosphere to prevent oxidation.</p>
+                        </div>
+                    </li>
+                    <li class="process-step">
+                        <div class="step-num">4</div>
+                        <div class="step-body">
+                            <h4>Annealing — Cooling Without Stress</h4>
+                            <p>As the glass ribbon exits the tin bath at ~600°C, it must cool slowly and uniformly through a long tunnel furnace called the "lehr" (typically 120–180 meters long). If glass cools too quickly, the outside solidifies faster than the inside, creating locked-in tensile stress. This invisible stress makes annealed glass far more likely to crack. The lehr cools glass at ~3–5°C per minute in the critical stress-relief zone. Glass exits at approximately 60–80°C — cool enough to handle.</p>
+                        </div>
+                    </li>
+                    <li class="process-step">
+                        <div class="step-num">5</div>
+                        <div class="step-body">
+                            <h4>Automated Inspection &amp; Cutting</h4>
+                            <p>Automated optical inspection systems scan every square centimeter for inclusions, bubbles, distortion, and thickness variation. Defective zones are marked automatically. Laser scoring equipment snaps the ribbon into standard-size "jumbo sheets" (typically 6,000 × 3,210mm), which are stacked onto transport frames. Grade A glass is sent to secondary processing; off-grade glass is recycled as cullet. A single float line produces 600–900 tonnes of glass per day.</p>
+                        </div>
+                    </li>
+                </ol>
+
+                <h2 class="subsection-title">Phase 6 — Secondary Processing</h2>
+                <p class="body-text">Raw annealed float glass is rarely used directly in windows. It's too fragile, too thermally transparent, and unsafe when it breaks. One or more secondary processes transform it into the specialized glass types used in modern fenestration.</p>
+
+                <div class="card-grid-3">
+                    <div class="glass-card-item">
+                        <div class="glass-tag">Safety</div>
+                        <h4>Tempering (Heat Strengthening)</h4>
+                        <p>The cut glass panel is heated to 620–680°C then blasted with cold air jets (quenching) from both surfaces simultaneously. The surface cools and solidifies rapidly while the core remains hot. When the core finally contracts, it creates powerful surface compression (typically 65–130 MPa). This pre-stress makes tempered glass 4–5× stronger than annealed. When it breaks, it "dices" into small, blunt pebbles — no sharp edges. Critical: tempered glass cannot be cut or modified after tempering.</p>
+                    </div>
+                    <div class="glass-card-item">
+                        <div class="glass-tag">Impact</div>
+                        <h4>Laminating</h4>
+                        <p>Two or more glass lites are bonded together with a plastic interlayer — most commonly PVB (polyvinyl butyral) or the premium SGP (SentryGlas® Plus ionoplast). The assembly passes through a de-airing roller, then an autoclave at ~135°C and 12 bar pressure. When laminated glass breaks, the interlayer holds all fragments in place. SGP is 5× stiffer than PVB and is required in most HVHZ impact applications. Used in hurricane glazing, overhead glazing, balustrades, and acoustic barriers.</p>
+                    </div>
+                    <div class="glass-card-item">
+                        <div class="glass-tag">Thermal</div>
+                        <h4>IGU Assembly</h4>
+                        <p>Insulated Glass Units are built by spacing two or more panes precisely apart with a spacer bar, then sealing the perimeter. The cavity is filled with argon (most common — 34% less thermally conductive than air) or krypton (65% less conductive, smaller gaps). The spacer is filled with desiccant to prevent internal fogging. A dual-seal system — primary hot-melt butyl + secondary polysulfide or silicone — prevents gas leakage. Failure mode: seal failure allowing moisture infiltration, visible as fogging between panes.</p>
+                    </div>
+                    <div class="glass-card-item">
+                        <div class="glass-tag">Tinted</div>
+                        <h4>Body-Tinted Glass</h4>
+                        <p>Color and solar absorption are built into the glass composition during the melt stage. Metal oxide additions — iron for green/blue-green, cobalt for blue, selenium for bronze/gray — are introduced at the batch. The tint runs uniformly through the full thickness ("body tint"). Tinted glass gets hot and must be heat-strengthened or tempered to prevent thermal stress cracking in frames.</p>
+                    </div>
+                    <div class="glass-card-item">
+                        <div class="glass-tag">Reflective</div>
+                        <h4>Pyrolytic Coated (Online)</h4>
+                        <p>A thin metal oxide coating is applied via chemical vapor deposition (CVD) directly onto the ribbon in the float line while still at elevated temperature — hence "online" or "hard coat." The coating bonds chemically into the glass surface. Advantages: extremely durable, can be used as an exposed surface, easy to cut and handle. Commonly used for hard-coat Low-E on the inner surface of double pane units.</p>
+                    </div>
+                    <div class="glass-card-item">
+                        <div class="glass-tag">Advanced</div>
+                        <h4>Electrochromic (Smart) Glass</h4>
+                        <p>An electrochromic coating stack — typically WO₃ (tungsten oxide) layers — is deposited via vacuum sputtering. Applying a small DC voltage (1–5V) drives lithium ions between layers, causing the coating to switch from clear to a deep tint. Switching time: 1–10 minutes depending on panel size. Dynamic SHGC control without blinds or curtains — already standard in premium commercial and aviation applications.</p>
+                    </div>
+                </div>
+
+                <h2 class="subsection-title">Low-Emissivity (Low-E) Coatings</h2>
+                <p class="body-text">Low-E coatings are microscopically thin stacks of metallic silver layers — typically just 10–15nm per silver layer — separated by dielectric layers of zinc oxide, titanium dioxide, or silicon nitride. Silver reflects long-wave infrared (heat) back toward its source, while the dielectric layers tune which wavelengths of visible light are transmitted. The result is glass that looks virtually clear but blocks thermal radiation.</p>
+
+                <div class="lowe-grid">
+                    <div class="lowe-card">
+                        <h4>Hard Coat — Pyrolytic (Online)</h4>
+                        <p>Applied during the float process via CVD while the ribbon is still ~650°C. The coating bonds into the glass surface and is durable enough to survive as an exposed surface. Typical emissivity: 0.15–0.20. Less efficient than soft coat. Can be used on Surface 2 (inside outer pane) or Surface 3 (outside inner pane). Easier to cut and handle without damaging. Standard choice for economy products.</p>
+                    </div>
+                    <div class="lowe-card">
+                        <h4>Soft Coat — MSVD (Offline)</h4>
+                        <p>Applied in a separate vacuum coating chamber via Magnetron Sputtered Vacuum Deposition at room temperature, after the float process. Multiple ultra-thin silver layers achieve emissivity as low as 0.02–0.04. Far superior solar control and thermal performance. Must be protected inside an IGU — it scratches and oxidizes if exposed. Triple-silver soft coat is the standard in all Energy Star northern zone products.</p>
+                    </div>
+                </div>
+
+                <h2 class="subsection-title">Glass Surface Positions — Which Coating Goes Where</h2>
+                <p class="body-text">In a double-pane IGU, there are four numbered surfaces. Surface 1 is always the outermost exterior face; Surface 4 is the innermost interior face. Understanding position conventions is essential for specifying the correct product.</p>
+
+                <div class="surface-grid">
+                    <div class="surface-card">
+                        <div class="s-num">1</div>
+                        <span class="s-label">Outer Exterior Face</span>
+                        <p class="s-desc">Exposed to elements. Rarely coated in standard residential. Sometimes reflective coating for commercial solar control.</p>
+                    </div>
+                    <div class="surface-card">
+                        <div class="s-num">2</div>
+                        <span class="s-label">Inner Face of Outer Pane</span>
+                        <p class="s-desc">Most common Low-E position. Soft coat here primarily reduces U-Factor (heat loss). Best for cold climates.</p>
+                    </div>
+                    <div class="surface-card">
+                        <div class="s-num">3</div>
+                        <span class="s-label">Outer Face of Inner Pane</span>
+                        <p class="s-desc">Second Low-E position. Coating here primarily reduces SHGC (solar gain). Ideal for hot climates like Florida.</p>
+                    </div>
+                    <div class="surface-card">
+                        <div class="s-num">4</div>
+                        <span class="s-label">Inner Interior Face</span>
+                        <p class="s-desc">Exposed to interior air. Rarely coated. Can receive anti-reflective coatings to improve visible transmittance.</p>
+                    </div>
+                </div>
+
+                <div class="callout" style="margin-top: 36px;">
+                    <div class="callout-label"><i class="fa-solid fa-magnifying-glass"></i> How to Read a Glass Specification</div>
+                    <p>A full glass spec looks like: <strong>6mm TPL / 12A / 6mm CLR</strong> — meaning a 6mm tempered laminated outer pane, 12mm argon-filled cavity, and 6mm clear inner pane. Add <strong>#2 sfc Soft-Coat Low-E</strong> for a coating designation. Always verify the spacer type (aluminum = thermal bridge; warm-edge = better condensation resistance) and gas fill percentage (90%+ argon is standard for Energy Star compliance).</p>
+                </div>
+            </section>
+
+            <!-- SECTION 4 · RATINGS -->
+            <section id="ratings" class="section">
+                <div class="section-label"><i class="fa-solid fa-chart-bar"></i> Section 04</div>
+                <h1>Ratings, Pressure Designs &amp; Performance</h1>
+                <span class="gold-rule"></span>
+                <p class="lead">Ratings replace marketing language with verifiable, independently tested numbers. Every window and door sold in the U.S. can be assessed on the same standardized scales — if you know what to look for. Here's the full translation guide.</p>
+
+                <div class="table-wrap">
+                    <div class="table-bar">
+                        <i class="fa-solid fa-certificate"></i>
+                        <span>NFRC Energy Ratings — National Fenestration Rating Council</span>
+                    </div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Rating</th>
+                                <th>What It Measures</th>
+                                <th>Direction</th>
+                                <th>Target Value</th>
+                                <th>Best For</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>U-Factor</strong></td>
+                                <td>Total rate of non-solar heat loss/gain through the entire window assembly</td>
+                                <td>Lower = better</td>
+                                <td>&lt; 0.30 (northern) / &lt; 0.40 (southern)</td>
+                                <td>All climates; the primary thermal benchmark</td>
+                            </tr>
+                            <tr>
+                                <td><strong>SHGC</strong></td>
+                                <td>Solar Heat Gain Coefficient — fraction of solar radiation that enters as heat</td>
+                                <td>Lower = cooler interiors</td>
+                                <td>&lt; 0.25 in Florida; up to 0.40 in cold climates (passive solar)</td>
+                                <td>Hot/sunny climates; south and west-facing exposures</td>
+                            </tr>
+                            <tr>
+                                <td><strong>VT</strong></td>
+                                <td>Visible Transmittance — percentage of visible light that passes through</td>
+                                <td>Higher = brighter</td>
+                                <td>0.40–0.70 typical residential range</td>
+                                <td>Daylighting goals; north-facing; reading areas</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Air Leakage</strong></td>
+                                <td>Cubic feet per minute of air infiltration per square foot of frame</td>
+                                <td>Lower = better</td>
+                                <td>&lt; 0.30 cfm/ft² (NFRC max); &lt; 0.10 for premium</td>
+                                <td>All climates; critical in cold or windy regions</td>
+                            </tr>
+                            <tr>
+                                <td><strong>CR (Condensation)</strong></td>
+                                <td>Resistance to condensation forming on the interior glass surface (scale 1–100)</td>
+                                <td>Higher = better</td>
+                                <td>50+ for most climates; 60+ for cold climates</td>
+                                <td>Cold climates; high indoor humidity; kitchens, baths</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <h2 class="subsection-title">Design Pressure (DP) Ratings</h2>
+                <p class="body-text">Design Pressure is the structural wind-load rating expressed in pounds per square foot (psf). It defines the maximum positive outward pressure and negative inward suction a window or door system can withstand without structural failure. It is tested per ASTM E330. The number is always reported as both positive (+) and negative (−) values — for example, DP +50/−50.</p>
+
+                <div class="card-grid-3">
+                    <div class="card">
+                        <h3>DP 25–35</h3>
+                        <p>Basic residential. Older construction, interior regions with low wind exposure, economy product lines. Equivalent to approximately 90 mph sustained wind.</p>
+                    </div>
+                    <div class="card" style="border-color: rgba(181,143,74,0.30);">
+                        <h3 style="color: var(--gold-light);">DP 40–50</h3>
+                        <p>Current standard residential code. Required in most U.S. jurisdictions. Good baseline for non-hurricane states. Equivalent to ~120 mph.</p>
+                    </div>
+                    <div class="card" style="border-color: rgba(181,143,74,0.48);">
+                        <h3 style="color: var(--gold-bright);">DP 60–80+</h3>
+                        <p>High-wind coastal zones. Florida HVHZ often requires DP 65+ minimum. Non-negotiable in hurricane-prone regions. Equivalent to 150+ mph.</p>
+                    </div>
+                </div>
+
+                <div class="table-wrap" style="margin-top: 18px;">
+                    <div class="table-bar">
+                        <i class="fa-solid fa-award"></i>
+                        <span>ENERGY STAR® Climate Zone Requirements (Windows, U.S.)</span>
+                    </div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Climate Zone</th>
+                                <th>Max U-Factor</th>
+                                <th>Max SHGC</th>
+                                <th>Representative States</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Northern</strong></td>
+                                <td>0.27</td>
+                                <td>Any</td>
+                                <td>Minnesota, Maine, Montana, Wisconsin</td>
+                            </tr>
+                            <tr>
+                                <td><strong>North-Central</strong></td>
+                                <td>0.30</td>
+                                <td>0.40</td>
+                                <td>Virginia, Kansas, Colorado, Missouri</td>
+                            </tr>
+                            <tr>
+                                <td><strong>South-Central</strong></td>
+                                <td>0.30</td>
+                                <td>0.25</td>
+                                <td>Texas, Arizona, New Mexico, Georgia</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Southern</strong></td>
+                                <td>0.40</td>
+                                <td>0.25</td>
+                                <td>Florida, Hawaii, Louisiana, Southern California</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="callout">
+                    <div class="callout-label"><i class="fa-solid fa-balance-scale"></i> VT-to-SHGC Ratio — The Light-to-Solar Gain Ratio</div>
+                    <p>A useful hidden metric: divide VT by SHGC to get the Light-to-Solar Gain (LSG) ratio. A ratio above 1.0 means the glass lets in more light than heat — the ideal for most climates. Example: VT 0.48 ÷ SHGC 0.22 = LSG 2.18. Most quality Low-E coated products achieve LSG 1.6–2.3. Low-cost clear glass without Low-E typically scores 0.9–1.0, meaning heat and light enter in roughly equal measure.</p>
+                </div>
+            </section>
+
+            <!-- SECTION 5 · FLORIDA -->
+            <section id="florida" class="section">
+                <div class="florida-wrap">
+                    <div class="florida-badge"><i class="fa-solid fa-wind"></i> Florida — Our Home Market</div>
+                    <h1>Windows &amp; Doors in Florida:<br>Evolution, Standards &amp; Compliance</h1>
+                    <span class="gold-rule"></span>
+                    <p class="lead" style="margin-bottom: 0;">Hurricane Andrew struck South Florida on August 24, 1992 as a Category 5 storm with peak gusts above 175 mph. It destroyed or severely damaged over 125,000 homes — the majority of which failed not because of wind pressure, but because windows and doors failed first. Once an opening is breached, internal pressurization multiplies structural loads catastrophically. Andrew was a $27 billion lesson in fenestration engineering. Prime Windows &amp; Doors is headquartered in Ocala and serves all of Florida — this section is what we live and breathe every day.</p>
+
+                    <div class="florida-grid">
+                        <div class="florida-sub">
+                            <h3>The Legislative Response: Post-Andrew</h3>
+                            <ul class="fl-list">
+                                <li>
+                                    <i class="fa-solid fa-arrow-right"></i>
+                                    <span>1994: Miami-Dade and Broward counties enacted the world's strictest residential fenestration code — the HVHZ (High Velocity Hurricane Zone) standard</span>
+                                </li>
+                                <li>
+                                    <i class="fa-solid fa-arrow-right"></i>
+                                    <span>2002: Florida Building Code (FBC) adopted statewide, replacing a patchwork of inconsistent local codes</span>
+                                </li>
+                                <li>
+                                    <i class="fa-solid fa-arrow-right"></i>
+                                    <span>Mandatory impact protection required in all Wind-Borne Debris Regions (140+ mph basic wind speed)</span>
+                                </li>
+                                <li>
+                                    <i class="fa-solid fa-arrow-right"></i>
+                                    <span>Miami-Dade Notice of Acceptance (NOA) became the definitive national benchmark for hurricane-rated products</span>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="florida-sub">
+                            <h3>What Separates Florida Glass</h3>
+                            <ul class="fl-list">
+                                <li>
+                                    <i class="fa-solid fa-shield-halved"></i>
+                                    <span><strong>Laminated glass only</strong> — tempered alone does not comply; it shatters and the opening is breached</span>
+                                </li>
+                                <li>
+                                    <i class="fa-solid fa-shield-halved"></i>
+                                    <span>Minimum 0.090" PVB interlayer thickness in standard WBDR; SGP ionoplast for highest HVHZ ratings</span>
+                                </li>
+                                <li>
+                                    <i class="fa-solid fa-shield-halved"></i>
+                                    <span>Large Missile Impact Test: a 9 lb, 2×4 lumber board fired at 50 fps must not penetrate</span>
+                                </li>
+                                <li>
+                                    <i class="fa-solid fa-shield-halved"></i>
+                                    <span>9,000 cyclic pressure cycles applied post-impact to simulate sustained storm pressure fluctuations</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="table-wrap" style="margin-top: 8px; margin-bottom: 0;">
+                        <div class="table-bar">
+                            <i class="fa-solid fa-map-location-dot"></i>
+                            <span>Florida Wind Zone Requirements at a Glance</span>
+                        </div>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Zone</th>
+                                    <th>Basic Wind Speed</th>
+                                    <th>Minimum Requirement</th>
+                                    <th>Certification Required</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>HVHZ — Miami-Dade &amp; Broward</strong></td>
+                                    <td>175–185 mph</td>
+                                    <td>Large missile impact + 9,000 pressure cycles; opening and frame tested as a system</td>
+                                    <td>Miami-Dade NOA (most stringent in the U.S.)</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Wind-Borne Debris Region (WBDR)</strong></td>
+                                    <td>140+ mph</td>
+                                    <td>Impact glass or approved hurricane shutters over every glazed opening</td>
+                                    <td>Florida Product Approval (FPA)</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Coastal — within 1 mile of shoreline</strong></td>
+                                    <td>120+ mph</td>
+                                    <td>Impact protection required; corrosion-resistant hardware mandatory</td>
+                                    <td>FBC Compliant Product</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Inland Standard</strong></td>
+                                    <td>&lt; 120 mph</td>
+                                    <td>Standard DP-rated products; non-impact allowed</td>
+                                    <td>AAMA / NFRC Label</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="florida-alert">
+                        <strong style="color: var(--gold-light);">Critical HVHZ Note:</strong> Miami-Dade and Broward counties require that every glazed opening independently pass the full large-missile impact and cyclic pressure protocol as a complete tested system — glass, frame, hardware, and installation method together. A product holding a general Florida Product Approval is not automatically accepted in HVHZ. Always verify the specific Miami-Dade NOA number is listed and current before any contract is signed or product ordered.
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION 6 · BUYING GUIDE -->
+            <section id="buying" class="section">
+                <div class="section-label"><i class="fa-solid fa-cart-shopping"></i> Section 06</div>
+                <h1>Buying Guide, Installation &amp; Maintenance</h1>
+                <span class="gold-rule"></span>
+                <p class="lead">The best window or door is the one correctly specified for your climate zone, installed by a qualified contractor with proper permits, and maintained on a consistent schedule. This section gives you the framework to get all three right — and the questions to ask at every stage.</p>
+
+                <h2 class="subsection-title">What to Look for When Buying</h2>
+
+                <div class="card-grid-2">
+                    <div class="card">
+                        <h3><i class="fa-solid fa-tag"></i> Labels &amp; Certifications</h3>
+                        <ul>
+                            <li>NFRC label present with U-Factor, SHGC, VT, and Air Leakage independently tested</li>
+                            <li>ENERGY STAR® certification for your specific climate zone — not just "certified"</li>
+                            <li>AAMA rating (AAMA 101/I.S.2 or equivalent) for structural performance grade</li>
+                            <li>Miami-Dade NOA or Florida Product Approval number if in any WBDR zone</li>
+                            <li>DP rating appropriate to your local wind map — look up ASCE 7 wind speed for your address</li>
+                        </ul>
+                    </div>
+                    <div class="card">
+                        <h3><i class="fa-solid fa-ruler-combined"></i> Frame Material Selection</h3>
+                        <ul>
+                            <li><strong>Vinyl (uPVC)</strong> — best cost-to-performance; no painting; good insulator; color options limited</li>
+                            <li><strong>Fiberglass</strong> — best overall thermal and structural performance; expands/contracts like glass; premium price</li>
+                            <li><strong>Aluminum</strong> — slim sightlines; strong; specify thermally broken frames (polyamide barrier) in any climate</li>
+                            <li><strong>Clad Wood</strong> — wood interior aesthetics with aluminum/vinyl exterior cladding; best of both worlds</li>
+                        </ul>
+                    </div>
+                    <div class="card">
+                        <h3><i class="fa-solid fa-wrench"></i> Installation Checklist</h3>
+                        <ul>
+                            <li>Rough opening sized correctly — ½" to ¾" clearance per side for shimming and leveling</li>
+                            <li>Pan flashing at sill installed before window — sloped to drain outward</li>
+                            <li>Flexible flashing tape lapped in correct order: sill first, then jambs, then head (like shingles)</li>
+                            <li>Continuous sealant bead at exterior perimeter — no holidays (gaps), especially at corners</li>
+                            <li>Proper fastener type, count, and pattern per product approval document</li>
+                            <li>Building permit pulled and rough-in inspection passed before drywall</li>
+                        </ul>
+                    </div>
+                    <div class="card">
+                        <h3><i class="fa-solid fa-calendar-check"></i> Maintenance Schedule</h3>
+                        <ul>
+                            <li>Every 6 months: clean weep holes with a pin or toothpick — blocked weeps cause water infiltration</li>
+                            <li>Annually: inspect exterior sealant for cracks, shrinkage, or adhesion failure; touch up or replace</li>
+                            <li>Annually: lubricate all hardware — locks, hinges, crank mechanisms, rollers — with silicone spray</li>
+                            <li>Every 5–7 years: re-caulk full exterior perimeter; replace weatherstripping if no longer compressing</li>
+                            <li>When fogging appears between panes: seal failure — IGU replacement required, not cleaning</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <h2 class="subsection-title">Asking the Right Questions</h2>
+
+                <div class="card-grid-3">
+                    <div class="card">
+                        <h3><i class="fa-solid fa-comments"></i> Ask Your Supplier</h3>
+                        <ul>
+                            <li>What is the exact NFRC-certified U-Factor and SHGC for this unit as configured?</li>
+                            <li>Is the Low-E coating hard coat or soft coat, and on which surface?</li>
+                            <li>What is the spacer material — aluminum or warm-edge?</li>
+                            <li>What is the gas fill percentage and what gas type?</li>
+                        </ul>
+                    </div>
+                    <div class="card">
+                        <h3><i class="fa-solid fa-hard-hat"></i> Ask Your Installer</h3>
+                        <ul>
+                            <li>Are you licensed and insured in this state for window and door installation?</li>
+                            <li>Will you pull the permit and handle inspections?</li>
+                            <li>What installation method — nail fin, retrofit block frame, or stucco bead?</li>
+                            <li>What flashing system are you using and can you show me the product data sheet?</li>
+                        </ul>
+                    </div>
+                    <div class="card">
+                        <h3><i class="fa-solid fa-file-contract"></i> Ask About Warranty</h3>
+                        <ul>
+                            <li>What does the manufacturer's warranty cover — glass seal, hardware, frame finish?</li>
+                            <li>Is the installer's workmanship warranty separate from the product warranty?</li>
+                            <li>Are there installer certification requirements that affect the manufacturer's warranty?</li>
+                            <li>Is the warranty transferable to the next homeowner?</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="callout" style="margin-top: 44px;">
+                    <div class="callout-label"><i class="fa-solid fa-triangle-exclamation"></i> Florida Buyers — Non-Negotiables</div>
+                    <p>In Florida, demand the Miami-Dade NOA number or Florida Product Approval (FPA) number in writing before any contract is signed. Verify it is current on the Miami-Dade product approval search portal. Ask the contractor to confirm the specific installation method matches the one listed on the NOA — different fastener patterns or anchor types can void the approval. Unpermitted window replacements can void homeowner's insurance claims and create mandatory replacement requirements on sale of the property.</p>
+                </div>
+
+                <!-- CTA BAND -->
+                <div class="cta-band">
+                    <div class="cta-band-text">
+                        <h3>Ready to Make Your Move?</h3>
+                        <p>Prime Windows &amp; Doors serves all of Florida from our Ocala base. Impact-rated, energy-efficient, fully permitted — every time. Free quotes, no obligation.</p>
+                    </div>
+                    <div class="cta-band-actions">
+                        <a class="btn-gold" href="index.html">
+                            <i class="fa-solid fa-phone"></i>
+                            Get a Free Quote
+                        </a>
+                        <button class="btn-ghost-nav" onclick="window.print()">
+                            <i class="fa-solid fa-print"></i>
+                            Save This Guide
+                        </button>
+                    </div>
+                </div>
+
+            </section>
+
+        </main>
+    </div>
+
+    <!-- ===== FOOTER ===== -->
+    <footer class="footer-outer">
+        <div class="footer">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <span class="footer-col-title">Prime Windows &amp; Doors</span>
+                    <p>5100 W FL-40, Suite 300<br>Ocala, FL 34482</p>
+                    <p>Serving Central, North, Northeast, and South Florida — including Jacksonville, Orlando, Tampa, and beyond.</p>
+                    <a class="footer-phone" href="tel:+13528877463">352-887-7463</a>
+                </div>
+                <div class="footer-col">
+                    <span class="footer-col-title">This Guide</span>
+                    <p>Compiled from authoritative sources: NFRC, Florida Building Commission, ENERGY STAR, AAMA, Pilkington Glass, Guardian Industries, and industry best-practice documentation.</p>
+                    <p>Always verify specifications with local code officials before purchase.</p>
+                </div>
+                <div class="footer-col">
+                    <span class="footer-col-title">Jump to Section</span>
+                    <p style="line-height: 2.2;">
+                        <a onclick="goTo('fundamentals')" style="cursor:pointer; display:block;">01 — Fundamentals</a>
+                        <a onclick="goTo('types')" style="cursor:pointer; display:block;">02 — Types</a>
+                        <a onclick="goTo('glass')" style="cursor:pointer; display:block;">03 — Glass Science</a>
+                        <a onclick="goTo('ratings')" style="cursor:pointer; display:block;">04 — Ratings</a>
+                        <a onclick="goTo('florida')" style="cursor:pointer; display:block;">05 — Florida</a>
+                        <a onclick="goTo('buying')" style="cursor:pointer; display:block;">06 — Buying Guide</a>
+                    </p>
+                </div>
+            </div>
+
+            <div class="footer-divider"></div>
+
+            <div class="footer-bottom">
+                <p>© 2026 Prime Windows &amp; Doors · Ocala, FL · Updated April 2026</p>
+                <a class="footer-back-link" href="index.html">
+                    <i class="fa-solid fa-arrow-left"></i>
+                    Back to PrimeWindowsandDoors.com
+                </a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ===== FLOATING TOC ===== -->
+    <button class="floating-toc-btn" onclick="openTOC()" aria-label="Table of Contents">
+        <i class="fa-solid fa-list-ul"></i>
+    </button>
+
+    <!-- ===== MOBILE TOC OVERLAY ===== -->
+    <div class="toc-overlay" id="toc-overlay">
+        <div class="toc-overlay-backdrop" onclick="closeTOC()"></div>
+        <div class="toc-overlay-panel">
+            <div class="toc-overlay-header">
+                <span>Contents</span>
+                <button class="icon-btn" onclick="closeTOC()"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <ul class="toc-overlay-list">
+                <li class="toc-overlay-item"><a onclick="goTo('fundamentals');closeTOC()"><span class="toc-ol-num">1</span>Fundamentals of Windows &amp; Doors</a></li>
+                <li class="toc-overlay-item"><a onclick="goTo('types');closeTOC()"><span class="toc-ol-num">2</span>Types of Windows &amp; Doors</a></li>
+                <li class="toc-overlay-item"><a onclick="goTo('glass');closeTOC()"><span class="toc-ol-num">3</span>Glass — From Sand to Window</a></li>
+                <li class="toc-overlay-item"><a onclick="goTo('ratings');closeTOC()"><span class="toc-ol-num">4</span>Ratings &amp; Performance</a></li>
+                <li class="toc-overlay-item"><a onclick="goTo('florida');closeTOC()"><span class="toc-ol-num">5</span>Florida Hurricane Standards</a></li>
+                <li class="toc-overlay-item"><a onclick="goTo('buying');closeTOC()"><span class="toc-ol-num">6</span>Buying, Installation &amp; Maintenance</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        function goTo(id) {
+            const el = document.getElementById(id);
+            if (el) el.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function openDrawer() {
+            document.getElementById('mobile-drawer').classList.add('open');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeDrawer() {
+            document.getElementById('mobile-drawer').classList.remove('open');
+            document.body.style.overflow = '';
+        }
+
+        function openTOC() {
+            document.getElementById('toc-overlay').classList.add('open');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeTOC() {
+            document.getElementById('toc-overlay').classList.remove('open');
+            document.body.style.overflow = '';
+        }
+
+        const SECTIONS = [
+            { id: 'fundamentals', num: '01', title: 'Fundamentals' },
+            { id: 'types',        num: '02', title: 'Types of Windows &amp; Doors' },
+            { id: 'glass',        num: '03', title: 'Glass — From Sand to Window' },
+            { id: 'ratings',      num: '04', title: 'Ratings &amp; Performance' },
+            { id: 'florida',      num: '05', title: 'Florida Hurricane Standards' },
+            { id: 'buying',       num: '06', title: 'Buying &amp; Maintenance' },
+        ];
+
+        function buildTOC() {
+            const list = document.getElementById('toc-list');
+            if (!list) return;
+            SECTIONS.forEach(s => {
+                const li = document.createElement('li');
+                li.className = 'toc-item';
+                li.dataset.id = s.id;
+                li.innerHTML = `<a onclick="goTo('${s.id}')"><span class="toc-num">${s.num}</span>${s.title}</a>`;
+                list.appendChild(li);
+            });
+        }
+
+        function initScrollSpy() {
+            const observer = new IntersectionObserver(entries => {
+                entries.forEach(entry => {
+                    if (!entry.isIntersecting) return;
+                    document.querySelectorAll('.toc-item a').forEach(a => a.classList.remove('active'));
+                    const link = document.querySelector(`.toc-item[data-id="${entry.target.id}"] a`);
+                    if (link) link.classList.add('active');
+                });
+            }, { rootMargin: `-${70 + 28}px 0px -55% 0px`, threshold: 0 });
+
+            SECTIONS.forEach(s => {
+                const el = document.getElementById(s.id);
+                if (el) observer.observe(el);
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            buildTOC();
+            initScrollSpy();
+        });
+    </script>
+</body>
+</html>
