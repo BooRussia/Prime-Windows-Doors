@@ -1,0 +1,8 @@
+# Netlify build settings for primewd.com
+# This is a plain static site — no build step, no framework.
+# Locking these values means a Git-connected deploy publishes the repo
+# root as-is and can never be misconfigured to run a build or publish
+# the wrong folder.
+[build]
+  publish = "."
+  command = ""
