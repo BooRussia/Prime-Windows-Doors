@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Prime Windows &amp; Doors — Social Preview</title>
+<link href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400;500&family=Outfit:wght@400;800&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body {
+    width: 1200px;
+    height: 630px;
+    overflow: hidden;
+    background: #080807;
+    font-family: "Outfit", sans-serif;
+  }
+  .frame {
+    position: relative;
+    width: 1200px;
+    height: 630px;
+    overflow: hidden;
+    background: #080807;
+  }
+  .bg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center bottom;
+    opacity: 0.92;
+  }
+  .overlay {
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 70% 55% at 50% 42%, rgba(181,143,74,0.14) 0%, transparent 70%),
+      linear-gradient(180deg, rgba(8,8,7,0.15) 0%, rgba(8,8,7,0.35) 55%, rgba(8,8,7,0.82) 100%);
+  }
+  .content {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 48px 80px;
+  }
+  .logo-wrap {
+    position: relative;
+    margin-bottom: 18px;
+  }
+  .logo-wrap::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 130%;
+    height: 160%;
+    background: radial-gradient(ellipse, rgba(181,143,74,0.35) 0%, rgba(181,143,74,0.12) 35%, transparent 70%);
+  }
+  .logo {
+    position: relative;
+    width: 280px;
+    height: auto;
+    display: block;
+  }
+  .prime {
+    display: flex;
+    gap: 6px;
+    margin-bottom: 10px;
+  }
+  .prime span {
+    font-size: 96px;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    line-height: 1;
+    background: linear-gradient(135deg, #e8c97a 0%, #f5d98a 30%, #c9a84c 55%, #f0d070 75%, #c9a84c 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .line2 {
+    font-size: 34px;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #f5f0e8;
+    margin-bottom: 14px;
+  }
+  .line3 {
+    font-family: "Geist Mono", monospace;
+    font-size: 18px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: #b8b0a2;
+  }
+  .line3 em {
+    font-style: normal;
+    color: #b58f4a;
+  }
+  .line4 {
+    font-family: "Geist Mono", monospace;
+    font-size: 15px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: rgba(245,240,232,0.55);
+    margin-top: 10px;
+  }
+  .bar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, #b58f4a, transparent);
+    opacity: 0.45;
+  }
+</style>
+</head>
+<body>
+  <div class="frame">
+    <div class="bar"></div>
+    <img class="bg" src="https://res.cloudinary.com/drhayhi5y/image/upload/v1775936508/Untitled_design_1_ovs9no.png" alt="">
+    <div class="overlay"></div>
+    <div class="content">
+      <div class="logo-wrap">
+        <img class="logo" src="https://res.cloudinary.com/drhayhi5y/image/upload/e_bgremoval/e_trim/f_png/v1775817870/IMG_4178_h2yjji.png" alt="">
+      </div>
+      <div class="prime">
+        <span>P</span><span>R</span><span>I</span><span>M</span><span>E</span>
+      </div>
+      <div class="line2">Windows &amp; Doors</div>
+      <div class="line3">Engineered for <em>Florida</em></div>
+      <div class="line4">Ocala, FL</div>
+    </div>
+  </div>
+</body>
+</html>
