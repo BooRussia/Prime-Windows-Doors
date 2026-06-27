@@ -146,9 +146,28 @@ body.pwd-closing{transform:translateY(100vh);transition:transform .52s cubic-bez
   </div>
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
 <script>
 (function(){
   requestAnimationFrame(function(){requestAnimationFrame(function(){document.body.classList.add('pwd-open')})});
+
+  // Confetti easter egg — celebrate the arrival as the page slides in
+  // (matches the homepage scroll-cue gold cannons exactly)
+  (function(){
+    if(typeof confetti==='undefined')return;
+    if(window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches)return;
+    setTimeout(function(){
+      var end=Date.now()+3000;
+      var colors=['#b58f4a','#f5d97a','#fffbe6','#e2c06a','#d4af37','#fff8dc'];
+      (function frame(){
+        if(Date.now()>end)return;
+        confetti({particleCount:3,angle:60,spread:52,startVelocity:62,origin:{x:0,y:0.55},colors:colors});
+        confetti({particleCount:3,angle:120,spread:52,startVelocity:62,origin:{x:1,y:0.55},colors:colors});
+        requestAnimationFrame(frame);
+      })();
+    },650);
+  })();
+
   document.addEventListener('click',function(e){
     var a=e.target.closest('a');if(!a)return;
     var href=a.getAttribute('href');if(!href||!/index\.html/.test(href))return;
