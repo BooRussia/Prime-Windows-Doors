@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0">
 <title>Prime Windows &amp; Doors | Luxury Window &amp; Door Installation | Ocala, FL</title>
 <meta name="description" content="Based in Ocala, FL. Serving Central, North, Northeast, and South Florida. Energy efficient, impact rated, and decorative windows and doors built to last. Free quotes. 352-887-7463.">
 <meta name="theme-color" content="#080807">
@@ -1743,8 +1743,16 @@ document.addEventListener("mousemove",e=>{mx=e.clientX;my=e.clientY;cur.style.le
 // SCROLL EFFECTS
 const nav=document.getElementById("nav"),dock=document.getElementById("floatDock"),prog=document.getElementById("prog");
 var _scrollRaf=false;
+// Cache the scrollable height so per-frame scroll handlers never read scrollHeight (the most
+// reflow-expensive property — reading it every frame stalled the frame on iOS direction reversals).
+var _docMax=1;
+function recalcDocMax(){var s=document.documentElement;_docMax=Math.max(1,s.scrollHeight-s.clientHeight);}
+recalcDocMax();
+window.addEventListener('load',recalcDocMax);
+window.addEventListener('resize',recalcDocMax,{passive:true});
+setTimeout(recalcDocMax,1500);
 function onScroll(){
-  const s=document.documentElement,pct=window.scrollY/(s.scrollHeight-s.clientHeight)*100;
+  const pct=window.scrollY/_docMax*100;
   prog.style.width=pct+"%";
   nav.classList.toggle("solid",window.scrollY>50);
   dock.classList.toggle("show",window.scrollY>600);
@@ -1778,9 +1786,7 @@ window.addEventListener("scroll",function(){
   var items = Array.from(sideNav.querySelectorAll('.sn-item'));
   var dragging = false;
 
-  function scrollMax(){
-    return document.documentElement.scrollHeight - document.documentElement.clientHeight;
-  }
+  function scrollMax(){ return _docMax; }   // cached at top level; refreshed on load/resize (no per-frame scrollHeight read)
 
   function yToScroll(clientY){
     var rect = sideNav.getBoundingClientRect();
@@ -1790,23 +1796,24 @@ window.addEventListener("scroll",function(){
 
   function update(){
     if(dragging) return;
-    var sd = document.documentElement;
-    var pct = window.scrollY / scrollMax() * 100;
-    prog.style.height = Math.min(100, pct).toFixed(2) + '%';
-
+    if(!sideNav.offsetWidth) return;        // hidden (e.g. mobile) -> skip all the rect reads entirely
+    // READ all layout first, THEN write — avoids the write-then-read forced-reflow that stalled reversals
+    var pct = window.scrollY / scrollMax() * 100;   // scrollMax is cached now
+    var line = window.innerHeight * 0.45;
     var current = SECTIONS[0];
     SECTIONS.forEach(function(id){
       var el = document.getElementById(id);
-      if(el && el.getBoundingClientRect().top <= window.innerHeight * 0.45) current = id;
+      if(el && el.getBoundingClientRect().top <= line) current = id;
     });
     var seBg = document.getElementById('seBg');
     var servicesSec = document.getElementById('services');
     if(seBg && servicesSec){
-      if(seBg.getBoundingClientRect().top <= window.innerHeight * 0.45 &&
-         servicesSec.getBoundingClientRect().top > window.innerHeight * 0.45){
+      if(seBg.getBoundingClientRect().top <= line && servicesSec.getBoundingClientRect().top > line){
         current = null;
       }
     }
+    // WRITES (after all reads)
+    prog.style.height = Math.min(100, pct).toFixed(2) + '%';
     items.forEach(function(item){
       item.classList.toggle('sn-active', item.dataset.s === current);
     });
@@ -2136,9 +2143,10 @@ function highlightNav(){}
         },opts.fadeDelay);
       });
     }
-    window.addEventListener('resize',cachePos,{passive:true});
-    var _wpRaf=false;
-    window.addEventListener('scroll',function(){if(!_wpRaf){_wpRaf=true;requestAnimationFrame(function(){cachePos();_wpRaf=false;});}},{passive:true});
+    var _cpW=window.innerWidth;
+    window.addEventListener('resize',function(){if(window.innerWidth===_cpW)return;_cpW=window.innerWidth;cachePos();},{passive:true});
+    var _wpRaf=false,_wpTouch=window.matchMedia('(hover:none),(pointer:coarse)').matches;
+    window.addEventListener('scroll',function(){if(_wpTouch)return;if(!_wpRaf){_wpRaf=true;requestAnimationFrame(function(){cachePos();_wpRaf=false;});}},{passive:true}); // wipe is pointer-driven; on touch this per-frame char re-measure was pure reflow waste
 
     (function loop(){
       var floor=floorRef?floorRef.val:0;
@@ -2363,7 +2371,8 @@ function highlightNav(){}
 
   resize();
   setTimeout(collectZones,1200); // re-collect after hero fade-in animations settle
-  new ResizeObserver(resize).observe(hero);
+  var _heroW=hero.offsetWidth,_heroT;
+  new ResizeObserver(function(){if(hero.offsetWidth===_heroW)return;_heroW=hero.offsetWidth;clearTimeout(_heroT);_heroT=setTimeout(resize,200);}).observe(hero); // width-only: iOS address-bar height toggles no longer realloc the canvas
   requestAnimationFrame(draw);
 })();
 // HERO TITLE — LETTER WIPE GOLD (handled by unified wipe engine above)
@@ -2417,9 +2426,10 @@ function highlightNav(){}
     // On leave: freeze at current position (letters stay gold until wiped back)
     // hero.addEventListener('pointerleave', ...) — intentionally omitted
   }
-  window.addEventListener('resize',cachePositions);
-  var _hwRaf=false;
-  window.addEventListener('scroll',function(){if(!_hwRaf){_hwRaf=true;requestAnimationFrame(function(){cachePositions();_hwRaf=false;});}},{passive:true});
+  var _hwW=window.innerWidth;
+  window.addEventListener('resize',function(){if(window.innerWidth===_hwW)return;_hwW=window.innerWidth;cachePositions();},{passive:true});
+  var _hwRaf=false,_hwTouch=window.matchMedia('(hover:none),(pointer:coarse)').matches;
+  window.addEventListener('scroll',function(){if(_hwTouch)return;if(!_hwRaf){_hwRaf=true;requestAnimationFrame(function(){cachePositions();_hwRaf=false;});}},{passive:true}); // x-centers only change on width; wipe is pointer-driven (inactive on touch)
 
   function loop(){
     for(var i=0;i<chars.length;i++){
@@ -2772,7 +2782,7 @@ document.querySelectorAll("a[href^='#']").forEach(a=>a.addEventListener("click",
     });
   }
   resize();
-  window.addEventListener('resize',resize,{passive:true});
+  var _cvW=window.innerWidth;window.addEventListener('resize',function(){if(window.innerWidth===_cvW)return;_cvW=window.innerWidth;resize();},{passive:true}); // width-only: skip canvas/particle rebuilds on iOS address-bar height toggles
 
   // Mouse tracking — normalized -1..1
   document.addEventListener('mousemove',function(e){
@@ -2987,11 +2997,12 @@ document.querySelectorAll("a[href^='#']").forEach(a=>a.addEventListener("click",
     renderer.render(scene,camera);
   }
 
+  var _rzW=section.offsetWidth,_rzT;
   new ResizeObserver(function(){
-    var W=section.offsetWidth, H=section.offsetHeight;
-    camera.aspect=W/H;
-    camera.updateProjectionMatrix();
-    renderer.setSize(W,H);
+    if(section.offsetWidth===_rzW)return;   // ignore height-only changes (iOS address bar on scroll-direction switch) -> no WebGL setSize thrash
+    _rzW=section.offsetWidth;
+    clearTimeout(_rzT);
+    _rzT=setTimeout(function(){var W=section.offsetWidth,H=section.offsetHeight;camera.aspect=W/H;camera.updateProjectionMatrix();renderer.setSize(W,H);},200);
   }).observe(section);
 
   animate();
@@ -3239,9 +3250,12 @@ document.querySelectorAll("a[href^='#']").forEach(a=>a.addEventListener("click",
     renderer.render(scene,camera);
   })();
 
+  var _rzW=section.offsetWidth,_rzT;
   new ResizeObserver(function(){
-    var W=section.offsetWidth,H=section.offsetHeight;
-    camera.aspect=W/H; camera.updateProjectionMatrix(); renderer.setSize(W,H);
+    if(section.offsetWidth===_rzW)return;   // ignore height-only changes (iOS address bar) -> no WebGL setSize thrash
+    _rzW=section.offsetWidth;
+    clearTimeout(_rzT);
+    _rzT=setTimeout(function(){var W=section.offsetWidth,H=section.offsetHeight;camera.aspect=W/H;camera.updateProjectionMatrix();renderer.setSize(W,H);},200);
   }).observe(section);
 })();
 
@@ -3290,7 +3304,7 @@ document.querySelectorAll("a[href^='#']").forEach(a=>a.addEventListener("click",
     }
   }
   resize();
-  window.addEventListener('resize',resize,{passive:true});
+  var _cvW=window.innerWidth;window.addEventListener('resize',function(){if(window.innerWidth===_cvW)return;_cvW=window.innerWidth;resize();},{passive:true}); // width-only: skip canvas/particle rebuilds on iOS address-bar height toggles
   var t=0;
   (function draw(){
     requestAnimationFrame(draw);
@@ -4091,7 +4105,7 @@ document.querySelectorAll("a[href^='#']").forEach(a=>a.addEventListener("click",
     H=canvas.height=canvas.offsetHeight;
   }
   resize();
-  window.addEventListener('resize',resize,{passive:true});
+  var _cvW=window.innerWidth;window.addEventListener('resize',function(){if(window.innerWidth===_cvW)return;_cvW=window.innerWidth;resize();},{passive:true}); // width-only: skip canvas/particle rebuilds on iOS address-bar height toggles
   var COUNT=window.innerWidth<=768?22:55;
   for(var i=0;i<COUNT;i++){
     pts.push({
@@ -4613,7 +4627,8 @@ document.querySelectorAll("a[href^='#']").forEach(a=>a.addEventListener("click",
     if(!mouse.set){mouse.sx=mouse.x;mouse.sy=mouse.y;mouse.lx=mouse.x;mouse.ly=mouse.y;mouse.set=true;}
   },{passive:true});
 
-  window.addEventListener('resize',function(){setSize();setLines();},{passive:true});
+  var _wlW=-1;
+  window.addEventListener('resize',function(){setSize();if(W!==_wlW){_wlW=W;setLines();}},{passive:true}); // rebuild the SVG path grid only on WIDTH change, not iOS address-bar height toggles
 
   setSize(); setLines(); requestAnimationFrame(tick);
 })();
@@ -4723,7 +4738,7 @@ document.querySelectorAll("a[href^='#']").forEach(a=>a.addEventListener("click",
   }, {threshold:0.05});
   io.observe(svc);
 
-  window.addEventListener('resize', function(){ if(visible) resize(); }, {passive:true});
+  var _swW=window.innerWidth;window.addEventListener('resize', function(){ if(window.innerWidth===_swW)return;_swW=window.innerWidth;if(visible) resize(); }, {passive:true}); // width-only: no canvas realloc on iOS address-bar height toggles
   window.addEventListener('mousemove', function(e){
     var r = canvas.getBoundingClientRect();
     target.x = e.clientX - r.left;
