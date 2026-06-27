@@ -157,7 +157,7 @@ body.pwd-closing{transform:translateY(100vh);transition:transform .52s cubic-bez
     if(typeof confetti==='undefined')return;
     if(window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches)return;
     setTimeout(function(){
-      var end=Date.now()+3000;
+      var end=Date.now()+2000;
       var colors=['#b58f4a','#f5d97a','#fffbe6','#e2c06a','#d4af37','#fff8dc'];
       (function frame(){
         if(Date.now()>end)return;

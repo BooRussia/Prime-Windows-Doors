@@ -2634,6 +2634,7 @@ document.querySelectorAll("a[href^='#']").forEach(a=>a.addEventListener("click",
     state.set(c,{cur:0,tgt:0,active:false});
   });
   var lx=0,ly=0;
+  var isTouch=window.matchMedia('(hover:none),(pointer:coarse)').matches;
   function update(x,y){
     lx=x;ly=y;
     cells.forEach(function(c){
@@ -2647,6 +2648,7 @@ document.querySelectorAll("a[href^='#']").forEach(a=>a.addEventListener("click",
       s.tgt+=((raw-s.tgt+180)%360)-180;
     });
   }
+  function bpClear(){cells.forEach(function(c){state.get(c).active=false;c.style.setProperty('--active','0');});}
   (function tick(){
     cells.forEach(function(c){
       var s=state.get(c);
@@ -2656,13 +2658,49 @@ document.querySelectorAll("a[href^='#']").forEach(a=>a.addEventListener("click",
     });
     requestAnimationFrame(tick);
   })();
-  function bpClear(){cells.forEach(function(c){state.get(c).active=false;c.style.setProperty('--active','0');});}
-  document.addEventListener('pointermove',function(e){update(e.clientX,e.clientY);},{passive:true});
-  document.addEventListener('pointerdown',function(e){update(e.clientX,e.clientY);},{passive:true});
-  document.addEventListener('pointerup',bpClear,{passive:true});
-  document.addEventListener('pointercancel',bpClear,{passive:true});
-  var _bpGl1=false;
-  window.addEventListener('scroll',function(){if(!_bpGl1){_bpGl1=true;requestAnimationFrame(function(){update(lx,ly);_bpGl1=false;});}},{passive:true});
+  if(!isTouch){
+    document.addEventListener('pointermove',function(e){update(e.clientX,e.clientY);},{passive:true});
+    document.addEventListener('pointerdown',function(e){update(e.clientX,e.clientY);},{passive:true});
+    document.addEventListener('pointerup',bpClear,{passive:true});
+    document.addEventListener('pointercancel',bpClear,{passive:true});
+    var _bpGl1=false;
+    window.addEventListener('scroll',function(){if(!_bpGl1){_bpGl1=true;requestAnimationFrame(function(){update(lx,ly);_bpGl1=false;});}},{passive:true});
+  } else {
+    /* MOBILE: draw the gold outline down BOTH flanks by scroll progress — symmetric, deterministic,
+       and only one getBoundingClientRect per scroll frame (no per-cell layout thrash). */
+    var grid=document.getElementById('bpGrid');
+    cells.forEach(function(c){var s=state.get(c);s.cur=90;s.tgt=90;}); // wedges on left+right edges = vertical seams
+    var rows=[],gridH=0;
+    function bpMeasure(){
+      var gr=grid.getBoundingClientRect();gridH=gr.height;var map=[];
+      cells.forEach(function(c){
+        var r=c.getBoundingClientRect(),cy=Math.round(r.top-gr.top+r.height*.5),row=null;
+        for(var i=0;i<map.length;i++){if(Math.abs(map[i].cy-cy)<8){row=map[i];break;}}
+        if(!row){row={cy:cy,cells:[]};map.push(row);}
+        row.cells.push(c);
+      });
+      map.sort(function(a,b){return a.cy-b.cy;});rows=map;
+    }
+    var BAND=0.3;
+    function bpDraw(){
+      if(!gridH||!rows.length)bpMeasure();
+      if(!gridH)return;
+      var gr=grid.getBoundingClientRect(),vh=window.innerHeight||document.documentElement.clientHeight;
+      var p=(vh-gr.top)/(vh+gr.height);p=p<0?0:p>1?1:p;
+      var fillY=p*gridH,bandPx=BAND*gridH;
+      rows.forEach(function(row){
+        var d=fillY-row.cy,op=d<0?0:(d>bandPx?0:1-d/bandPx);
+        row.cells.forEach(function(c){var s=state.get(c);s.active=op>0.002;s.tgt=90;c.style.setProperty('--active',op.toFixed(3));});
+      });
+    }
+    var _bp2=false;
+    function bpOnScroll(){if(!_bp2){_bp2=true;requestAnimationFrame(function(){bpDraw();_bp2=false;});}}
+    window.addEventListener('scroll',bpOnScroll,{passive:true});
+    window.addEventListener('resize',function(){gridH=0;rows=[];bpOnScroll();},{passive:true});
+    window.addEventListener('load',function(){gridH=0;rows=[];bpDraw();});
+    setTimeout(function(){gridH=0;rows=[];bpDraw();},900);
+    bpDraw();
+  }
 })();
 // ─── HERO TWINKLING STARS (parallax + shooting stars) ────────────────────────
 (function(){
