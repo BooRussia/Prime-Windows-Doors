@@ -2649,16 +2649,17 @@ document.querySelectorAll("a[href^='#']").forEach(a=>a.addEventListener("click",
     });
   }
   function bpClear(){cells.forEach(function(c){state.get(c).active=false;c.style.setProperty('--active','0');});}
-  (function tick(){
-    cells.forEach(function(c){
-      var s=state.get(c);
-      if(!s.active)return;
-      s.cur+=(s.tgt-s.cur)*.1;
-      c.style.setProperty('--start',String(s.cur));
-    });
-    requestAnimationFrame(tick);
-  })();
   if(!isTouch){
+    // DESKTOP: original eased pointer-follow glow (unchanged)
+    (function tick(){
+      cells.forEach(function(c){
+        var s=state.get(c);
+        if(!s.active)return;
+        s.cur+=(s.tgt-s.cur)*.1;
+        c.style.setProperty('--start',String(s.cur));
+      });
+      requestAnimationFrame(tick);
+    })();
     document.addEventListener('pointermove',function(e){update(e.clientX,e.clientY);},{passive:true});
     document.addEventListener('pointerdown',function(e){update(e.clientX,e.clientY);},{passive:true});
     document.addEventListener('pointerup',bpClear,{passive:true});
@@ -2666,11 +2667,13 @@ document.querySelectorAll("a[href^='#']").forEach(a=>a.addEventListener("click",
     var _bpGl1=false;
     window.addEventListener('scroll',function(){if(!_bpGl1){_bpGl1=true;requestAnimationFrame(function(){update(lx,ly);_bpGl1=false;});}},{passive:true});
   } else {
-    /* MOBILE: draw the gold outline down BOTH flanks by scroll progress — symmetric, deterministic,
-       and only one getBoundingClientRect per scroll frame (no per-cell layout thrash). */
+    /* MOBILE: gold outline flows down BOTH flanks evenly by scroll progress, kept FLUID by a
+       continuously-rotating eased arc (--start) and an eased fill glide — alive even when still,
+       independent of touch. One rect read per scroll (rAF-latched); the per-frame loop does NO
+       layout reads, so it stays smooth (no scroll hitch). */
     var grid=document.getElementById('bpGrid');
-    cells.forEach(function(c){var s=state.get(c);s.cur=90;s.tgt=90;}); // wedges on left+right edges = vertical seams
-    var rows=[],gridH=0;
+    cells.forEach(function(c,i){var s=state.get(c);s.off=i*43;}); // stagger each cell's arc phase for an organic feel
+    var rows=[],gridH=0,targetP=0,dispP=0,phase=0;
     function bpMeasure(){
       var gr=grid.getBoundingClientRect();gridH=gr.height;var map=[];
       cells.forEach(function(c){
@@ -2681,25 +2684,39 @@ document.querySelectorAll("a[href^='#']").forEach(a=>a.addEventListener("click",
       });
       map.sort(function(a,b){return a.cy-b.cy;});rows=map;
     }
-    var BAND=0.3;
-    function bpDraw(){
+    function bpRead(){
       if(!gridH||!rows.length)bpMeasure();
       if(!gridH)return;
       var gr=grid.getBoundingClientRect(),vh=window.innerHeight||document.documentElement.clientHeight;
-      var p=(vh-gr.top)/(vh+gr.height);p=p<0?0:p>1?1:p;
-      var fillY=p*gridH,bandPx=BAND*gridH;
-      rows.forEach(function(row){
-        var d=fillY-row.cy,op=d<0?0:(d>bandPx?0:1-d/bandPx);
-        row.cells.forEach(function(c){var s=state.get(c);s.active=op>0.002;s.tgt=90;c.style.setProperty('--active',op.toFixed(3));});
-      });
+      var p=(vh-gr.top)/(vh+gr.height);targetP=p<0?0:p>1?1:p;
     }
     var _bp2=false;
-    function bpOnScroll(){if(!_bp2){_bp2=true;requestAnimationFrame(function(){bpDraw();_bp2=false;});}}
-    window.addEventListener('scroll',bpOnScroll,{passive:true});
-    window.addEventListener('resize',function(){gridH=0;rows=[];bpOnScroll();},{passive:true});
-    window.addEventListener('load',function(){gridH=0;rows=[];bpDraw();});
-    setTimeout(function(){gridH=0;rows=[];bpDraw();},900);
-    bpDraw();
+    window.addEventListener('scroll',function(){if(!_bp2){_bp2=true;requestAnimationFrame(function(){bpRead();_bp2=false;});}},{passive:true});
+    window.addEventListener('resize',function(){gridH=0;rows=[];bpRead();},{passive:true});
+    window.addEventListener('load',function(){gridH=0;rows=[];bpRead();});
+    setTimeout(function(){gridH=0;rows=[];bpRead();},900);
+    bpRead();
+    var BAND=0.34;
+    (function bpTick(){
+      if(gridH&&rows.length){
+        dispP+=(targetP-dispP)*.12;   // ease the fill -> smooth glide, never snaps to raw scroll
+        phase+=1.7;                    // perpetual eased arc rotation -> dynamic even when paused
+        var fillY=dispP*gridH,bandPx=BAND*gridH;
+        rows.forEach(function(row){
+          var d=fillY-row.cy,op=d<0?0:(d>bandPx?0:1-d/bandPx);
+          row.cells.forEach(function(c){
+            var s=state.get(c);
+            if(op>.002){
+              if(!s.active)s.cur=phase+s.off; // snap arc on first light (no spin-up)
+              s.active=true;s.tgt=phase+s.off;s.cur+=(s.tgt-s.cur)*.12;
+              c.style.setProperty('--start',String(s.cur));
+              c.style.setProperty('--active',op.toFixed(3));
+            }else if(s.active){s.active=false;c.style.setProperty('--active','0');}
+          });
+        });
+      }
+      requestAnimationFrame(bpTick);
+    })();
   }
 })();
 // ─── HERO TWINKLING STARS (parallax + shooting stars) ────────────────────────
