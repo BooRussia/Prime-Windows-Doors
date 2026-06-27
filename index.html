@@ -2717,10 +2717,10 @@ document.querySelectorAll("a[href^='#']").forEach(a=>a.addEventListener("click",
       var p=(vh-0.66*H-gr.top)/(H*1.1);p=p<0?0:p>1?1:p;
       setComet(pL,gradL,lenL,p);setComet(pR,gradR,lenR,p);
     }
-    var _bpr=false;
+    var _bpr=false,_rw=0;
     function railScroll(){if(!_bpr){_bpr=true;requestAnimationFrame(function(){railDraw();_bpr=false;});}}
     window.addEventListener('scroll',railScroll,{passive:true});
-    window.addEventListener('resize',function(){ready=false;railScroll();},{passive:true});
+    window.addEventListener('resize',function(){if(grid.offsetWidth!==_rw){_rw=grid.offsetWidth;ready=false;}railScroll();},{passive:true});
     window.addEventListener('load',function(){ready=false;railDraw();});
     setTimeout(function(){ready=false;railDraw();},900);
     railDraw();
@@ -3056,7 +3056,7 @@ document.querySelectorAll("a[href^='#']").forEach(a=>a.addEventListener("click",
   camera.position.set(0,480,1200);
   camera.lookAt(0,0,0);
 
-  var renderer=new THREE.WebGLRenderer({canvas:cvs,alpha:true,antialias:true});
+  var renderer=new THREE.WebGLRenderer({canvas:cvs,alpha:true,antialias:true,preserveDrawingBuffer:true});
   renderer.setPixelRatio(Math.min(window.devicePixelRatio,2));
   renderer.setSize(W,H);
   renderer.setClearColor(0x000000,0);
@@ -3090,44 +3090,60 @@ document.querySelectorAll("a[href^='#']").forEach(a=>a.addEventListener("click",
   var ndcMouse=new THREE.Vector2(-9999,-9999);
   var groundPlane=new THREE.Plane(new THREE.Vector3(0,1,0),0);
   var mouseWorld=new THREE.Vector3();
-  var mouseActive=false;
+  var mouseActive=false, dirty=true;
 
   section.addEventListener('mousemove',function(e){
     var r=section.getBoundingClientRect();
     ndcMouse.x=((e.clientX-r.left)/r.width)*2-1;
     ndcMouse.y=-((e.clientY-r.top)/r.height)*2+1;
-    mouseActive=true;
+    mouseActive=true; dirty=true;
   });
   section.addEventListener('mouseleave',function(){ mouseActive=false; });
 
   var INFLUENCE=460,AMPLITUDE=180,LERP_IN=0.10,LERP_OUT=0.055;
 
   var brandsVisible=false;
-  var bio=new IntersectionObserver(function(entries){brandsVisible=entries[0].isIntersecting;},{threshold:0});
+  var bio=new IntersectionObserver(function(entries){brandsVisible=entries[0].isIntersecting;if(brandsVisible)dirty=true;},{threshold:0});
   bio.observe(section);
 
+  /* Render ONLY when the scene is actually changing. On touch devices there's no mouse, so the
+     ripple never fires and the grid is static — without this guard the loop re-rendered an
+     identical WebGL frame 60x/sec, fighting the scroll compositor and causing the brands-section
+     scroll hitch. preserveDrawingBuffer (above) keeps the last frame on screen while we idle. */
   (function animate(){
     requestAnimationFrame(animate);
     if(!brandsVisible) return;
     if(mouseActive){ raycaster.setFromCamera(ndcMouse,camera); raycaster.ray.intersectPlane(groundPlane,mouseWorld); }
+    var moved=false;
     for(var i=0;i<FLOOR_COUNT;i++){
       var px=positions[i*3],pz=positions[i*3+2],targetY=0;
       if(mouseActive){
         var dx=px-mouseWorld.x,dz=pz-mouseWorld.z,dist=Math.sqrt(dx*dx+dz*dz);
         if(dist<INFLUENCE){ var t=1-dist/INFLUENCE; targetY=AMPLITUDE*t*t*(3-2*t); }
       }
-      var spd=targetY>currentY[i]?LERP_IN:LERP_OUT;
-      currentY[i]+=(targetY-currentY[i])*spd;
-      positions[i*3+1]=currentY[i];
+      var spd=targetY>currentY[i]?LERP_IN:LERP_OUT,ny=currentY[i]+(targetY-currentY[i])*spd;
+      if(!moved&&Math.abs(ny-currentY[i])>0.02)moved=true;
+      currentY[i]=ny; positions[i*3+1]=ny;
     }
-    geometry.attributes.position.needsUpdate=true;
+    if(moved)dirty=true;
+    if(!dirty)return;                            // nothing changed -> skip the WebGL frame (idle)
+    if(moved)geometry.attributes.position.needsUpdate=true;
     renderer.render(scene,camera);
+    if(!moved&&!mouseActive)dirty=false;         // settled -> stop until the next change
   })();
 
+  // Only re-size the (expensive) WebGL buffer on real WIDTH changes, debounced. Mobile address-bar
+  // show/hide changes only height; reacting to that thrashed setSize and worsened the scroll hitch.
+  var lastW=W,rzT;
   new ResizeObserver(function(){
-    var W=section.offsetWidth,H=section.offsetHeight;
-    camera.aspect=W/H; camera.updateProjectionMatrix(); renderer.setSize(W,H);
+    if(section.offsetWidth===lastW)return;
+    lastW=section.offsetWidth;
+    clearTimeout(rzT);
+    rzT=setTimeout(function(){var w=section.offsetWidth,h=section.offsetHeight;camera.aspect=w/h;camera.updateProjectionMatrix();renderer.setSize(w,h);dirty=true;},200);
   }).observe(section);
+
+  // one-time correction once layout settles — covers a 0-width section measurement at script-run time
+  setTimeout(function(){var w=section.offsetWidth,h=section.offsetHeight;if(w&&w!==lastW){lastW=w;camera.aspect=w/h;camera.updateProjectionMatrix();renderer.setSize(w,h);dirty=true;}},350);
 })();
 
 // FOOTER DOTTED ROOM — same mouse-reactive Three.js effect
@@ -3247,7 +3263,8 @@ document.querySelectorAll("a[href^='#']").forEach(a=>a.addEventListener("click",
   var cvs=document.getElementById('brandsSparkle');
   if(!cvs)return;
   var ctx=cvs.getContext('2d');
-  var W,H,particles=[];
+  var W,H,particles=[],sparkVisible=true;
+  if('IntersectionObserver' in window){new IntersectionObserver(function(es){sparkVisible=es[0].isIntersecting;},{threshold:0}).observe(cvs);}
   function resize(){
     W=cvs.width=cvs.offsetWidth;
     H=cvs.height=cvs.offsetHeight;
@@ -3271,6 +3288,7 @@ document.querySelectorAll("a[href^='#']").forEach(a=>a.addEventListener("click",
   var t=0;
   (function draw(){
     requestAnimationFrame(draw);
+    if(!sparkVisible)return;               // don't animate while the brands horizon is off-screen
     ctx.clearRect(0,0,W,H);
     t+=0.016;
     particles.forEach(function(p){
