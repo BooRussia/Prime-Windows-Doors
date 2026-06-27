@@ -455,7 +455,8 @@ section{padding:8rem 2rem}
 /* SHOWCASE */
 /* SCROLL EXPAND HERO */
 #seWrapper{height:300vh;position:relative;z-index:1;background:linear-gradient(to bottom,#06060a 0%,transparent 18%);}
-#seBg,#seMedia,#seTitle{position:fixed;inset:0;z-index:0;pointer-events:none;will-change:opacity,transform;}
+#seFx{position:fixed;inset:0;z-index:0;overflow:hidden;pointer-events:none;} /* clips the fixed expand layers so they can't bleed past the viewport on pinch-zoom-out */
+#seBg,#seMedia,#seTitle{position:absolute;inset:0;z-index:0;pointer-events:none;will-change:opacity,transform;}
 #seBg{background:url("https://res.cloudinary.com/drhayhi5y/image/upload/v1773696819/Contemporary_Silverthorne_1-scaled_tw2svx.jpg") center/cover no-repeat;opacity:0;}
 #seBg::after{content:"";position:absolute;inset:0;background:rgba(0,0,0,.45);pointer-events:none;}
 #seMedia{display:flex;align-items:center;justify-content:center;opacity:0;}
@@ -465,7 +466,7 @@ section{padding:8rem 2rem}
 #seTitle{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.7rem;text-align:center;opacity:0;overflow:hidden;}
 #seTitleTop{font-family:var(--sans,sans-serif);font-size:clamp(2.4rem,7vw,8rem);font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:#f5f0e8;white-space:nowrap;will-change:transform;}
 #seTitleBot{font-family:var(--sans,sans-serif);font-size:clamp(2.4rem,7vw,8rem);font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:#c9a84c;white-space:nowrap;will-change:transform;}
-#seHint{position:fixed;bottom:2.2rem;left:50%;transform:translateX(-50%);font-family:var(--mono);font-size:.62rem;letter-spacing:.22em;text-transform:uppercase;color:rgba(245,240,232,.7);z-index:0;pointer-events:none;opacity:0;}
+#seHint{position:absolute;bottom:2.2rem;left:50%;transform:translateX(-50%);font-family:var(--mono);font-size:.62rem;letter-spacing:.22em;text-transform:uppercase;color:rgba(245,240,232,.7);z-index:0;pointer-events:none;opacity:0;}
 section{position:relative;z-index:1;}
 .ticker,#map-sec,.float-dock{position:relative;z-index:1;}
 .showcase-hd{max-width:1260px;margin:0 auto 2.5rem;padding:0 2rem;text-align:center}
@@ -572,7 +573,8 @@ section{position:relative;z-index:1;}
 .bp-cell::after{content:'';position:absolute;inset:0;border-left:1px solid rgba(255,255,255,.06);pointer-events:none}
 .bp-cell:first-child::after{border-left:none}
 .bp-rail{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:5;overflow:visible}
-.bp-rail path{stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round;filter:drop-shadow(0 0 3px rgba(232,200,120,.6)) drop-shadow(0 0 7px rgba(212,175,106,.32))}
+.bp-rail path{stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+.bp-rail .bp-rail-halo{stroke-width:7;opacity:.4}
 .bp-cell-soon{cursor:default}
 .bp-cell-name{position:relative;z-index:2;font-family:'Outfit',sans-serif;font-weight:700;font-size:clamp(1rem,1.4vw,1.2rem);letter-spacing:.06em;text-transform:uppercase;text-align:center;line-height:1.3;user-select:none;pointer-events:none;color:rgba(245,240,232,.78);transition:color .35s,text-shadow .35s}
 @media(hover:hover){.bp-cell:hover .bp-cell-name{color:rgba(212,175,106,.95);text-shadow:0 0 18px rgba(212,175,106,.5),0 0 36px rgba(212,175,106,.25)}}
@@ -1265,6 +1267,7 @@ details.disc-drop .disc-body a:hover{color:rgba(212,175,106,.7)}
 </div><!-- /.prime-bg-wrap -->
 
 <!-- SCROLL EXPAND HERO -->
+<div id="seFx">
 <div id="seBg"></div>
 <div id="seMedia">
   <div id="seImgWrap">
@@ -1277,6 +1280,7 @@ details.disc-drop .disc-body a:hover{color:rgba(212,175,106,.7)}
   <span id="seTitleBot">That's Prime</span>
 </div>
 <p id="seHint">Scroll to expand</p>
+</div><!-- /#seFx -->
 <div id="seWrapper"></div>
 
 
@@ -2683,12 +2687,12 @@ document.querySelectorAll("a[href^='#']").forEach(a=>a.addEventListener("click",
     var defs=document.createElementNS(NS,'defs');svg.appendChild(defs);
     function mkGrad(id){var g=document.createElementNS(NS,'linearGradient');g.setAttribute('id',id);g.setAttribute('gradientUnits','userSpaceOnUse');g.setAttribute('x1','0');g.setAttribute('x2','0');[[0,0],[.45,.05],[.78,.4],[1,1]].forEach(function(s){var st=document.createElementNS(NS,'stop');st.setAttribute('offset',s[0]);st.setAttribute('stop-color','#e8c878');st.setAttribute('stop-opacity',s[1]);g.appendChild(st);});defs.appendChild(g);return g;}
     var gradL=mkGrad('cometGradL'),gradR=mkGrad('cometGradR');
-    var pL=document.createElementNS(NS,'path'),pR=document.createElementNS(NS,'path');
-    pL.setAttribute('fill','none');pR.setAttribute('fill','none');
-    pL.setAttribute('stroke','url(#cometGradL)');pR.setAttribute('stroke','url(#cometGradR)');
-    svg.appendChild(pL);svg.appendChild(pR);grid.appendChild(svg);
+    // two strokes per side: a wide low-opacity HALO (cheap glow, no per-frame filter repaint) + the bright line on top
+    function mkPath(grad,halo){var q=document.createElementNS(NS,'path');q.setAttribute('fill','none');q.setAttribute('stroke',grad);if(halo)q.setAttribute('class','bp-rail-halo');svg.appendChild(q);return q;}
+    var hL=mkPath('url(#cometGradL)',1),pL=mkPath('url(#cometGradL)',0),hR=mkPath('url(#cometGradR)',1),pR=mkPath('url(#cometGradR)',0);
+    grid.appendChild(svg);
     function nameCell(n){return [].filter.call(cells,function(c){return ((c.querySelector('.bp-cell-name')||{}).textContent||'').indexOf(n)>=0;})[0];}
-    var TAIL=170,lenL=0,lenR=0,ready=false; // beam length (px): the light fades smoothly over this distance behind the head
+    var TAIL=170,lenL=0,lenR=0,endYL=0,endYR=0,ready=false; // beam length (px): the light fades smoothly over this distance behind the head
     function railBuild(){
       var gr=grid.getBoundingClientRect(),W=gr.width,H=gr.height;
       var velo=nameCell('Velocity'),viw=nameCell('Viwinco'),palm=nameCell('Palm City'),mill=nameCell('Millwork');
@@ -2697,25 +2701,28 @@ document.querySelectorAll("a[href^='#']").forEach(a=>a.addEventListener("click",
       var v=rel(velo),w=rel(viw),pm=rel(palm),m=rel(mill);
       var Wr=Math.round(W),Hr=Math.round(H),d1=Math.round(v.r),d2=Math.round(w.r),r4=Math.round(pm.t),mt=Math.round(m.t),mL=Math.round(m.l),mR=Math.round(m.r);
       svg.setAttribute('viewBox','0 0 '+Wr+' '+Hr);
-      pL.setAttribute('d','M'+d1+',0 V'+r4+' H0 V'+mt+' H'+mL+' V'+Hr);
-      pR.setAttribute('d','M'+d2+',0 V'+r4+' H'+Wr+' V'+mt+' H'+mR+' V'+Hr);
+      var dLs='M'+d1+',0 V'+r4+' H0 V'+mt+' H'+mL+' V'+Hr,dRs='M'+d2+',0 V'+r4+' H'+Wr+' V'+mt+' H'+mR+' V'+Hr;
+      hL.setAttribute('d',dLs);pL.setAttribute('d',dLs);hR.setAttribute('d',dRs);pR.setAttribute('d',dRs);
       lenL=pL.getTotalLength();lenR=pR.getTotalLength();
-      pL.style.strokeDasharray=lenL;pR.style.strokeDasharray=lenR;
-      pL.style.strokeDashoffset=lenL;pR.style.strokeDashoffset=lenR;
+      endYL=pL.getPointAtLength(lenL).y;endYR=pR.getPointAtLength(lenR).y; // bottom of each path, for sliding the beam off past it
+      hL.style.strokeDasharray=pL.style.strokeDasharray=lenL;hR.style.strokeDasharray=pR.style.strokeDasharray=lenR;
+      hL.style.strokeDashoffset=pL.style.strokeDashoffset=lenL;hR.style.strokeDashoffset=pR.style.strokeDashoffset=lenR;
       ready=true;
     }
-    function setComet(path,grad,len,p){
-      path.style.strokeDashoffset=(len*(1-p)).toFixed(1); // reveal the path only up to the head
-      var head=p*len,hy=head>0?path.getPointAtLength(head<len?head:len).y:0;
+    function setComet(p1,p2,grad,len,endY,p){
+      var head=p*len,off=Math.max(0,len*(1-p)).toFixed(1); // reveal up to the head (full path once past the end)
+      p1.style.strokeDashoffset=off;p2.style.strokeDashoffset=off;
+      // once the head passes the path end, keep going DOWNWARD so the beam slides off the bottom and fades out
+      var hy=head<=0?0:head<len?p1.getPointAtLength(head).y:endY+(head-len);
       grad.setAttribute('y1',(hy-TAIL).toFixed(1));grad.setAttribute('y2',hy.toFixed(1)); // gradient rides with the head -> smooth fade behind
     }
     function railDraw(){
       if(!ready)railBuild();
       if(!ready)return;
       var gr=grid.getBoundingClientRect(),vh=window.innerHeight||document.documentElement.clientHeight,H=gr.height;
-      // start only once the grid is ~2/3 on screen, then travel as it scrolls up (freezes when you stop)
-      var p=(vh-0.66*H-gr.top)/(H*1.1);p=p<0?0:p>1?1:p;
-      setComet(pL,gradL,lenL,p);setComet(pR,gradR,lenR,p);
+      // 0 as it enters (~2/3 on screen) -> 1 when the beam reaches Millwork -> up to 1.5 as it slides off and fades out past the section
+      var p=(vh-0.66*H-gr.top)/(H*1.1);p=p<0?0:p>1.5?1.5:p;
+      setComet(pL,hL,gradL,lenL,endYL,p);setComet(pR,hR,gradR,lenR,endYR,p);
     }
     var _bpr=false,_rw=0;
     function railScroll(){if(!_bpr){_bpr=true;requestAnimationFrame(function(){railDraw();_bpr=false;});}}
