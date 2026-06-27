@@ -883,7 +883,9 @@ details.disc-drop .disc-body a:hover{color:rgba(212,175,106,.7)}
 .sebc-bar:hover .sebc-bar-cta{text-underline-offset:4px}
 .sebc-bar-arrow{margin-left:.2em;font-weight:700;display:inline-block;transition:transform .28s cubic-bezier(.22,1,.36,1)}
 .sebc-bar:hover .sebc-bar-arrow{transform:translateX(5px)}
-@media(max-width:600px){.sebc-bar{min-height:34px;padding:.35rem .8rem}.sebc-bar-txt{font-size:.58rem;letter-spacing:.05em}.sebc-bar-cta-full{display:none}}
+.sebc-bar-cta-short{display:none}
+.sebc-bar:active{filter:brightness(.92)}
+@media(max-width:600px){.sebc-bar{min-height:34px;padding:.35rem .7rem}.sebc-bar-txt{font-size:.56rem;letter-spacing:.04em}.sebc-bar-cta-full{display:none}.sebc-bar-cta-short{display:inline}}
 @media(prefers-reduced-motion:reduce){.sebc-bar-dot{animation:none}.sebc-bar:hover::before{animation:none}.sebc-bar-arrow,.sebc-bar:hover .sebc-bar-arrow{transition:none;transform:none}}
 /* ── VETERAN OWNED ───────────────────────────── */
 #veteran{background:linear-gradient(180deg,var(--bg) 0%,#0d0b08 50%,var(--bg) 100%);border-top:1px solid var(--b);border-bottom:1px solid var(--b)}
@@ -1205,7 +1207,7 @@ details.disc-drop .disc-body a:hover{color:rgba(212,175,106,.7)}
 <!-- SEBC 2026 ANNOUNCEMENT BAR -->
 <a class="sebc-bar" href="sebc.html" aria-label="Visit Prime at SEBC 2026 — event details">
   <span class="sebc-bar-dot" aria-hidden="true"></span>
-  <span class="sebc-bar-txt"><strong>Visit Prime at SEBC 2026</strong><span class="sebc-bar-cta-full"> &middot; <span class="sebc-bar-cta">Click here for details</span></span><span class="sebc-bar-arrow">&#8594;</span></span>
+  <span class="sebc-bar-txt"><strong>Visit Prime at SEBC 2026</strong><span class="sebc-bar-cta-full"> &middot; <span class="sebc-bar-cta">Click here for details</span></span><span class="sebc-bar-cta-short"> &middot; <span class="sebc-bar-cta">Details</span></span><span class="sebc-bar-arrow">&#8594;</span></span>
 </a>
 
 <!-- SIDE NAV -->
