@@ -572,7 +572,8 @@ section{position:relative;z-index:1;}
 .bp-cell::after{content:'';position:absolute;inset:0;border-left:1px solid rgba(255,255,255,.06);pointer-events:none}
 .bp-cell:first-child::after{border-left:none}
 .bp-rail{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:5;overflow:visible}
-.bp-rail path{stroke:#e8c878;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;filter:drop-shadow(0 0 3px rgba(232,200,120,.7)) drop-shadow(0 0 7px rgba(212,175,106,.35))}
+.bp-rail path{stroke:#e8c878;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.bp-rail .bp-rail-glow{stroke-width:2.4;filter:drop-shadow(0 0 3px rgba(232,200,120,.85)) drop-shadow(0 0 7px rgba(212,175,106,.4))}
 .bp-cell-soon{cursor:default}
 .bp-cell-name{position:relative;z-index:2;font-family:'Outfit',sans-serif;font-weight:700;font-size:clamp(1rem,1.4vw,1.2rem);letter-spacing:.06em;text-transform:uppercase;text-align:center;line-height:1.3;user-select:none;pointer-events:none;color:rgba(245,240,232,.78);transition:color .35s,text-shadow .35s}
 @media(hover:hover){.bp-cell:hover .bp-cell-name{color:rgba(212,175,106,.95);text-shadow:0 0 18px rgba(212,175,106,.5),0 0 36px rgba(212,175,106,.25)}}
@@ -2677,11 +2678,12 @@ document.querySelectorAll("a[href^='#']").forEach(a=>a.addEventListener("click",
     var NS='http://www.w3.org/2000/svg';
     var svg=document.createElementNS(NS,'svg');
     svg.setAttribute('class','bp-rail');svg.setAttribute('preserveAspectRatio','none');svg.setAttribute('aria-hidden','true');
-    var pL=document.createElementNS(NS,'path'),pR=document.createElementNS(NS,'path');
-    pL.setAttribute('fill','none');pR.setAttribute('fill','none');
-    svg.appendChild(pL);svg.appendChild(pR);grid.appendChild(svg);
+    grid.appendChild(svg);
     function nameCell(n){return [].filter.call(cells,function(c){return ((c.querySelector('.bp-cell-name')||{}).textContent||'').indexOf(n)>=0;})[0];}
-    var lenL=0,lenR=0,ready=false;
+    /* comet = a bright head + progressively dimmer/longer segments behind it = a fading tail */
+    var LAYERS=[{seg:44,op:1,head:true},{seg:100,op:.5},{seg:160,op:.3},{seg:225,op:.15}];
+    function mkSide(){return LAYERS.map(function(L){var q=document.createElementNS(NS,'path');q.setAttribute('fill','none');if(L.head)q.setAttribute('class','bp-rail-glow');q.style.opacity=L.op;svg.appendChild(q);return {p:q,seg:L.seg};});}
+    var sideL,sideR,lenL=0,lenR=0,ready=false;
     function railBuild(){
       var gr=grid.getBoundingClientRect(),W=gr.width,H=gr.height;
       var velo=nameCell('Velocity'),viw=nameCell('Viwinco'),palm=nameCell('Palm City'),mill=nameCell('Millwork');
@@ -2689,21 +2691,26 @@ document.querySelectorAll("a[href^='#']").forEach(a=>a.addEventListener("click",
       function rel(c){var r=c.getBoundingClientRect();return{t:r.top-gr.top,r:r.right-gr.left,l:r.left-gr.left};}
       var v=rel(velo),w=rel(viw),pm=rel(palm),m=rel(mill);
       var Wr=Math.round(W),Hr=Math.round(H),d1=Math.round(v.r),d2=Math.round(w.r),r4=Math.round(pm.t),mt=Math.round(m.t),mL=Math.round(m.l),mR=Math.round(m.r);
+      var dL='M'+d1+',0 V'+r4+' H0 V'+mt+' H'+mL+' V'+Hr;
+      var dR='M'+d2+',0 V'+r4+' H'+Wr+' V'+mt+' H'+mR+' V'+Hr;
       svg.setAttribute('viewBox','0 0 '+Wr+' '+Hr);
-      pL.setAttribute('d','M'+d1+',0 V'+r4+' H0 V'+mt+' H'+mL+' V'+Hr);
-      pR.setAttribute('d','M'+d2+',0 V'+r4+' H'+Wr+' V'+mt+' H'+mR+' V'+Hr);
-      lenL=pL.getTotalLength();lenR=pR.getTotalLength();
-      pL.style.strokeDasharray=lenL;pR.style.strokeDasharray=lenR;
-      pL.style.strokeDashoffset=lenL;pR.style.strokeDashoffset=lenR;
+      if(!sideL){sideL=mkSide();sideR=mkSide();}
+      sideL.forEach(function(o){o.p.setAttribute('d',dL);});
+      sideR.forEach(function(o){o.p.setAttribute('d',dR);});
+      lenL=sideL[0].p.getTotalLength();lenR=sideR[0].p.getTotalLength();
+      sideL.forEach(function(o){o.p.style.strokeDasharray=o.seg+' '+(lenL+o.seg);o.p.style.strokeDashoffset=o.seg;});
+      sideR.forEach(function(o){o.p.style.strokeDasharray=o.seg+' '+(lenR+o.seg);o.p.style.strokeDashoffset=o.seg;});
       ready=true;
     }
     function railDraw(){
       if(!ready)railBuild();
       if(!ready)return;
-      var gr=grid.getBoundingClientRect(),vh=window.innerHeight||document.documentElement.clientHeight;
-      var p=(vh*0.92-gr.top)/(gr.height*1.05);p=p<0?0:p>1?1:p; // 0 as the grid enters, 1 once scrolled through
-      pL.style.strokeDashoffset=(lenL*(1-p)).toFixed(1);
-      pR.style.strokeDashoffset=(lenR*(1-p)).toFixed(1);
+      var gr=grid.getBoundingClientRect(),vh=window.innerHeight||document.documentElement.clientHeight,H=gr.height;
+      // start only once the grid is ~2/3 on screen, then travel as it scrolls up (freezes when you stop)
+      var p=(vh-0.66*H-gr.top)/(H*1.1);p=p<0?0:p>1?1:p;
+      var hL=p*lenL,hR=p*lenR;
+      sideL.forEach(function(o){o.p.style.strokeDashoffset=(o.seg-hL).toFixed(1);});
+      sideR.forEach(function(o){o.p.style.strokeDashoffset=(o.seg-hR).toFixed(1);});
     }
     var _bpr=false;
     function railScroll(){if(!_bpr){_bpr=true;requestAnimationFrame(function(){railDraw();_bpr=false;});}}
