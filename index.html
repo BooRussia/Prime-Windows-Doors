@@ -280,21 +280,53 @@ html.sn-dragging #snProgress{transition:none!important}
 .ham.open span:nth-child(1){transform:translateY(6.5px) rotate(45deg)}
 .ham.open span:nth-child(2){opacity:0}
 .ham.open span:nth-child(3){transform:translateY(-6.5px) rotate(-45deg)}
-.mob-nav{display:flex;position:fixed;inset:0;z-index:999;background:var(--bg);flex-direction:column;align-items:center;justify-content:center;gap:2.5rem;visibility:hidden;clip-path:circle(0% at calc(100% - 1.5rem) 36px);transition:clip-path .7s cubic-bezier(.7,0,.3,1),visibility 0s linear .7s}
+/* ── DESKTOP TOP MENU ─────────────────────────────────────────────────────── */
+.nav-menu{display:flex;flex:1;align-items:center;justify-content:center;gap:.15rem}
+.nav-link{position:relative;font-family:var(--mono);font-size:.72rem;letter-spacing:.13em;text-transform:uppercase;color:var(--t2);text-decoration:none;padding:.55rem .68rem;background:none;border:none;cursor:pointer;white-space:nowrap;transition:color .25s}
+.nav-link:hover{color:var(--gold-pale)}
+.nav-link::after{content:'';position:absolute;left:.68rem;right:.68rem;bottom:.3rem;height:1.5px;background:linear-gradient(90deg,var(--gold),var(--gold-pale));border-radius:2px;transform:scaleX(0);transform-origin:left;transition:transform .3s cubic-bezier(.22,1,.36,1)}
+.nav-link:hover::after,.nav-link.active::after{transform:scaleX(1)}
+.nav-link.active{color:var(--gold)}
+.nav-sep{width:1px;height:15px;background:var(--b3);margin:0 .4rem;flex:0 0 auto}
+.nav-cta{font-family:var(--mono);font-size:.7rem;letter-spacing:.13em;text-transform:uppercase;padding:.52rem 1.2rem;background:linear-gradient(135deg,#e8c97a 0%,#f0d070 50%,#c9a84c 100%);color:#0a0a0e;border:1px solid transparent;border-radius:3px;text-decoration:none;font-weight:700;white-space:nowrap;transition:filter .25s,box-shadow .25s,transform .2s}
+.nav-cta:hover{filter:brightness(1.07);box-shadow:0 0 26px var(--gold-glow);transform:translateY(-1px)}
+.nav-brand{display:none}
+/* ≤1024 → collapse to hamburger */
+@media(max-width:1200px){.nav-phone{display:none}}
+@media(max-width:1024px){
+  .nav-menu{display:none}
+  .nav-right{display:none}
+  .ham{display:flex}
+  .nav-brand{display:block}
+}
+/* ── MOBILE OVERLAY MENU ──────────────────────────────────────────────────── */
+.mob-nav{display:flex;position:fixed;inset:0;z-index:999;background:radial-gradient(120% 90% at 100% 0%,#151209 0%,#0a0a0e 55%);flex-direction:column;align-items:center;justify-content:flex-start;overflow-y:auto;visibility:hidden;clip-path:circle(0% at calc(100% - 1.5rem) 36px);transition:clip-path .7s cubic-bezier(.7,0,.3,1),visibility 0s linear .7s}
 .mob-nav.open{visibility:visible;clip-path:circle(150% at calc(100% - 1.5rem) 36px);transition:clip-path .7s cubic-bezier(.7,0,.3,1),visibility 0s linear 0s}
-.mob-nav .sn-item{gap:1rem;text-decoration:none;cursor:pointer;display:flex;align-items:center;color:var(--t1);opacity:0;transform:translateY(18px) scale(.97);transition:opacity .35s ease,transform .35s ease}
-.mob-nav.open .sn-item:nth-child(1){opacity:1;transform:translateY(0) scale(1);transition-delay:.28s}
-.mob-nav.open .sn-item:nth-child(2){opacity:1;transform:translateY(0) scale(1);transition-delay:.34s}
-.mob-nav.open .sn-item:nth-child(3){opacity:1;transform:translateY(0) scale(1);transition-delay:.40s}
-.mob-nav.open .sn-item:nth-child(4){opacity:1;transform:translateY(0) scale(1);transition-delay:.46s}
-.mob-nav.open .sn-item:nth-child(5){opacity:1;transform:translateY(0) scale(1);transition-delay:.52s}
-.mob-nav.open .sn-item:nth-child(6){opacity:1;transform:translateY(0) scale(1);transition-delay:.58s}
-.mob-nav.open .sn-item:nth-child(7){opacity:1;transform:translateY(0) scale(1);transition-delay:.64s}
-.mob-nav.open .sn-item:nth-child(8){opacity:1;transform:translateY(0) scale(1);transition-delay:.70s}
-.mob-nav .sn-dot{display:block;width:6px;height:6px;border-radius:50%;background:rgba(212,175,106,.5)}
-.mob-nav .sn-lbl{opacity:1;transform:none;font-size:1.6rem;letter-spacing:.08em;font-weight:800;font-style:normal;text-transform:uppercase;font-family:var(--sans);color:var(--t1);pointer-events:auto;text-shadow:none;animation:none}
-.mob-nav a.nav-phone-mob{font-family:var(--mono);font-size:1.1rem;color:var(--gold);text-decoration:none;margin-top:1rem;opacity:0;transform:translateY(18px);transition:opacity .35s ease .64s,transform .35s ease .64s}
-.mob-nav.open a.nav-phone-mob{opacity:1;transform:translateY(0)}
+.mob-nav-inner{display:flex;flex-direction:column;align-items:center;gap:1.15rem;width:100%;max-width:440px;margin:auto;padding:5.5rem 2rem 3rem}
+.mob-nav .sn-item{gap:1rem;text-decoration:none;cursor:pointer;display:flex;align-items:center;color:var(--t1);opacity:0;transform:translateY(20px);transition:opacity .4s ease,transform .4s ease}
+.mob-nav .sn-dot{display:block;width:6px;height:6px;border-radius:50%;background:rgba(212,175,106,.55);flex:0 0 auto}
+.mob-nav .sn-lbl{font-size:1.5rem;letter-spacing:.06em;font-weight:800;text-transform:uppercase;font-family:var(--sans);color:var(--t1);pointer-events:auto}
+.mob-nav .sn-item:active .sn-lbl,.mob-nav .sn-item.active .sn-lbl{color:var(--gold)}
+.mob-nav .sn-item.active .sn-dot{background:var(--gold);box-shadow:0 0 8px var(--gold-glow)}
+.mob-nav .mob-sub .sn-lbl{font-size:1.15rem;font-weight:600;letter-spacing:.12em;color:var(--gold-pale)}
+.mob-nav-div{width:66px;height:1px;background:var(--b3);margin:.35rem 0;opacity:0;transition:opacity .4s ease}
+.mob-cta{font-family:var(--mono);font-size:.82rem;letter-spacing:.14em;text-transform:uppercase;padding:.95rem 2.4rem;margin-top:.4rem;background:linear-gradient(135deg,#e8c97a 0%,#f0d070 50%,#c9a84c 100%);color:#0a0a0e;border-radius:4px;text-decoration:none;font-weight:700;box-shadow:0 10px 34px rgba(0,0,0,.45);opacity:0;transform:translateY(20px);transition:opacity .4s ease,transform .4s ease}
+.mob-nav a.nav-phone-mob{font-family:var(--mono);font-size:1.05rem;color:var(--gold);text-decoration:none;letter-spacing:.04em;opacity:0;transform:translateY(20px);transition:opacity .4s ease,transform .4s ease}
+.mob-nav.open .mob-nav-inner>*{opacity:1;transform:none}
+.mob-nav.open .mob-nav-inner>*:nth-child(1){transition-delay:.16s}
+.mob-nav.open .mob-nav-inner>*:nth-child(2){transition-delay:.20s}
+.mob-nav.open .mob-nav-inner>*:nth-child(3){transition-delay:.24s}
+.mob-nav.open .mob-nav-inner>*:nth-child(4){transition-delay:.28s}
+.mob-nav.open .mob-nav-inner>*:nth-child(5){transition-delay:.32s}
+.mob-nav.open .mob-nav-inner>*:nth-child(6){transition-delay:.36s}
+.mob-nav.open .mob-nav-inner>*:nth-child(7){transition-delay:.40s}
+.mob-nav.open .mob-nav-inner>*:nth-child(8){transition-delay:.44s}
+.mob-nav.open .mob-nav-inner>*:nth-child(9){transition-delay:.48s}
+.mob-nav.open .mob-nav-inner>*:nth-child(10){transition-delay:.52s}
+.mob-nav.open .mob-nav-inner>*:nth-child(11){transition-delay:.56s}
+.mob-nav.open .mob-nav-inner>*:nth-child(12){transition-delay:.60s}
+.mob-nav.open .mob-nav-inner>*:nth-child(13){transition-delay:.64s}
+.mob-nav.open .mob-nav-inner>*:nth-child(14){transition-delay:.68s}
 
 /* ═══════════════════════════════
    HERO  —  prestige dark marble
@@ -1184,6 +1216,7 @@ details.disc-drop .disc-body a:hover{color:rgba(212,175,106,.7)}
 
 <!-- MOBILE NAV -->
 <nav class="mob-nav" id="mobNav">
+ <div class="mob-nav-inner">
   <a class="sn-item" href="#hero"         data-s="hero"         onclick="toggleNav()"><span class="sn-dot"></span><span class="sn-lbl">Home</span></a>
   <a class="sn-item" href="#about"        data-s="about"        onclick="toggleNav()"><span class="sn-dot"></span><span class="sn-lbl">About</span></a>
   <a class="sn-item" href="#services"     data-s="services"     onclick="toggleNav()"><span class="sn-dot"></span><span class="sn-lbl">Services</span></a>
@@ -1192,7 +1225,12 @@ details.disc-drop .disc-body a:hover{color:rgba(212,175,106,.7)}
   <a class="sn-item" href="#products"    data-s="products"    onclick="toggleNav()"><span class="sn-dot"></span><span class="sn-lbl">Collections</span></a>
   <a class="sn-item" href="#showroom"    data-s="showroom"    onclick="toggleNav()"><span class="sn-dot"></span><span class="sn-lbl">Showroom</span></a>
   <a class="sn-item" href="#contact"     data-s="contact"     onclick="toggleNav()"><span class="sn-dot"></span><span class="sn-lbl">Contact</span></a>
+  <span class="mob-nav-div"></span>
+  <a class="sn-item mob-sub" href="guide.html"><span class="sn-dot"></span><span class="sn-lbl">Window &amp; Door Guide</span></a>
+  <a class="sn-item mob-sub" href="florida-zones.html"><span class="sn-dot"></span><span class="sn-lbl">Florida Code Zones</span></a>
+  <a class="mob-cta" href="#contact" onclick="toggleNav()">Request a Quote</a>
   <a class="nav-phone-mob" href="tel:3528877463">352-887-7463</a>
+ </div>
 </nav>
 
 <!-- NAV -->
@@ -1200,8 +1238,20 @@ details.disc-drop .disc-body a:hover{color:rgba(212,175,106,.7)}
   <div class="nav-inner">
     <a class="nav-logo" href="#hero"><img src="https://res.cloudinary.com/drhayhi5y/image/upload/e_bgremoval/e_trim/c_scale,h_50/f_png/v1775817870/IMG_4178_h2yjji.png" alt="Prime Windows &amp; Doors"></a>
     <span class="nav-brand">Prime<br>Windows &amp; Doors</span>
+    <div class="nav-menu">
+      <a class="nav-link" href="#about"        data-s="about">About</a>
+      <a class="nav-link" href="#services"     data-s="services">Services</a>
+      <a class="nav-link" href="#brands"        data-s="brands">Brands</a>
+      <a class="nav-link" href="#testimonials"  data-s="testimonials">Reviews</a>
+      <a class="nav-link" href="#products"     data-s="products">Collections</a>
+      <a class="nav-link" href="#showroom"     data-s="showroom">Showroom</a>
+      <span class="nav-sep"></span>
+      <a class="nav-link" href="guide.html">Guide</a>
+      <a class="nav-link" href="florida-zones.html">Zones</a>
+    </div>
     <div class="nav-right">
       <a class="nav-phone" href="tel:3528877463">352-887-7463</a>
+      <a class="nav-cta" href="#contact">Request a Quote</a>
     </div>
     <button class="ham" id="ham" onclick="toggleNav()"><span></span><span></span><span></span></button>
   </div>
@@ -1784,6 +1834,8 @@ window.addEventListener("scroll",function(){
 
   var SECTIONS = ['hero','about','services','brands','testimonials','products','showroom','contact'];
   var items = Array.from(sideNav.querySelectorAll('.sn-item'));
+  var topLinks = Array.from(document.querySelectorAll('#nav .nav-link[data-s]'));
+  var mobLinks = Array.from(document.querySelectorAll('#mobNav .sn-item[data-s]'));
   var dragging = false;
 
   function scrollMax(){ return _docMax; }   // cached at top level; refreshed on load/resize (no per-frame scrollHeight read)
@@ -1816,6 +1868,12 @@ window.addEventListener("scroll",function(){
     prog.style.height = Math.min(100, pct).toFixed(2) + '%';
     items.forEach(function(item){
       item.classList.toggle('sn-active', item.dataset.s === current);
+    });
+    topLinks.forEach(function(a){
+      a.classList.toggle('active', a.dataset.s === current);
+    });
+    mobLinks.forEach(function(a){
+      a.classList.toggle('active', a.dataset.s === current);
     });
   }
 
