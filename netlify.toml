@@ -6,3 +6,13 @@
 [build]
   publish = "."
   command = ""
+
+[[redirects]]
+  from = "/sebc"
+  to = "/"
+  status = 301
+
+[[redirects]]
+  from = "/sebc.html"
+  to = "/"
+  status = 301
