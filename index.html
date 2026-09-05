@@ -297,14 +297,41 @@ html.sn-dragging #snProgress{transition:none!important}
 .mob-nav.open a.nav-phone-mob{opacity:1;transform:translateY(0)}
 
 /* ═══════════════════════════════
-   HERO  —  prestige dark marble
+   HERO  —  Prime branding and the Ocala showroom
 ═══════════════════════════════ */
 #hero{
   min-height:100vh;
-  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  min-height:100svh;
+  display:flex;align-items:center;justify-content:center;
   position:relative;overflow:hidden;
-  padding:7rem 2rem 4rem;text-align:center;
+  padding:8rem clamp(2rem,6vw,7rem) 7rem;text-align:center;
   background:transparent;
+}
+.hero-layout{position:relative;z-index:1;width:100%;max-width:1440px;display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);align-items:center;gap:clamp(2rem,4vw,5rem)}
+.hero-content{min-width:0}
+.hero-showroom{min-width:0;margin:0;position:relative}
+.hero-showroom-picture{display:block;position:relative;overflow:hidden;aspect-ratio:1668/943;background:var(--bg2);border:1px solid var(--b3);border-radius:3px;box-shadow:0 24px 70px rgba(0,0,0,.35)}
+.hero-showroom-picture::after{content:'';position:absolute;inset:0;pointer-events:none;background:linear-gradient(180deg,transparent 72%,rgba(8,8,7,.18))}
+.hero-showroom-picture img{display:block;width:100%;height:100%;object-fit:cover;object-position:60% 62%}
+.hero-showroom figcaption{display:flex;align-items:center;gap:.8rem;margin-top:1rem;color:var(--t2);font-family:var(--mono);font-size:.875rem;line-height:1.5;letter-spacing:.05em}
+.hero-showroom figcaption::before{content:'';width:2rem;height:1px;background:var(--gold);flex-shrink:0}
+.hero-content .hero-logo-wrap img{width:min(270px,70%);max-height:200px;object-fit:contain}
+.hero-content .hero-prime{font-size:clamp(3.5rem,7.2vw,7rem)}
+.hero-content .hero-line2{font-size:clamp(1rem,2vw,2rem)}
+.hero-content .hero-line3,.hero-content .hero-line4{font-size:.875rem;line-height:1.6;letter-spacing:.12em}
+.hero-content .hero-line4{color:var(--t2)}
+.hero-content .hero-actions{gap:.9rem;flex-direction:column;align-items:center}
+.hero-content .hero-cta{width:100%;max-width:290px;min-width:0;padding:1rem 1.25rem;font-size:.875rem;letter-spacing:.08em}
+.hero-content .hero-cta:focus-visible{outline:2px solid var(--gold-pale);outline-offset:5px}
+@media(max-width:960px){
+  #hero{padding:7rem 2rem 5rem}
+  .hero-layout{max-width:720px;grid-template-columns:minmax(0,1fr);gap:2.5rem}
+  .hero-content .hero-logo-wrap img{width:200px;max-height:145px}
+  .hero-content .hero-prime{font-size:clamp(4rem,12vw,6.5rem)}
+  .hero-content .hero-line2{font-size:clamp(1.25rem,3.5vw,1.85rem)}
+  .hero-content .hero-actions{flex-direction:row;justify-content:center}
+  .hero-content .hero-cta{width:auto}
+  #hero .scroll-cue{display:none}
 }
 /* Hero grid hidden — replaced by star canvas */
 .hero-grid{display:none}
@@ -1004,7 +1031,14 @@ details.disc-drop .disc-body a:hover{color:rgba(212,175,106,.7)}
   .test-grid{grid-template-columns:1fr}
   #showroom{padding:5rem 0 4rem}
   /* hero text sizing */
-  #hero{padding:0 1.4rem;min-height:100svh;justify-content:center;gap:0}
+  #hero{padding:6.5rem 1.4rem 3rem;min-height:100svh;justify-content:center;gap:0}
+  .hero-layout{gap:2rem}
+  .hero-content .hero-logo-wrap img{width:min(160px,44vw);max-height:115px}
+  .hero-content .hero-prime{font-size:clamp(3.25rem,16vw,5.5rem)}
+  .hero-content .hero-line2{font-size:clamp(1rem,4.2vw,1.5rem)}
+  .hero-content .hero-actions{flex-direction:column}
+  .hero-content .hero-cta{width:100%;max-width:290px}
+  .hero-showroom figcaption{font-size:.875rem;margin-top:.8rem;letter-spacing:0}
   .hero-logo-wrap{margin-bottom:0!important;line-height:0;font-size:0}
   .hero-logo-wrap img{width:min(200px,52vw);display:block;margin:0 auto}
   .hero-eyebrow{margin:-.8rem 0 0!important}
@@ -1207,6 +1241,8 @@ details.disc-drop .disc-body a:hover{color:rgba(212,175,106,.7)}
 <section id="hero">
   <canvas id="heroStars"></canvas>
   <canvas id="heroPtcl"></canvas>
+  <div class="hero-layout">
+  <div class="hero-content">
   <div class="hero-logo-wrap">
     <img src="https://res.cloudinary.com/drhayhi5y/image/upload/e_bgremoval/e_trim/f_png/v1775817870/IMG_4178_h2yjji.png" alt="Prime Windows &amp; Doors">
   </div>
@@ -1219,6 +1255,15 @@ details.disc-drop .disc-body a:hover{color:rgba(212,175,106,.7)}
   <div class="hero-actions">
     <a href="#contact" class="btn-prim hero-cta">Request a Quote</a>
     <a href="#showroom" class="btn-prim hero-cta">Tour the Showroom</a>
+  </div>
+  </div>
+  <figure class="hero-showroom">
+    <picture class="hero-showroom-picture">
+      <source type="image/webp" srcset="images/prime-ocala-showroom-640.webp 640w, images/prime-ocala-showroom-1280.webp 1280w" sizes="(max-width:600px) calc(100vw - 2.8rem), (max-width:960px) min(720px, calc(100vw - 4rem)), (max-width:1800px) 51vw, 830px">
+      <img src="images/prime-ocala-showroom.jpg" width="1180" height="667" alt="Prime Windows &amp; Doors showroom in Ocala, with a columned entrance and Prime branded trailer beneath a live oak." fetchpriority="high" decoding="async">
+    </picture>
+    <figcaption>Our Ocala showroom</figcaption>
+  </figure>
   </div>
 
   <div class="scroll-cue" id="scrollCue" onclick="document.getElementById('about').scrollIntoView({behavior:'smooth'})">
