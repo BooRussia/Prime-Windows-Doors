@@ -128,7 +128,7 @@ body::-webkit-scrollbar{display:none}
 #nav.solid{background:rgba(8,8,7,.55);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);border-color:transparent}
 .nav-inner{max-width:1260px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;height:72px}
 .nav-logo{display:flex;align-items:center;text-decoration:none}
-.nav-logo img{height:58px;width:auto}
+.nav-logo img{display:block;height:58px;width:auto}
 .nav-brand{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);font-family:var(--sans);font-weight:800;font-size:clamp(.62rem,1.4vw,.88rem);letter-spacing:.16em;text-transform:uppercase;line-height:1.35;text-align:center;white-space:nowrap;background:linear-gradient(135deg,#e8c97a 0%,#f5d98a 30%,#c9a84c 55%,#f0d070 75%,#c9a84c 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;pointer-events:none;transition:opacity .3s}
 .nav-right{display:flex;align-items:center;gap:.8rem}
 
@@ -480,14 +480,18 @@ section{position:relative;z-index:1;}
 .mag-inner .stitle{color:#08080a;font-style:normal;}
 /* CINEMATIC GALLERY */
 #showcase{padding:0 0 6rem}
-.gallery{max-width:1260px;margin:0 auto;padding:0 2rem}
+/* Reserve room for the heading, navigation and thumbnails on shorter screens. */
+.gallery{width:100%;max-width:1260px;max-width:min(1260px,calc(max(10rem,100svh - 20rem) * 16 / 9 + 4rem));margin:0 auto;padding:0 2rem}
 .gallery-stage{position:relative;margin-bottom:1.2rem}
-.gallery-frame{position:relative;width:100%;aspect-ratio:16/10;border-radius:16px;overflow:hidden;background:#0a0a08;border:1px solid var(--b)}
+.gallery-frame{position:relative;width:100%;aspect-ratio:16/9;border-radius:16px;overflow:hidden;background:#0a0a08;border:1px solid var(--b)}
 .gallery-slides{position:absolute;inset:0}
 .gallery-slide{position:absolute;inset:0;opacity:0;z-index:0;overflow:hidden;transition:opacity .85s cubic-bezier(.4,0,.2,1)}
 .gallery-slide.active{opacity:1;z-index:2}
 .gallery-slide.out{z-index:1;transition-delay:.12s}
 .gallery-slide img{width:100%;height:100%;object-fit:cover;display:block;will-change:transform}
+/* The landscape frame matches the showroom photo without letterboxing. */
+.gallery-slide--showroom picture{position:absolute;inset:0;display:block}
+.gallery-slide--showroom img{position:relative;object-fit:cover;object-position:center;will-change:auto}
 @keyframes gKB1{from{transform:scale(1) translate(0,0)}to{transform:scale(1.07) translate(-.8%,-.4%)}}
 @keyframes gKB2{from{transform:scale(1) translate(0,0)}to{transform:scale(1.07) translate(.8%,-.4%)}}
 @keyframes gKB3{from{transform:scale(1) translate(0,0)}to{transform:scale(1.06) translate(0,-.8%)}}
@@ -521,8 +525,8 @@ section{position:relative;z-index:1;}
 .gallery-thumb img{width:100%;height:100%;object-fit:cover;display:block;pointer-events:none}
 @media(max-width:600px){
   #showcase{padding:0 0 4rem}
-  .gallery{padding:0 .75rem}
-  .gallery-frame{border-radius:12px;aspect-ratio:4/5}
+  .gallery{max-width:min(1260px,calc(max(10rem,100svh - 16rem) * 16 / 9 + 1.5rem));padding:0 .75rem}
+  .gallery-frame{border-radius:12px}
   .gallery-arrow{display:none}
   .gallery-info{padding:2rem 1rem 1rem}
   .gallery-counter{font-size:.62rem}
@@ -530,7 +534,6 @@ section{position:relative;z-index:1;}
   .gallery-thumb{width:56px;height:42px;border-radius:6px;border-width:1.5px}
 }
 @media(max-width:380px){
-  .gallery-frame{aspect-ratio:9/14}
   .gallery-thumb{width:48px;height:36px}
 }
 
@@ -1179,7 +1182,7 @@ details.disc-drop .disc-body a:hover{color:rgba(212,175,106,.7)}
 <!-- NAV -->
 <nav id="nav">
   <div class="nav-inner">
-    <a class="nav-logo" href="#hero"><img src="https://res.cloudinary.com/drhayhi5y/image/upload/e_bgremoval/e_trim/c_scale,h_50/f_png/v1775817870/IMG_4178_h2yjji.png" alt="Prime Windows &amp; Doors"></a>
+    <a class="nav-logo" href="#hero"><img src="images/prime-logo.png" width="542" height="317" alt="Prime Windows &amp; Doors"></a>
     <span class="nav-brand">Prime<br>Windows &amp; Doors</span>
     <div class="nav-right">
       <a class="nav-phone" href="tel:3528877463">352-887-7463</a>
@@ -1264,7 +1267,7 @@ details.disc-drop .disc-body a:hover{color:rgba(212,175,106,.7)}
   <div class="sec-num">01</div>
   <div class="showcase-hd rev">
     <div class="lbl" style="justify-content:center">Our Work</div>
-    <h2 class="stitle">Installed in <em>Beautiful Homes</em></h2>
+    <h2 class="stitle">Built for <em>Homes &amp; Businesses</em></h2>
   </div>
   <div class="gallery" id="gallery">
     <div class="gallery-stage">
@@ -1274,7 +1277,7 @@ details.disc-drop .disc-body a:hover{color:rgba(212,175,106,.7)}
         <button class="gallery-arrow gallery-prev" id="galleryPrev" aria-label="Previous image"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"></polyline></svg></button>
         <button class="gallery-arrow gallery-next" id="galleryNext" aria-label="Next image"><svg viewBox="0 0 24 24"><polyline points="9 6 15 12 9 18"></polyline></svg></button>
         <div class="gallery-info">
-          <div class="gallery-counter"><span class="gc-cur">01</span><span class="gc-sep">/</span><span class="gc-total">08</span></div>
+          <div class="gallery-counter"><span class="gc-cur">01</span><span class="gc-sep">/</span><span class="gc-total">09</span></div>
           <button class="gallery-pause" id="galleryPause" aria-label="Pause autoplay">
             <svg class="gp-ico gp-ico-pause" viewBox="0 0 24 24"><rect x="7" y="5" width="3.5" height="14" rx="1"/><rect x="13.5" y="5" width="3.5" height="14" rx="1"/></svg>
             <svg class="gp-ico gp-ico-play" viewBox="0 0 24 24"><polygon points="7 4 20 12 7 20"/></svg>
@@ -3424,14 +3427,14 @@ document.querySelectorAll("a[href^='#']").forEach(a=>a.addEventListener("click",
 })();
 
 
-// MAGNETIC TEXT â€” Beautiful Homes title
+// MAGNETIC TEXT — Our Work title
 (function(){
   var stitle = document.querySelector('.showcase-hd .stitle');
   if(!stitle) return;
   var em = stitle.querySelector('em');
   if(!em) return;
 
-  // wrap only the em (Beautiful Homes) in mag-wrap so “Installed in” is never obscured
+  // Wrap only the emphasized text so the heading's opening words stay visible.
   var wrap = document.createElement('div');
   wrap.className = 'mag-wrap';
   wrap.style.display = 'inline';
@@ -3487,6 +3490,7 @@ document.querySelectorAll("a[href^='#']").forEach(a=>a.addEventListener("click",
 // CINEMATIC GALLERY — Ken Burns, auto-advance, crossfade, swipe
 (function(){
   var images = [
+    'images/prime-ocala-showroom.jpg',
     'https://res.cloudinary.com/drhayhi5y/image/upload/v1773696820/PremiumCoastal_A1A_1-scaled_hkdm48.jpg',
     'https://res.cloudinary.com/drhayhi5y/image/upload/v1773696817/Contemporary_22834BeckledgeTerr_4-scaled_jhpro3.jpg',
     'https://res.cloudinary.com/drhayhi5y/image/upload/v1782049139/IMG_4631_nll8gy.jpg',
@@ -3522,7 +3526,23 @@ document.querySelectorAll("a[href^='#']").forEach(a=>a.addEventListener("click",
     img.alt = 'Prime Windows and Doors';
     img.loading = i < 2 ? 'eager' : 'lazy';
     img.draggable = false;
-    slide.appendChild(img);
+    if(i === 0){
+      slide.classList.add('gallery-slide--showroom');
+      img.alt = 'Prime Windows & Doors showroom in Ocala, with a columned entrance and Prime branded trailer beneath a live oak.';
+      img.width = 1180;
+      img.height = 667;
+      img.decoding = 'async';
+      var picture = document.createElement('picture');
+      var source = document.createElement('source');
+      source.type = 'image/webp';
+      source.srcset = 'images/prime-ocala-showroom-640.webp 640w, images/prime-ocala-showroom-1280.webp 1280w';
+      source.sizes = '(max-width:600px) calc(100vw - 1.5rem), (max-width:1260px) calc(100vw - 4rem), 1196px';
+      picture.appendChild(source);
+      picture.appendChild(img);
+      slide.appendChild(picture);
+    } else {
+      slide.appendChild(img);
+    }
     slidesEl.appendChild(slide);
   });
 
@@ -3530,9 +3550,9 @@ document.querySelectorAll("a[href^='#']").forEach(a=>a.addEventListener("click",
   images.forEach(function(src, i){
     var thumb = document.createElement('button');
     thumb.className = 'gallery-thumb' + (i === 0 ? ' active' : '');
-    thumb.setAttribute('aria-label', 'View image ' + (i + 1));
+    thumb.setAttribute('aria-label', i === 0 ? 'View our Ocala showroom' : 'View image ' + (i + 1));
     var img = document.createElement('img');
-    img.src = src;
+    img.src = i === 0 ? 'images/prime-ocala-showroom-640.webp' : src;
     img.alt = '';
     img.loading = 'lazy';
     img.draggable = false;
@@ -3547,6 +3567,7 @@ document.querySelectorAll("a[href^='#']").forEach(a=>a.addEventListener("click",
     var img = slide.querySelector('img');
     img.style.animation = 'none';
     img.style.animationPlayState = '';
+    if(slide.classList.contains('gallery-slide--showroom')) return;
     void img.offsetHeight;
     var kb = kbAnims[Math.floor(Math.random() * kbAnims.length)];
     img.style.animation = kb + ' ' + (autoDelay + 1000) + 'ms ease-out forwards';
