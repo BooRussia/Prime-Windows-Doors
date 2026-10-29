@@ -453,10 +453,21 @@ section{padding:8rem 2rem}
 /* "Push the house back" ~10% by giving the photo a smaller frame (object-fit:cover then renders it smaller):
    - tall screens (photo fills by height): full-width frame, 10% shorter, anchored at the bottom; the room it
      frees at the very top falls inside the solid-black part of the opening screen
-   - wide screens (photo fills by width): frame 10% narrower and centred, side edges feathered into black */
+   - wide screens (photo fills by width): frame 10% narrower and centred. The 5% strips either side are filled
+     with mirrored copies of the photo, rendered at exactly the same size/position and flipped, so the column
+     at each seam is identical on both sides (horizon, lawn and tree line run straight through) — no stretching.
+     The mirrored strips dim gently toward the page edge like a vignette. */
 .prime-bg-img{top:auto;bottom:0;height:90%}
+.prime-bg-ext{display:none;position:absolute;inset:0;overflow:hidden;z-index:0;pointer-events:none}
 @media (min-aspect-ratio:11/10){
-  .prime-bg-img{top:0;height:100%;left:5%;right:auto;width:90%;-webkit-mask-image:linear-gradient(to right,transparent 0,#000 9%,#000 91%,transparent 100%);mask-image:linear-gradient(to right,transparent 0,#000 9%,#000 91%,transparent 100%)}
+  .prime-bg-img{top:0;height:100%;left:5%;right:auto;width:90%}
+  .prime-bg-ext{display:block}
+  .prime-bg-ext::before,.prime-bg-ext::after{content:'';position:absolute;top:0;bottom:0;width:90%;transform:scaleX(-1);
+    background:url('assets/img/luxury-that-lasts-bg.webp') center bottom/cover no-repeat;
+    background-image:image-set(url('assets/img/luxury-that-lasts-bg.avif') type('image/avif'),url('assets/img/luxury-that-lasts-bg.webp') type('image/webp'))}
+  /* flipped, so each copy's local left edge lands on its outer side for ::after and on the seam for ::before */
+  .prime-bg-ext::before{right:95%;-webkit-mask-image:linear-gradient(to right,#000 0,rgba(0,0,0,.5) 5.6%);mask-image:linear-gradient(to right,#000 0,rgba(0,0,0,.5) 5.6%)}
+  .prime-bg-ext::after{left:95%;-webkit-mask-image:linear-gradient(to left,#000 0,rgba(0,0,0,.5) 5.6%);mask-image:linear-gradient(to left,#000 0,rgba(0,0,0,.5) 5.6%)}
 }
 .about-content{position:relative;z-index:3;padding:clamp(60px,9vh,130px) 2rem clamp(60px,8vh,120px);max-width:700px;margin:0 auto;text-align:center}
 .about-content .lbl{margin-bottom:1.2rem}
@@ -1294,6 +1305,7 @@ sup.ln{color:rgba(245,240,232,.5)}
 
 <!-- HERO + ABOUT share a single blended background image -->
 <div class="prime-bg-wrap">
+<div class="prime-bg-ext" aria-hidden="true"></div>
 <picture>
   <!-- full-size 1920x3080 AVIF (~380KB) where supported; 1247px WebP fallback for older browsers -->
   <source type="image/avif" srcset="assets/img/luxury-that-lasts-bg.avif">
