@@ -13,12 +13,15 @@
 
   function easeInOutQuart(t){ return t < .5 ? 8*t*t*t*t : 1 - Math.pow(-2*t + 2, 4) / 2; }
 
+  // opts.offset: px added to the target (e.g. -navHeight for a sticky header)
   window.primeScrollTo = function(target, opts){
-    var y = typeof target === 'number' ? target : target.getBoundingClientRect().top + window.scrollY;
+    opts = opts || {};
+    var y = (typeof target === 'number' ? target : target.getBoundingClientRect().top + window.scrollY) + (opts.offset || 0);
+    y = Math.max(0, y);
     if(lenis){
       // duration scales with distance: short hops feel crisp, long ones unhurried
       var duration = Math.min(2, Math.max(.9, Math.abs(y - window.scrollY) / 3000));
-      lenis.scrollTo(y, Object.assign({ duration: duration, easing: easeInOutQuart }, opts || {}));
+      lenis.scrollTo(y, { duration: opts.duration || duration, easing: easeInOutQuart, immediate: !!opts.immediate });
     } else {
       window.scrollTo({ top: y, behavior: reduce ? 'auto' : 'smooth' });
     }
@@ -48,6 +51,7 @@
     var t = document.querySelector(id);
     if(!t) return;
     e.preventDefault();
-    window.primeScrollTo(t);
+    // honour CSS scroll-margin-top so targets clear sticky headers
+    window.primeScrollTo(t, { offset: -(parseFloat(getComputedStyle(t).scrollMarginTop) || 0) });
   });
 })();
