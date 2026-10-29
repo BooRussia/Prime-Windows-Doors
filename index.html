@@ -843,6 +843,9 @@ details.disc-drop .disc-body a:hover{color:rgba(212,175,106,.7)}
 /* FLOAT DOCK */
 .float-dock{position:fixed;bottom:2rem;right:2rem;z-index:800;display:flex;flex-direction:column;gap:.6rem;align-items:stretch;width:148px;opacity:0;transform:translateY(16px);transition:opacity .4s,transform .4s;pointer-events:none}
 .float-dock.show{opacity:1;transform:translateY(0);pointer-events:all}
+/* tucks away while reading down the page (phones) and over the quote form; glides back on scroll-up / pause */
+.float-dock{transition:opacity .45s cubic-bezier(.22,1,.36,1),transform .55s cubic-bezier(.22,1,.36,1)}
+.float-dock.show.fd-tuck{opacity:0;transform:translateY(calc(100% + 2rem));pointer-events:none}
 .fd-btn{display:flex;align-items:center;justify-content:center;gap:.6rem;padding:.7rem 1.4rem;font-family:var(--mono);font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;border-radius:100px;text-decoration:none;transition:all .25s;white-space:nowrap;width:100%;box-sizing:border-box}
 .fd-call{background:var(--gold);color:var(--bg);box-shadow:0 4px 24px var(--gold-glow)}
 .fd-call:hover{background:var(--gold-pale);box-shadow:0 8px 36px var(--gold-glow2)}
@@ -1947,7 +1950,7 @@ window.addEventListener("scroll",function(){
 })();
 
 // MOBILE NAV
-function toggleNav(){const m=document.getElementById("mobNav"),h=document.getElementById("ham"),b=document.querySelector(".nav-brand");m.classList.toggle("open");h.classList.toggle("open");var open=m.classList.contains("open");document.body.style.overflow=open?"hidden":"";if(b)b.style.opacity=open?"0":"1";h.setAttribute("aria-expanded",open?"true":"false");h.setAttribute("aria-label",open?"Close menu":"Open menu");m.setAttribute("aria-hidden",open?"false":"true");if(window.primeLenis){open?window.primeLenis.stop():window.primeLenis.start()}}
+function toggleNav(){const m=document.getElementById("mobNav"),h=document.getElementById("ham"),b=document.querySelector(".nav-brand");m.classList.toggle("open");h.classList.toggle("open");var open=m.classList.contains("open");document.body.style.overflow=open?"hidden":"";if(b)b.style.opacity=open?"0":"1";h.setAttribute("aria-expanded",open?"true":"false");if(open){var f=m.querySelector(".sn-item");if(f)setTimeout(function(){f.focus({preventScroll:true})},300)}h.setAttribute("aria-label",open?"Close menu":"Open menu");m.setAttribute("aria-hidden",open?"false":"true");if(window.primeLenis){open?window.primeLenis.stop():window.primeLenis.start()}}
 document.addEventListener("keydown",function(e){if(e.key==="Escape"&&document.getElementById("mobNav").classList.contains("open")){toggleNav();document.getElementById("ham").focus()}});
 
 // REVEAL
@@ -2809,6 +2812,7 @@ document.querySelectorAll("a[href^='#']").forEach(a=>a.addEventListener("click",
 })();
 // HERO VISIBILITY — decorative hero loops sleep while the hero is off-screen and resume on return
 var heroVis={on:true,wait:[]};
+var _reduceMotion=window.matchMedia('(prefers-reduced-motion: reduce)').matches; // decorative loops hold still
 (function(){
   var h=document.getElementById('hero');
   if(!h||!('IntersectionObserver' in window))return;
@@ -2884,6 +2888,7 @@ var _dpr=Math.min(window.devicePixelRatio||1,2);
   var t=0;
   (function draw(){
     if(!heroVis.on){heroVis.wait.push(draw);return;}
+    if(_reduceMotion&&t>0)return;   // one still frame of stars, no motion
     requestAnimationFrame(draw);
     ctx.clearRect(0,0,W,H);
     t+=0.016;
@@ -3354,8 +3359,8 @@ var _dpr=Math.min(window.devicePixelRatio||1,2);
     var colors=['#b58f4a','#f5d97a','#fffbe6','#e2c06a','#d4af37','#fff8dc'];
     function frame(){
       if(Date.now()>end)return;
-      confetti({particleCount:3,angle:60,spread:52,startVelocity:62,origin:{x:0,y:0.55},colors:colors});
-      confetti({particleCount:3,angle:120,spread:52,startVelocity:62,origin:{x:1,y:0.55},colors:colors});
+      confetti({particleCount:3,angle:60,spread:52,startVelocity:62,origin:{x:0,y:0.55},colors:colors,disableForReducedMotion:true});
+      confetti({particleCount:3,angle:120,spread:52,startVelocity:62,origin:{x:1,y:0.55},colors:colors,disableForReducedMotion:true});
       requestAnimationFrame(frame);
     }
     frame();
@@ -3770,6 +3775,7 @@ var _dpr=Math.min(window.devicePixelRatio||1,2);
   }
 
   pauseBtn.addEventListener('click', function(){ setPaused(!isPaused); });
+  if(_reduceMotion) setPaused(true); // no autoplay / Ken Burns drift; arrows, thumbs and swipe still work
 
   // Touch swipe (mobile)
   var touchStartX = 0, touchStartY = 0, isSwiping = false;
@@ -4175,7 +4181,7 @@ var _dpr=Math.min(window.devicePixelRatio||1,2);
 
 // ─── CURSOR TRAIL ────────────────────────────────────────────────────────────
 (function(){
-  if(window.matchMedia('(hover:none)').matches) return;
+  if(window.matchMedia('(hover:none)').matches||_reduceMotion) return;
   var COUNT=12;
   var trail=[];
   var tx=window.innerWidth/2, ty=window.innerHeight/2;
@@ -4206,7 +4212,7 @@ var _dpr=Math.min(window.devicePixelRatio||1,2);
 // ─── HERO PARTICLES ──────────────────────────────────────────────────────────
 (function(){
   var canvas=document.getElementById('heroPtcl');
-  if(!canvas)return;
+  if(!canvas||_reduceMotion)return;
   var ctx=canvas.getContext('2d');
   var W,H,pts=[];
   function resize(){
@@ -4735,7 +4741,7 @@ var _dpr=Math.min(window.devicePixelRatio||1,2);
   }
   // sleep while the section is off-screen (it used to animate ~20 SVG paths every frame for the whole visit)
   var linesOn=false, linesRaf=false;
-  new IntersectionObserver(function(es){
+  if(!_reduceMotion) new IntersectionObserver(function(es){
     linesOn=es[0].isIntersecting;
     if(linesOn&&!linesRaf){linesRaf=true;requestAnimationFrame(tick);}
   }).observe(section);
@@ -5386,6 +5392,28 @@ html{background:#0a0a0f}
     if(es[0].isIntersecting){steps.classList.add('in');io.disconnect();}
   },{threshold:.3});
   io.observe(steps);
+})();
+
+// FLOAT DOCK — get out of the way: tuck while scrolling down on phones, and over the contact form
+(function(){
+  var dock=document.getElementById('floatDock'),contact=document.getElementById('contact');
+  if(!dock)return;
+  var small=window.matchMedia('(max-width:768px)'),lastY=window.scrollY,idle=null,overForm=false;
+  function sync(down){
+    var tuck=overForm||(small.matches&&down);
+    dock.classList.toggle('fd-tuck',tuck);
+  }
+  if(contact&&'IntersectionObserver' in window){
+    new IntersectionObserver(function(es){overForm=es[0].isIntersecting;sync(false);},{rootMargin:'-35% 0px -35% 0px'}).observe(contact);
+  }
+  window.addEventListener('scroll',function(){
+    var y=window.scrollY,dy=y-lastY;
+    if(Math.abs(dy)<6)return;
+    lastY=y;
+    sync(dy>0);
+    clearTimeout(idle);
+    idle=setTimeout(function(){sync(false);},900); // reappear once the reader pauses
+  },{passive:true});
 })();
 
 // QUOTE FORM — graceful "sending" state (the native Netlify POST still does the work)
