@@ -442,6 +442,11 @@ section{padding:8rem 2rem}
 #about::after{content:'';position:absolute;bottom:0;left:0;right:0;height:35%;background:linear-gradient(to bottom,transparent,#000000);pointer-events:none;z-index:2}
 /* Dark scrim behind text so it reads over the house image */
 #about::before{content:'';position:absolute;top:0;left:0;right:0;height:65%;background:linear-gradient(to bottom,rgba(0,0,0,0) 0%,rgba(0,0,0,.52) 22%,rgba(0,0,0,.38) 60%,transparent 100%);pointer-events:none;z-index:2}
+/* The opening screen sits on pure black (its own canvas stars + gold particles float over it). Directly
+   below, the night photo eases in from black — fully black where the particles end, clear just above the
+   roofline — and settles at a light 20% black over the house so the lit windows don't glare. */
+#hero{background:#000}
+#about{--fade:clamp(240px,40vh,440px);background:linear-gradient(to bottom,#000 0,rgba(0,0,0,.96) calc(var(--fade)*.14),rgba(0,0,0,.86) calc(var(--fade)*.3),rgba(0,0,0,.68) calc(var(--fade)*.47),rgba(0,0,0,.48) calc(var(--fade)*.64),rgba(0,0,0,.32) calc(var(--fade)*.8),rgba(0,0,0,.23) calc(var(--fade)*.92),rgba(0,0,0,.2) var(--fade),rgba(0,0,0,.2) 100%)}
 .about-content{position:relative;z-index:3;padding:clamp(60px,9vh,130px) 2rem clamp(60px,8vh,120px);max-width:700px;margin:0 auto;text-align:center}
 .about-content .lbl{margin-bottom:1.2rem}
 .about-content .stitle{font-size:clamp(3rem,5.5vw,5rem);margin-bottom:1.6rem;line-height:1.05;text-shadow:0 2px 24px rgba(0,0,0,.9),0 0 60px rgba(0,0,0,.6)}
