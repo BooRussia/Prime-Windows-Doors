@@ -442,13 +442,22 @@ section{padding:8rem 2rem}
 #about::after{content:'';position:absolute;bottom:0;left:0;right:0;height:35%;background:linear-gradient(to bottom,transparent,#000000);pointer-events:none;z-index:2}
 /* Dark scrim behind text so it reads over the house image */
 #about::before{content:'';position:absolute;top:0;left:0;right:0;height:65%;background:linear-gradient(to bottom,rgba(0,0,0,0) 0%,rgba(0,0,0,.52) 22%,rgba(0,0,0,.38) 60%,transparent 100%);pointer-events:none;z-index:2}
-/* Night photo fades up into the opening screen: solid black through the top 60% of the landing screen,
-   easing out across its bottom edge where the stars dissolve into the rising gold dust (#heroPtcl).
-   --land = the screen you land on (or the hero, if shorter), so short windows still see it,
-   then continuing under "Luxury That Lasts" and settling at a light 20% black over the house so the lit
-   windows don't glare. The two gradients meet at the same .5 at the hero/About seam. */
-#hero{--land:min(100%,100svh);background:linear-gradient(to bottom,#000 0,#000 calc(var(--land)*.6),rgba(0,0,0,.93) calc(var(--land)*.7),rgba(0,0,0,.8) calc(var(--land)*.8),rgba(0,0,0,.64) calc(var(--land)*.9),rgba(0,0,0,.5) var(--land),rgba(0,0,0,.5) 100%)}
-#about{--fade:clamp(220px,34vh,380px);background:linear-gradient(to bottom,rgba(0,0,0,.5) 0,rgba(0,0,0,.38) calc(var(--fade)*.25),rgba(0,0,0,.27) calc(var(--fade)*.55),rgba(0,0,0,.21) calc(var(--fade)*.85),rgba(0,0,0,.2) var(--fade),rgba(0,0,0,.2) 100%)}
+/* Night photo eases up into the opening screen as ONE continuous wash over the photo (it used to be two
+   section backgrounds that overlapped by 1px at the hero/About seam and drew a dark line):
+   - solid black through the top 60% of the landing screen (--land), where the logo and gold particles sit
+   - easing out across the landing screen's bottom edge, where the stars dissolve into the rising gold dust
+   - continuing under "Luxury That Lasts" and settling at 25% black over the house to soften the lit windows */
+.prime-bg-wrap{background:#000}
+.prime-bg-wrap::before{content:'';position:absolute;inset:0;z-index:1;pointer-events:none;--land:100svh;--fade:clamp(220px,34vh,380px);
+  background:linear-gradient(to bottom,#000 0,#000 calc(var(--land)*.6),rgba(0,0,0,.93) calc(var(--land)*.7),rgba(0,0,0,.8) calc(var(--land)*.8),rgba(0,0,0,.64) calc(var(--land)*.9),rgba(0,0,0,.5) var(--land),rgba(0,0,0,.41) calc(var(--land) + var(--fade)*.25),rgba(0,0,0,.32) calc(var(--land) + var(--fade)*.55),rgba(0,0,0,.26) calc(var(--land) + var(--fade)*.85),rgba(0,0,0,.25) calc(var(--land) + var(--fade)),rgba(0,0,0,.25) 100%)}
+/* "Push the house back" ~10% by giving the photo a smaller frame (object-fit:cover then renders it smaller):
+   - tall screens (photo fills by height): full-width frame, 10% shorter, anchored at the bottom; the room it
+     frees at the very top falls inside the solid-black part of the opening screen
+   - wide screens (photo fills by width): frame 10% narrower and centred, side edges feathered into black */
+.prime-bg-img{top:auto;bottom:0;height:90%}
+@media (min-aspect-ratio:11/10){
+  .prime-bg-img{top:0;height:100%;left:5%;right:auto;width:90%;-webkit-mask-image:linear-gradient(to right,transparent 0,#000 9%,#000 91%,transparent 100%);mask-image:linear-gradient(to right,transparent 0,#000 9%,#000 91%,transparent 100%)}
+}
 .about-content{position:relative;z-index:3;padding:clamp(60px,9vh,130px) 2rem clamp(60px,8vh,120px);max-width:700px;margin:0 auto;text-align:center}
 .about-content .lbl{margin-bottom:1.2rem}
 .about-content .stitle{font-size:clamp(3rem,5.5vw,5rem);margin-bottom:1.6rem;line-height:1.05;text-shadow:0 2px 24px rgba(0,0,0,.9),0 0 60px rgba(0,0,0,.6)}
