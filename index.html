@@ -1284,7 +1284,11 @@ sup.ln{color:rgba(245,240,232,.5)}
 
 <!-- HERO + ABOUT share a single blended background image -->
 <div class="prime-bg-wrap">
-<img class="prime-bg-img" src="assets/img/luxury-that-lasts-bg.webp" alt="" decoding="async" fetchpriority="high">
+<picture>
+  <!-- full-size 1920x3080 AVIF (~380KB) where supported; 1247px WebP fallback for older browsers -->
+  <source type="image/avif" srcset="assets/img/luxury-that-lasts-bg.avif">
+  <img class="prime-bg-img" src="assets/img/luxury-that-lasts-bg.webp" alt="" decoding="async" fetchpriority="high">
+</picture>
 <!-- HERO -->
 <section id="hero">
   <canvas id="heroStars"></canvas>
