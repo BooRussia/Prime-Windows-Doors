@@ -442,12 +442,13 @@ section{padding:8rem 2rem}
 #about::after{content:'';position:absolute;bottom:0;left:0;right:0;height:35%;background:linear-gradient(to bottom,transparent,#000000);pointer-events:none;z-index:2}
 /* Dark scrim behind text so it reads over the house image */
 #about::before{content:'';position:absolute;top:0;left:0;right:0;height:65%;background:linear-gradient(to bottom,rgba(0,0,0,0) 0%,rgba(0,0,0,.52) 22%,rgba(0,0,0,.38) 60%,transparent 100%);pointer-events:none;z-index:2}
-/* Night photo fades up into the opening screen: solid black through the upper half (where the gold
-   particles float), easing out through the hero's lower half so the stars climb toward the particles,
+/* Night photo fades up into the opening screen: solid black through the top 60% of the landing screen,
+   easing out across its bottom edge where the stars dissolve into the rising gold dust (#heroPtcl).
+   --land = the screen you land on (or the hero, if shorter), so short windows still see it,
    then continuing under "Luxury That Lasts" and settling at a light 20% black over the house so the lit
-   windows don't glare. The two gradients meet at the same .46 at the hero/About seam. */
-#hero{background:linear-gradient(to bottom,#000 0%,#000 50%,rgba(0,0,0,.95) 62%,rgba(0,0,0,.82) 74%,rgba(0,0,0,.64) 86%,rgba(0,0,0,.46) 100%)}
-#about{--fade:clamp(220px,34vh,380px);background:linear-gradient(to bottom,rgba(0,0,0,.46) 0,rgba(0,0,0,.36) calc(var(--fade)*.25),rgba(0,0,0,.27) calc(var(--fade)*.55),rgba(0,0,0,.21) calc(var(--fade)*.85),rgba(0,0,0,.2) var(--fade),rgba(0,0,0,.2) 100%)}
+   windows don't glare. The two gradients meet at the same .5 at the hero/About seam. */
+#hero{--land:min(100%,100svh);background:linear-gradient(to bottom,#000 0,#000 calc(var(--land)*.6),rgba(0,0,0,.93) calc(var(--land)*.7),rgba(0,0,0,.8) calc(var(--land)*.8),rgba(0,0,0,.64) calc(var(--land)*.9),rgba(0,0,0,.5) var(--land),rgba(0,0,0,.5) 100%)}
+#about{--fade:clamp(220px,34vh,380px);background:linear-gradient(to bottom,rgba(0,0,0,.5) 0,rgba(0,0,0,.38) calc(var(--fade)*.25),rgba(0,0,0,.27) calc(var(--fade)*.55),rgba(0,0,0,.21) calc(var(--fade)*.85),rgba(0,0,0,.2) var(--fade),rgba(0,0,0,.2) 100%)}
 .about-content{position:relative;z-index:3;padding:clamp(60px,9vh,130px) 2rem clamp(60px,8vh,120px);max-width:700px;margin:0 auto;text-align:center}
 .about-content .lbl{margin-bottom:1.2rem}
 .about-content .stitle{font-size:clamp(3rem,5.5vw,5rem);margin-bottom:1.6rem;line-height:1.05;text-shadow:0 2px 24px rgba(0,0,0,.9),0 0 60px rgba(0,0,0,.6)}
@@ -890,13 +891,7 @@ details.disc-drop .disc-body a:hover{color:rgba(212,175,106,.7)}
 
 /* HERO PARTICLES canvas */
 #heroPtcl{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:0}
-@media(max-width:768px){
-  #heroPtcl{
-    opacity:.45;
-    -webkit-mask-image:linear-gradient(to bottom,black 0%,black 55%,transparent 100%);
-    mask-image:linear-gradient(to bottom,black 0%,black 55%,transparent 100%);
-  }
-}
+
 
 /* KINETIC SECTION DIVIDER — gold sweep line */
 .sec-sweep{display:none}
@@ -4283,56 +4278,77 @@ onThree(function(){
   requestAnimationFrame(loop);
 })();
 
-// ─── HERO PARTICLES ──────────────────────────────────────────────────────────
+// ─── HERO PIXIE DUST ─────────────────────────────────────────────────────────
+// The night photo's stars fade out toward the top of the screen and "turn into" gold dust: motes are
+// born along the hero's bottom edge as cool star-white points, warm to gold as they rise and sway, and
+// fade out roughly a third of the way up. On landing, gold dust is creeping up from the bottom of the
+// screen, inviting a scroll. Count and rise height scale with the screen; motion is time-based.
 (function(){
   var canvas=document.getElementById('heroPtcl');
   if(!canvas||_reduceMotion)return;
   var ctx=canvas.getContext('2d');
-  var W,H,pts=[];
+  var W=0,H=0,BASE=0,RISE=300,pts=[];
+
+  // star-white -> champagne -> gold, pre-rendered as soft sprites (no per-frame shadowBlur)
+  var STEPS=10,sprites=[],C0=[226,232,255],C1=[246,224,160],C2=[212,175,106];
+  function mix(a,b,t){return[a[0]+(b[0]-a[0])*t,a[1]+(b[1]-a[1])*t,a[2]+(b[2]-a[2])*t];}
+  for(var k=0;k<STEPS;k++){
+    var u=k/(STEPS-1),c=u<.5?mix(C0,C1,u*2):mix(C1,C2,(u-.5)*2),rgb=(c[0]|0)+','+(c[1]|0)+','+(c[2]|0);
+    var cv=document.createElement('canvas');cv.width=cv.height=32;
+    var g=cv.getContext('2d'),rg=g.createRadialGradient(16,16,0,16,16,16);
+    rg.addColorStop(0,'rgba('+rgb+',1)');rg.addColorStop(.18,'rgba('+rgb+',.85)');rg.addColorStop(.42,'rgba('+rgb+',.2)');rg.addColorStop(1,'rgba('+rgb+',0)');
+    g.fillStyle=rg;g.fillRect(0,0,32,32);sprites.push(cv);
+  }
+
+  function spawn(p,first){
+    p.x=Math.random()*W;
+    p.y=BASE+4+Math.random()*16;                  // born just below the bottom of the landing screen
+    p.life=RISE*(.45+Math.random()*.55);          // each mote fades out at its own height
+    p.d=first?Math.random()*p.life:0;             // stagger the first frame so the band is already alive
+    p.v=14+Math.random()*30;                      // rise speed, px/s
+    p.r=.6+Math.random()*1.5;
+    p.sw=Math.random()*6.283;p.sf=.5+Math.random()*.9;p.sa=3+Math.random()*9;   // gentle sway
+    p.tw=Math.random()*6.283;p.tf=1.5+Math.random()*2.5;                         // twinkle
+    return p;
+  }
   function resize(){
-    W=canvas.offsetWidth; H=canvas.offsetHeight;
-    canvas.width=W*_dpr; canvas.height=H*_dpr; ctx.setTransform(_dpr,0,0,_dpr,0,0);
+    W=canvas.offsetWidth;H=canvas.offsetHeight;
+    canvas.width=W*_dpr;canvas.height=H*_dpr;ctx.setTransform(_dpr,0,0,_dpr,0,0);
+    BASE=Math.min(H,window.innerHeight);           // bottom of the screen you land on (hero may be taller)
+    RISE=Math.max(180,Math.min(440,BASE*.4));     // how far the dust climbs
+    var n=Math.round(Math.max(44,Math.min(160,W/9)));   // ~44 motes on phones, up to 160 on wide screens
+    pts.length=Math.min(pts.length,n);
+    for(var i=0;i<n;i++)pts[i]=spawn(pts[i]||{},true);
   }
-  // soft glow sprite, drawn once — replaces ctx.shadowBlur per particle per frame (very costly)
-  var glow=document.createElement('canvas');glow.width=glow.height=32;
-  (function(g){var rg=g.createRadialGradient(16,16,0,16,16,16);rg.addColorStop(0,'rgba(212,175,106,.75)');rg.addColorStop(.35,'rgba(212,175,106,.3)');rg.addColorStop(1,'rgba(212,175,106,0)');g.fillStyle=rg;g.fillRect(0,0,32,32);})(glow.getContext('2d'));
   resize();
-  var _cvW=window.innerWidth;window.addEventListener('resize',function(){if(window.innerWidth===_cvW)return;_cvW=window.innerWidth;resize();},{passive:true}); // width-only: skip canvas/particle rebuilds on iOS address-bar height toggles
-  var COUNT=window.innerWidth<=768?22:55;
-  for(var i=0;i<COUNT;i++){
-    pts.push({
-      x:Math.random()*W, y:H+Math.random()*H,
-      vx:(Math.random()-.5)*0.35, vy:-(0.25+Math.random()*0.65),
-      r:Math.random()*1.8+0.4,
-      a:Math.random(),
-      va: -(0.0015+Math.random()*0.002)  // fade in then out
-    });
-  }
-  function draw(){
-    if(!heroVis.on){heroVis.wait.push(draw);return;}
+  // rebuild on width changes; on touch screens ignore height-only changes (iOS address bar), on desktop follow them
+  var _cvW=window.innerWidth,_cvH=window.innerHeight,_coarse=window.matchMedia('(pointer:coarse)').matches;
+  window.addEventListener('resize',function(){
+    if(window.innerWidth===_cvW&&(_coarse||window.innerHeight===_cvH))return;
+    _cvW=window.innerWidth;_cvH=window.innerHeight;resize();
+  },{passive:true});
+
+  var last=0;
+  function draw(now){
+    if(!heroVis.on){heroVis.wait.push(draw);last=0;return;}
+    var dt=last?Math.min(.05,(now-last)/1000):.016;last=now;
     ctx.clearRect(0,0,W,H);
     for(var i=0;i<pts.length;i++){
       var p=pts[i];
-      p.x+=p.vx; p.y+=p.vy; p.a+=p.va;
-      if(p.a<=0||p.y<-10){
-        p.x=Math.random()*W; p.y=H+10;
-        p.a=0; p.va=0.002+Math.random()*0.002;
-        p.vx=(Math.random()-.5)*0.35;
-        p.vy=-(0.25+Math.random()*0.65);
-      }
-      if(p.a>0.55) p.va=-Math.abs(p.va);
-      var al=Math.max(0,p.a);
-      ctx.globalAlpha=al;
-      ctx.drawImage(glow,p.x-8,p.y-8,16,16);
-      ctx.beginPath();
-      ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
-      ctx.fillStyle='rgb(212,175,106)';
-      ctx.fill();
+      p.d+=p.v*dt;p.sw+=p.sf*dt;p.tw+=p.tf*dt;
+      if(p.d>=p.life){spawn(p,false);continue;}
+      var t=p.d/p.life;
+      // quick fade-in at the edge, long soft fade-out as it climbs, a little twinkle throughout
+      var a=(t<.1?t/.1:Math.pow(1-(t-.1)/.9,1.4))*(.72+.26*Math.sin(p.tw));
+      var spr=sprites[Math.min(STEPS-1,(t*2.6*STEPS)|0)];   // star-white at the edge, fully gold by ~40% of the climb
+      var sz=p.r*8,x=p.x+Math.sin(p.sw)*p.sa,y=p.y-p.d;
+      ctx.globalAlpha=a;
+      ctx.drawImage(spr,x-sz/2,y-sz/2,sz,sz);
     }
     ctx.globalAlpha=1;
     requestAnimationFrame(draw);
   }
-  draw();
+  requestAnimationFrame(draw);
 })();
 
 // ─── LABEL SCRAMBLE — section .lbl elements ─────────────────────────────────
