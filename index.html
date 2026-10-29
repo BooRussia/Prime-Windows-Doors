@@ -460,8 +460,10 @@ section{padding:8rem 2rem}
 #seBg{background:url("https://res.cloudinary.com/drhayhi5y/image/upload/f_auto,q_auto,w_2400/v1773696819/Contemporary_Silverthorne_1-scaled_tw2svx.jpg") center/cover no-repeat;opacity:0;}
 #seBg::after{content:"";position:absolute;inset:0;background:rgba(0,0,0,.45);pointer-events:none;}
 #seMedia{display:flex;align-items:center;justify-content:center;opacity:0;}
-#seImgWrap{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);border-radius:14px;overflow:hidden;box-shadow:0 0 80px rgba(0,0,0,.5);will-change:width,height,transform;}
-#seImgWrap img{width:100%;height:100%;object-fit:cover;display:block;}
+/* The card is a full-viewport layer cut to shape with clip-path (no per-frame layout); the photo is
+   scaled on the GPU so the framing matches object-fit:cover at the card's size. */
+#seImgWrap{position:absolute;inset:0;overflow:hidden;clip-path:inset(50% 50% round 14px);will-change:clip-path,transform;}
+#seImgWrap img{position:absolute;left:50%;top:50%;width:100%;height:100%;max-width:none;object-fit:cover;display:block;transform:translate(-50%,-50%);transform-origin:50% 50%;will-change:transform;}
 #seDim{position:absolute;inset:0;background:rgba(0,0,0,.5);}
 #seTitle{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.7rem;text-align:center;opacity:0;overflow:hidden;}
 #seTitleTop{font-family:var(--sans,sans-serif);font-size:clamp(2.4rem,7vw,8rem);font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:#f5f0e8;white-space:nowrap;will-change:transform;}
@@ -560,6 +562,8 @@ section{position:relative;z-index:1;}
 #brands::before{content:'';position:absolute;top:0;left:0;right:0;height:18rem;background:linear-gradient(to bottom,var(--bg),transparent);pointer-events:none;z-index:3}
 #brands::after{content:'';position:absolute;bottom:0;left:0;right:0;height:16rem;background:linear-gradient(to bottom,transparent,var(--bg2));pointer-events:none;z-index:3}
 #brandsDots{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:0;contain:strict}
+#brandsDots,#footerDots{opacity:0;transition:opacity 1.6s ease}
+#brandsDots.dots-on,#footerDots.dots-on{opacity:1}
 /* BRANDS — sparkle horizon layout */
 .brands-scroll-outer{position:relative;z-index:4;padding:8rem 2rem 0;overflow:hidden}
 .brands-top{text-align:center;margin-bottom:5rem}
@@ -1791,8 +1795,35 @@ sup.ln{color:rgba(245,240,232,.5)}
 <div id="cur"></div>
 <div id="cur-ring"></div>
 
-<script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
 <script>
+// THREE.JS — loaded lazily. It was ~670KB of parser-blocking script at the top of the page,
+// used only by the two decorative dot grids (brands + footer). Now it downloads off the
+// critical path: when the browser is idle after load, or as soon as either grid nears view.
+var __threeQ=[];
+function onThree(fn){ if(window.THREE) fn(); else __threeQ.push(fn); }
+(function(){
+  var started=false;
+  function load(){
+    if(started)return; started=true;
+    var s=document.createElement('script');
+    s.src='https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js';
+    s.async=true;
+    s.onload=function(){ var q=__threeQ; __threeQ=[]; q.forEach(function(f){ try{ f(); }catch(e){ console.error(e); } }); };
+    document.head.appendChild(s);
+  }
+  window.addEventListener('load',function(){
+    (window.requestIdleCallback||function(f){ setTimeout(f,1500); })(load,{timeout:4000});
+  });
+  if('IntersectionObserver' in window){
+    var near=new IntersectionObserver(function(es){
+      if(es.some(function(e){ return e.isIntersecting; })){ near.disconnect(); load(); }
+    },{rootMargin:'150% 0px'});
+    document.addEventListener('DOMContentLoaded',function(){
+      ['brandsDots','footerDots'].forEach(function(id){ var el=document.getElementById(id); if(el)near.observe(el); });
+    });
+  } else { load(); }
+})();
+
 // CURSOR
 const cur=document.getElementById("cur"),ring=document.getElementById("cur-ring");
 let mx=0,my=0,rx=0,ry=0;
@@ -3137,8 +3168,8 @@ var _dpr=Math.min(window.devicePixelRatio||1,2);
   update();
 })();
 
-// BRANDS DOTTED ROOM — same mouse-reactive Three.js effect as about section
-(function(){
+// BRANDS DOTTED ROOM — same mouse-reactive Three.js effect as about section (runs once three.js lazy-loads)
+onThree(function(){
   var section=document.getElementById('brands');
   var cvs=document.getElementById('brandsDots');
   if(!section||!cvs||typeof THREE==='undefined')return;
@@ -3244,10 +3275,11 @@ var _dpr=Math.min(window.devicePixelRatio||1,2);
 
   // one-time correction once layout settles — covers a 0-width section measurement at script-run time
   setTimeout(function(){var w=section.offsetWidth,h=section.offsetHeight;if(w&&w!==lastW){lastW=w;camera.aspect=w/h;camera.updateProjectionMatrix();renderer.setSize(w,h);dirty=true;}},350);
-})();
+  requestAnimationFrame(function(){ cvs.classList.add('dots-on'); });
+});
 
-// FOOTER DOTTED ROOM — same mouse-reactive Three.js effect
-(function(){
+// FOOTER DOTTED ROOM — same mouse-reactive Three.js effect (runs once three.js lazy-loads)
+onThree(function(){
   var section=document.querySelector('footer');
   var cvs=document.getElementById('footerDots');
   if(!section||!cvs||typeof THREE==='undefined')return;
@@ -3346,7 +3378,8 @@ var _dpr=Math.min(window.devicePixelRatio||1,2);
     clearTimeout(_rzT);
     _rzT=setTimeout(function(){var W=section.offsetWidth,H=section.offsetHeight;camera.aspect=W/H;camera.updateProjectionMatrix();renderer.setSize(W,H);dirty=true;},200);
   }).observe(section);
-})();
+  requestAnimationFrame(function(){ cvs.classList.add('dots-on'); });
+});
 
 // SCROLL CUE EASTER EGG — confetti cannons
 (function(){
@@ -3438,7 +3471,43 @@ var _dpr=Math.min(window.devicePixelRatio||1,2);
   fitFx();
 
   var mob = window.innerWidth < 768;
-  window.addEventListener("resize", function(){ mob = window.innerWidth < 768; fitFx(); update(); });
+
+  // Two viewport heights on purpose:
+  //  - vH (cached) drives scroll PROGRESS. Touch devices re-measure it only when the WIDTH changes,
+  //    so the iOS toolbar showing/hiding on a direction switch can't shift the progress mid-gesture.
+  //  - the live innerHeight drives the card GEOMETRY, so the card always fits the real screen.
+  var vW = 0, vH = 0, lastW = window.innerWidth;
+  var coarse = window.matchMedia('(pointer:coarse)').matches;
+  function measure(){ vW = document.documentElement.clientWidth; vH = window.innerHeight; }
+  measure();
+  window.addEventListener("resize", function(){
+    if(coarse && window.innerWidth === lastW) return;
+    lastW = window.innerWidth; mob = lastW < 768; fitFx(); measure(); update();
+  });
+
+  // The photo gets a natural-aspect box just big enough to cover the screen (resized only when the
+  // screen size changes); per frame we only scale it, so the framing matches object-fit:cover at
+  // the card's size and nothing triggers layout.
+  var img = imgWrap.querySelector('img'), iw = 2400, ih = 1600, boxW = 0, sizedW = -1, sizedH = -1;
+  function natural(){ if(img && img.naturalWidth){ iw = img.naturalWidth; ih = img.naturalHeight; sizedW = -1; } }
+  if(img){ if(img.complete) natural(); else img.addEventListener('load', function(){ natural(); update(); }); }
+  function sizePhoto(liveH){
+    if(!img || (vW === sizedW && liveH === sizedH)) return;
+    sizedW = vW; sizedH = liveH;
+    boxW = Math.max(vW, liveH * iw / ih);
+    img.style.width = boxW.toFixed(1) + 'px';
+    img.style.height = (boxW * ih / iw).toFixed(1) + 'px';
+  }
+  function photoScale(k){ if(img) img.style.transform = 'translate(-50%,-50%) scale(' + k.toFixed(4) + ')'; }
+
+  // Draw the card: a w×h window (rounded by br) centred on screen, lifted by slideVh.
+  function card(w, h, br, slideVh, liveH){
+    sizePhoto(liveH);
+    var x = Math.max(0, (vW - w) / 2), y = Math.max(0, (liveH - h) / 2);
+    imgWrap.style.clipPath = 'inset(' + y.toFixed(1) + 'px ' + x.toFixed(1) + 'px round ' + br.toFixed(1) + 'px)';
+    imgWrap.style.transform = slideVh ? 'translate3d(0,' + (-slideVh).toFixed(2) + 'vh,0)' : 'none';
+    photoScale(Math.max(w / iw, h / ih) * iw / boxW);
+  }
 
   function easeInOut(t){ return t<0.5?2*t*t:1-Math.pow(-2*t+2,2)/2; }
 
@@ -3454,14 +3523,10 @@ var _dpr=Math.min(window.devicePixelRatio||1,2);
     media.style.opacity = "1";
     title.style.opacity = '1';
     // image expands from card to fullscreen
-    var vW = window.innerWidth, vH = window.innerHeight;
+    var liveH = window.innerHeight;
     var w = (mob ? 300 + 650*e  : 300 + (vW-300)*e);
-    var h = 400 + (vH-400)*e;
-    var br= 14*(1-e);
-    imgWrap.style.transform    = 'translate(-50%,-50%)';
-    imgWrap.style.width        = w+"px";
-    imgWrap.style.height       = h+"px";
-    imgWrap.style.borderRadius = br+"px";
+    var h = 400 + (liveH-400)*e;
+    card(w, h, 14*(1-e), 0, liveH);
     // dim overlay lifts
     dim.style.opacity = String(Math.max(0, 0.5 - p*0.5));
     // title splits
@@ -3473,11 +3538,11 @@ var _dpr=Math.min(window.devicePixelRatio||1,2);
   }
 
   function setFullscreen(){
-    var vW=window.innerWidth, vH=window.innerHeight;
     bg.style.opacity="1";
     media.style.opacity="1";
-    imgWrap.style.width=vW+"px"; imgWrap.style.height=vH+"px";
-    imgWrap.style.borderRadius="0";
+    sizePhoto(window.innerHeight);
+    imgWrap.style.clipPath="none"; imgWrap.style.transform="none";
+    photoScale(1);
     dim.style.opacity="0";
     title.style.opacity="0";
     hint.style.opacity="0";
@@ -3485,7 +3550,6 @@ var _dpr=Math.min(window.devicePixelRatio||1,2);
 
   function update(){
     var r     = wrapper.getBoundingClientRect();
-    var vH    = window.innerHeight;
     var total = wrapper.offsetHeight - vH;
 
     if(r.top > vH){ hide(); return; }                        // fully above viewport
@@ -3497,10 +3561,7 @@ var _dpr=Math.min(window.devicePixelRatio||1,2);
       title.style.opacity = String(eap);
       hint.style.opacity = '0';
       var slideY = (1 - eap) * 40;
-      imgWrap.style.width     = (mob ? '280px' : '300px');
-      imgWrap.style.height    = (mob ? '350px' : '400px');
-      imgWrap.style.borderRadius = '14px';
-      imgWrap.style.transform = 'translate(-50%, calc(-50% - ' + slideY + 'vh))';
+      card(mob ? 280 : 300, mob ? 350 : 400, 14, slideY, window.innerHeight);
       tTop.style.transform = 'translateY(-' + ((1-eap)*30) + 'vh)';
       tBot.style.transform = 'translateY(-' + ((1-eap)*30) + 'vh)';
       return;
