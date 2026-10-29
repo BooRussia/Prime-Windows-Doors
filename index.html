@@ -457,7 +457,7 @@ section{padding:8rem 2rem}
 #seWrapper{height:300vh;position:relative;z-index:1;background:linear-gradient(to bottom,#06060a 0%,transparent 18%);}
 #seFx{position:fixed;inset:0;z-index:0;overflow:hidden;pointer-events:none;} /* clips the fixed expand layers so they can't bleed past the viewport on pinch-zoom-out */
 #seBg,#seMedia,#seTitle{position:absolute;inset:0;z-index:0;pointer-events:none;will-change:opacity,transform;}
-#seBg{background:url("https://res.cloudinary.com/drhayhi5y/image/upload/f_auto,q_auto,w_2400/v1773696819/Contemporary_Silverthorne_1-scaled_tw2svx.jpg") center/cover no-repeat;opacity:0;}
+#seBg{background:url("https://res.cloudinary.com/drhayhi5y/image/upload/f_auto,q_auto:best,c_limit,w_2400/v1773696819/Contemporary_Silverthorne_1-scaled_tw2svx.jpg") center/cover no-repeat;opacity:0;}
 #seBg::after{content:"";position:absolute;inset:0;background:rgba(0,0,0,.45);pointer-events:none;}
 #seMedia{display:flex;align-items:center;justify-content:center;opacity:0;}
 /* The card is a full-viewport layer cut to shape with clip-path (no per-frame layout); the photo is
@@ -1136,8 +1136,11 @@ details.disc-drop .disc-body a:hover{color:rgba(212,175,106,.7)}
 }
 
 /* ─── THE PRIME EXPERIENCE — process ─────────────────────── */
-#process{background:var(--bg2);padding:7rem 2rem 8.5rem;position:relative;overflow:hidden}
-#process::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 55% 45% at 50% 0%,rgba(181,143,74,.07),transparent 70%);pointer-events:none}
+/* sits between Luxury That Lasts and the scroll-expand photo: picks up About's fade-to-black, and its
+   own ::after fades that black back out into the photo (the job .prime-bg-wrap::after used to do) */
+#process{background:#000;padding:7rem 2rem 8.5rem;position:relative;z-index:2}
+#process::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 55% 40% at 50% 48%,rgba(181,143,74,.05),transparent 70%);pointer-events:none}
+#process::after{content:'';position:absolute;bottom:-12rem;left:0;right:0;height:12rem;background:linear-gradient(to bottom,#000000,transparent);pointer-events:none;z-index:2}
 .proc-hd{max-width:620px;margin:0 auto 5rem;text-align:center}
 .proc-steps{list-style:none;display:grid;grid-template-columns:repeat(4,1fr);gap:2.4rem;position:relative;max-width:1160px;margin:0 auto;padding:0}
 /* hairline that draws across the four numerals when the row scrolls in */
@@ -1281,7 +1284,7 @@ sup.ln{color:rgba(245,240,232,.5)}
 
 <!-- HERO + ABOUT share a single blended background image -->
 <div class="prime-bg-wrap">
-<img class="prime-bg-img" src="https://res.cloudinary.com/drhayhi5y/image/upload/f_auto,q_auto,w_2400/v1775936508/Untitled_design_1_ovs9no.png" alt="" decoding="async" fetchpriority="high">
+<img class="prime-bg-img" src="https://res.cloudinary.com/drhayhi5y/image/upload/f_auto,q_auto:best/v1775936508/Untitled_design_1_ovs9no.png" alt="" decoding="async" fetchpriority="high">
 <!-- HERO -->
 <section id="hero">
   <canvas id="heroStars"></canvas>
@@ -1319,12 +1322,30 @@ sup.ln{color:rgba(245,240,232,.5)}
 </section>
 </div><!-- /.prime-bg-wrap -->
 
+<!-- THE PRIME EXPERIENCE — what happens after you reach out -->
+<section id="process" aria-labelledby="processTitle">
+  <div class="wrap">
+    <div class="proc-hd">
+      <div class="lbl rev" style="justify-content:center">How It Works</div>
+      <h2 class="stitle rev rev-d1" id="processTitle" style="text-align:center">The Prime <em>Experience</em></h2>
+      <p class="ssub rev rev-d2" style="text-align:center;margin:0 auto">From the first conversation to the final walkthrough, one team carries your project with care.</p>
+    </div>
+    <ol class="proc-steps" id="procSteps">
+      <li class="proc-step"><span class="proc-n" aria-hidden="true">I</span><h3 class="proc-t">Consultation</h3><p class="proc-d">A free, unhurried conversation about your home, your style, and what you want your windows and doors to do.</p></li>
+      <li class="proc-step"><span class="proc-n" aria-hidden="true">II</span><h3 class="proc-t">Selection</h3><p class="proc-d">Compare premium brands side by side in our Ocala showroom and choose the glass, frames, and finishes made for Florida.</p></li>
+      <li class="proc-step"><span class="proc-n" aria-hidden="true">III</span><h3 class="proc-t">Precision Fit</h3><p class="proc-d">Every opening carefully measured, every unit custom sized to order. No shortcuts, no guesswork.</p></li>
+      <li class="proc-step"><span class="proc-n" aria-hidden="true">IV</span><h3 class="proc-t">White-Glove Install</h3><p class="proc-d">A clean, respectful installation, a final walkthrough together, and integrity behind every warranty.</p></li>
+    </ol>
+    <div class="proc-cta rev"><a href="#contact" class="btn-prim hero-cta">Request a Quote</a></div>
+  </div>
+</section>
+
 <!-- SCROLL EXPAND HERO -->
 <div id="seFx">
 <div id="seBg"></div>
 <div id="seMedia">
   <div id="seImgWrap">
-    <img src="https://res.cloudinary.com/drhayhi5y/image/upload/f_auto,q_auto,w_2400/v1773696807/PremiumCoastal_A1A_5-scaled_ylkn3i.jpg" alt="Coastal home with impact windows and doors by Prime Windows &amp; Doors" decoding="async">
+    <img src="https://res.cloudinary.com/drhayhi5y/image/upload/f_auto,q_auto:best,c_limit,w_2400/v1773696807/PremiumCoastal_A1A_5-scaled_ylkn3i.jpg" alt="Coastal home with impact windows and doors by Prime Windows &amp; Doors" decoding="async">
     <div id="seDim"></div>
   </div>
 </div>
@@ -1610,24 +1631,6 @@ sup.ln{color:rgba(245,240,232,.5)}
         </div>
       </div>
     </div>
-  </div>
-</section>
-
-<!-- THE PRIME EXPERIENCE — what happens after you reach out -->
-<section id="process" aria-labelledby="processTitle">
-  <div class="wrap">
-    <div class="proc-hd">
-      <div class="lbl rev" style="justify-content:center">How It Works</div>
-      <h2 class="stitle rev rev-d1" id="processTitle" style="text-align:center">The Prime <em>Experience</em></h2>
-      <p class="ssub rev rev-d2" style="text-align:center;margin:0 auto">From the first conversation to the final walkthrough, one team carries your project with care.</p>
-    </div>
-    <ol class="proc-steps" id="procSteps">
-      <li class="proc-step"><span class="proc-n" aria-hidden="true">I</span><h3 class="proc-t">Consultation</h3><p class="proc-d">A free, unhurried conversation about your home, your style, and what you want your windows and doors to do.</p></li>
-      <li class="proc-step"><span class="proc-n" aria-hidden="true">II</span><h3 class="proc-t">Selection</h3><p class="proc-d">Compare premium brands side by side in our Ocala showroom and choose the glass, frames, and finishes made for Florida.</p></li>
-      <li class="proc-step"><span class="proc-n" aria-hidden="true">III</span><h3 class="proc-t">Precision Fit</h3><p class="proc-d">Every opening carefully measured, every unit custom sized to order. No shortcuts, no guesswork.</p></li>
-      <li class="proc-step"><span class="proc-n" aria-hidden="true">IV</span><h3 class="proc-t">White-Glove Install</h3><p class="proc-d">A clean, respectful installation, a final walkthrough together, and integrity behind every warranty.</p></li>
-    </ol>
-    <div class="proc-cta rev"><a href="#contact" class="btn-prim hero-cta">Request a Quote</a></div>
   </div>
 </section>
 
@@ -3683,7 +3686,7 @@ onThree(function(){
   // f_auto/q_auto serves WebP/AVIF at a fraction of the weight; thumbs get a
   // tiny cropped rendition instead of the full original.
   function cld(src, t){ return src.replace('/image/upload/', '/image/upload/' + t + '/'); }
-  var SLIDE_T = 'f_auto,q_auto,w_2200', THUMB_T = 'f_auto,q_auto,c_fill,w_240,h_160';
+  var SLIDE_T = 'f_auto,q_auto:best,c_limit,w_2200', THUMB_T = 'f_auto,q_auto,c_fill,w_240,h_160';
 
   var kbAnims = ['gKB1','gKB2','gKB3','gKB4'];
   var gallery = document.getElementById('gallery');
