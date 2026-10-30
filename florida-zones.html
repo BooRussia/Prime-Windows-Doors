@@ -7,17 +7,29 @@
 <meta name="description" content="County-level reference map of Florida's High-Velocity Hurricane Zone, Wind-Borne Debris Region, and ultimate design wind speeds per the 2023 Florida Building Code (8th Edition) and ASCE 7-22.">
 <link rel="icon" type="image/png" href="Prime-favicon.png">
 <link rel="apple-touch-icon" href="Prime-favicon.png">
+<link rel="canonical" href="https://www.primewd.com/florida-zones.html">
+<meta name="theme-color" content="#080807">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Prime Windows &amp; Doors">
+<meta property="og:title" content="Florida Window &amp; Door Code Zones | Prime Windows &amp; Doors">
+<meta property="og:description" content="Interactive county map of Florida's High-Velocity Hurricane Zone, Wind-Borne Debris Region and design wind speeds.">
+<meta property="og:url" content="https://www.primewd.com/florida-zones.html">
+<meta property="og:image" content="https://www.primewd.com/og-image.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Geist+Mono:wght@400;500&family=Outfit:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/prime-polish.css">
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=JetBrains+Mono:wght@400;500&display=swap');
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-:root{--bg:#09090e;--bg2:#0d0f14;--surf:rgba(18,17,14,.92);--gold:#b58f4a;--gold-pale:#d4af6a;--gold-glow:rgba(181,143,74,.35);--t1:#f5f0e8;--t2:#b8b0a2;--t3:#706a5e;--b:rgba(255,255,255,.06);--b2:rgba(181,143,74,.15);--sans:'Outfit',sans-serif;--serif:'Cormorant Garamond',serif;--mono:'JetBrains Mono','Fira Code',monospace;--hvhz:#d8565a;--wbdr:#e8c37a;--w180:#7a1f28;--w170:#b83340;--w160:#d45a48;--w150:#d98a50;--w140:#d4b26a;--w130:#8fa67e;--w120:#4a7a8f;--w110:#36516b}
+:root{--bg:#080807;--bg2:#0c0b09;--surf:rgba(18,17,14,.92);--gold:#b58f4a;--gold-pale:#dfc07a;--gold-glow:rgba(181,143,74,.35);--t1:#f5f0e8;--t2:#b8b0a2;--t3:#887f72;--b:rgba(181,143,74,.1);--b2:rgba(181,143,74,.15);--sans:'Outfit',sans-serif;--serif:'Cormorant Garamond',serif;--mono:'Geist Mono',monospace;--hvhz:#d8565a;--wbdr:#e8c37a;--w180:#7a1f28;--w170:#b83340;--w160:#d45a48;--w150:#d98a50;--w140:#d4b26a;--w130:#8fa67e;--w120:#4a7a8f;--w110:#36516b}
 html{background:var(--bg);overflow-x:hidden}
 body{background:var(--bg);color:var(--t1);font-family:var(--sans);line-height:1.65;-webkit-font-smoothing:antialiased;min-height:100vh}
 a{color:var(--gold);text-decoration:none;transition:color .2s}
 a:hover{color:var(--gold-pale)}
 
-.back-bar{padding:1.5rem 2rem;border-bottom:1px solid var(--b);position:sticky;top:0;z-index:1000;background:rgba(9,9,14,.92);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
+.back-bar{padding:1.5rem 2rem;border-bottom:1px solid var(--b);position:sticky;top:0;z-index:1000;background:rgba(8,8,7,.86);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(12px)}
 .back-bar-inner{max-width:1320px;margin:0 auto;display:flex;align-items:center;justify-content:space-between}
 .back-btn{display:inline-flex;align-items:center;gap:.5rem;font-family:var(--mono);font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);padding:.5rem 1rem;border:1px solid var(--b2);border-radius:3px;transition:all .25s}
 .back-btn:hover{background:var(--gold);color:var(--bg);box-shadow:0 0 20px var(--gold-glow)}
@@ -43,7 +55,7 @@ a:hover{color:var(--gold-pale)}
 .zt-btn.active{background:rgba(181,143,74,.12);color:var(--gold-pale);border-color:var(--gold);box-shadow:0 0 14px var(--gold-glow)}
 .zt-btn.active::before{opacity:0}
 .zt-btn.active::after{background:var(--gold);border-color:var(--gold);box-shadow:0 0 8px var(--gold-glow),inset 0 0 0 2px rgba(9,9,14,.85)}
-.toggle-hint{text-align:center;font-family:var(--mono);font-size:.52rem;letter-spacing:.18em;text-transform:uppercase;color:var(--t3);margin-bottom:1rem;opacity:.65}
+.toggle-hint{text-align:center;font-family:var(--mono);font-size:.52rem;letter-spacing:.18em;text-transform:uppercase;color:var(--t3);margin-bottom:1rem}
 .aux-toggle{display:flex;justify-content:center;margin:0 0 1.4rem;gap:1rem;flex-wrap:wrap}
 .sat-switch{display:inline-flex;align-items:center;gap:.7rem;cursor:pointer;user-select:none;font-family:var(--mono);font-size:.58rem;letter-spacing:.18em;text-transform:uppercase;color:var(--t2);transition:color .22s}
 .sat-switch:hover{color:var(--gold-pale)}
@@ -72,7 +84,7 @@ a:hover{color:var(--gold-pale)}
 .legend{position:absolute;bottom:16px;left:16px;background:rgba(9,9,14,.88);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border:1px solid var(--b2);border-radius:3px;padding:.9rem 1.05rem;z-index:500;max-width:260px;font-family:var(--mono);transition:opacity .3s}
 .legend-section{margin-bottom:.7rem}
 .legend-section:last-child{margin-bottom:0}
-.legend-title{font-size:.5rem;letter-spacing:.22em;text-transform:uppercase;color:rgba(212,175,106,.75);margin-bottom:.45rem;font-weight:500}
+.legend-title{font-size:.56rem;letter-spacing:.22em;text-transform:uppercase;color:rgba(212,175,106,.75);margin-bottom:.45rem;font-weight:500}
 .legend-section + .legend-section{padding-top:.55rem;border-top:1px solid rgba(255,255,255,.05)}
 .legend-row{display:flex;align-items:center;gap:.6rem;margin-bottom:.3rem;font-size:.58rem;letter-spacing:.08em;color:var(--t2);line-height:1.4}
 .legend-row:last-child{margin-bottom:0}
@@ -108,16 +120,16 @@ a:hover{color:var(--gold-pale)}
 .info-close{position:absolute;top:10px;right:12px;width:22px;height:22px;display:flex;align-items:center;justify-content:center;border:none;background:transparent;color:var(--t3);cursor:pointer;font-family:var(--mono);font-size:1rem;transition:color .2s;line-height:1}
 .info-close:hover{color:var(--gold)}
 
-.hint{text-align:center;font-family:var(--mono);font-size:.55rem;letter-spacing:.16em;text-transform:uppercase;color:var(--t3);margin-top:1.1rem;opacity:.7}
+.hint{text-align:center;font-family:var(--mono);font-size:.55rem;letter-spacing:.16em;text-transform:uppercase;color:var(--t3);margin-top:1.1rem}
 
 .sources-block{margin-top:3.5rem;padding:2rem 2rem 1.6rem;border:1px solid var(--b);border-radius:3px;background:rgba(255,255,255,.015)}
 .sources-title{font-family:var(--mono);font-size:.5rem;letter-spacing:.22em;text-transform:uppercase;color:rgba(212,175,106,.65);margin-bottom:1rem}
 .sources-list{list-style:none;display:flex;flex-direction:column;gap:.45rem;counter-reset:src}
-.sources-list li{display:flex;gap:.6rem;align-items:baseline;font-family:var(--mono);font-size:.58rem;letter-spacing:.06em;color:rgba(245,240,232,.42);line-height:1.65}
+.sources-list li{display:flex;gap:.6rem;align-items:baseline;font-family:var(--mono);font-size:.62rem;letter-spacing:.06em;color:rgba(245,240,232,.62);line-height:1.65}
 .sources-list li::before{counter-increment:src;content:counter(src);color:rgba(212,175,106,.7);font-weight:600;min-width:.9rem;font-size:.6rem}
 .sources-list a{color:inherit;border-bottom:1px dotted rgba(212,175,106,.22);transition:color .2s,border-color .2s;padding-bottom:1px}
 .sources-list a:hover{color:var(--gold);border-bottom-color:var(--gold)}
-.disclaimer{font-family:var(--mono);font-size:.52rem;letter-spacing:.08em;color:rgba(245,240,232,.32);margin-top:1.3rem;padding-top:1rem;border-top:1px solid rgba(255,255,255,.04);line-height:1.75}
+.disclaimer{font-family:var(--mono);font-size:.6rem;letter-spacing:.08em;color:rgba(245,240,232,.58);margin-top:1.3rem;padding-top:1rem;border-top:1px solid rgba(255,255,255,.04);line-height:1.75}
 .disclaimer strong{color:rgba(212,175,106,.82);font-weight:600}
 
 .verify-block{margin-top:3rem;padding:2rem 2rem 1.8rem;border:1px solid var(--b2);border-radius:3px;background:linear-gradient(135deg,rgba(181,143,74,.04) 0%,rgba(181,143,74,0) 100%)}
@@ -153,7 +165,8 @@ a:hover{color:var(--gold-pale)}
   .page-title{font-size:clamp(1.7rem,6vw,2.4rem)}
   .page-sub{font-size:1rem}
   .zone-toggle{gap:.35rem;margin:1.2rem 0 .7rem}
-  .zt-btn{flex:1 1 calc(50% - .2rem);min-width:0;padding:.7rem .35rem;font-size:.54rem;letter-spacing:.1em}
+  .zt-btn{flex:1 1 calc(50% - .2rem);min-width:0;padding:.7rem .35rem .7rem 1.75rem;font-size:.54rem;letter-spacing:.1em}
+  .zt-btn::after{left:.6rem}
   .aux-toggle{margin:0 0 1rem}
   .sat-switch{font-size:.54rem;letter-spacing:.14em}
   #flMap{height:min(62vh, 520px);min-height:380px}
@@ -193,6 +206,8 @@ a:hover{color:var(--gold-pale)}
   .info-close{width:32px;height:32px;font-size:1.3rem}
   .zt-btn{min-height:42px}
 }
+.map-wheel-hint{position:absolute;inset:0;z-index:900;display:flex;align-items:center;justify-content:center;background:rgba(8,8,7,.55);color:var(--t1);font-family:var(--mono);font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;pointer-events:none;opacity:0;transition:opacity .35s ease}
+.map-wheel-hint.show{opacity:1}
 </style>
 </head>
 <body>
@@ -330,10 +345,23 @@ a:hover{color:var(--gold-pale)}
 </div>
 
 <script src="data/florida-counties.js"></script>
-<script src="data/florida-state.js"></script>
-<script src="data/florida-coastal-1mi.js"></script>
-<script src="data/florida-wind-zones-cat2.js"></script>
 <script>
+// Off-by-default overlays load on first toggle (coastal 178 KB, wind lines 21 KB).
+window.__loadGeo = (function(){
+  var state = {};
+  return function(src, name, cb){
+    if(window[name]){ cb(); return; }
+    var q = state[src];
+    if(q === 'failed') return;
+    if(q){ q.push(cb); return; }
+    state[src] = [cb];
+    var s = document.createElement('script');
+    s.src = src;
+    s.onload = function(){ var w = state[src]; state[src] = 'done'; w.forEach(function(f){ f(); }); };
+    s.onerror = function(){ console.error('Failed to load ' + src); state[src] = 'failed'; };
+    document.head.appendChild(s);
+  };
+})();
 // FEMA V-zones (1.35 MB) is heavy — load lazily only when the toggle is
 // first activated, so the page boot stays fast for users who never open it.
 window.__loadFemaVZones = function(cb){
@@ -570,8 +598,22 @@ map.scrollWheelZoom.disable();
     map.setZoomAround(pending.ll, pending.z, {animate:false});
     pending = null;
   }
+  var hint = document.createElement('div');
+  hint.className = 'map-wheel-hint';
+  hint.textContent = (/Mac|iPhone|iPad/.test(navigator.platform) ? '\u2318' : 'Ctrl') + ' + scroll to zoom the map';
+  container.appendChild(hint);
+  var hintTimer = null;
   container.addEventListener('wheel', function(e){
+    if(!e.ctrlKey && !e.metaKey){
+      // let the page keep scrolling; just remind how to zoom
+      hint.classList.add('show');
+      clearTimeout(hintTimer);
+      hintTimer = setTimeout(function(){ hint.classList.remove('show'); }, 1300);
+      return;
+    }
     e.preventDefault();
+    e.stopPropagation();
+    hint.classList.remove('show');
     var rect = container.getBoundingClientRect();
     var point = L.point(e.clientX - rect.left, e.clientY - rect.top);
     var ll = map.containerPointToLatLng(point);
@@ -712,6 +754,10 @@ function coast1Style(){
 
 function ensureCoast1Layer(){
   if(activeLayers.coast1){
+    if(!window.FL_COASTAL_1MI){
+      window.__loadGeo('data/florida-coastal-1mi.js','FL_COASTAL_1MI',function(){ if(activeLayers.coast1) ensureCoast1Layer(); });
+      return;
+    }
     if(!coast1Layer && window.FL_COASTAL_1MI){
       coast1Layer = L.geoJSON(window.FL_COASTAL_1MI,{
         style:coast1Style,
@@ -809,6 +855,10 @@ function ensureVZoneLayer(){
 
 function ensureWindLinesLayer(){
   if(activeLayers.windlines){
+    if(!window.FL_WIND_ZONES_2023){
+      window.__loadGeo('data/florida-wind-zones-cat2.js','FL_WIND_ZONES_2023',function(){ if(activeLayers.windlines) ensureWindLinesLayer(); });
+      return;
+    }
     if(!windLinesLayer && window.FL_WIND_ZONES_2023){
       windLinesLayer = L.geoJSON(window.FL_WIND_ZONES_2023,{
         style:windLineStyle,
@@ -996,5 +1046,7 @@ renderLayer();
 renderLegend();
 resetVerifyTarget();
 </script>
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.20/dist/lenis.min.js"></script>
+<script src="assets/prime-polish.js"></script>
 </body>
 </html>

@@ -5,9 +5,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>The Complete Window &amp; Door Guide | Prime Windows &amp; Doors</title>
     <meta name="description" content="Prime Windows &amp; Doors' authoritative guide to windows and doors — glass science, energy ratings, Florida hurricane codes, buying tips, and more. Serving Ocala and all of Florida.">
+    <link rel="icon" type="image/png" href="Prime-favicon.png">
+    <link rel="apple-touch-icon" href="Prime-favicon.png">
+    <link rel="canonical" href="https://www.primewd.com/guide.html">
+    <meta name="theme-color" content="#080807">
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="Prime Windows &amp; Doors">
+    <meta property="og:title" content="The Complete Window &amp; Door Guide | Prime Windows &amp; Doors">
+    <meta property="og:description" content="Glass science, energy ratings, Florida hurricane codes and buying tips — the complete guide to windows and doors from Prime Windows &amp; Doors in Ocala, FL.">
+    <meta property="og:url" content="https://www.primewd.com/guide.html">
+    <meta property="og:image" content="https://www.primewd.com/og-image.jpg">
+    <meta name="twitter:card" content="summary_large_image">
+    <link rel="stylesheet" href="assets/prime-polish.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:wght@600;700;800;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Geist+Mono:wght@400;500&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
     <style>
@@ -31,17 +43,17 @@
             --text-muted:    #887f72;
             --text-soft:     #b8b0a2;
             --white:         #f5f0e8;
-            --radius-sm:     8px;
-            --radius:        14px;
-            --radius-lg:     20px;
-            --radius-xl:     28px;
+            --radius-sm:     4px;
+            --radius:        8px;
+            --radius-lg:     12px;
+            --radius-xl:     16px;
             --nav-h:         70px;
         }
 
         body {
             background: var(--bg);
             color: var(--text);
-            font-family: 'Inter', sans-serif;
+            font-family: 'Outfit', sans-serif;
             line-height: 1.8;
             -webkit-font-smoothing: antialiased;
             overflow-x: hidden;
@@ -53,7 +65,7 @@
         ::-webkit-scrollbar-thumb:hover { background: var(--gold); }
 
         h1, h2, h3, h4 {
-            font-family: 'Barlow', sans-serif;
+            font-family: 'Outfit', sans-serif;
             font-weight: 800;
             line-height: 1.15;
             color: var(--white);
@@ -115,7 +127,7 @@
         .nav-brand-text { display: flex; flex-direction: column; }
 
         .nav-brand-title {
-            font-family: 'Barlow', sans-serif;
+            font-family: 'Outfit', sans-serif;
             font-weight: 800;
             font-size: 0.92rem;
             letter-spacing: 0.04em;
@@ -125,7 +137,7 @@
         }
 
         .nav-brand-sub {
-            font-family: 'Inter', sans-serif;
+            font-family: 'Outfit', sans-serif;
             font-size: 0.58rem;
             font-weight: 500;
             letter-spacing: 0.18em;
@@ -144,7 +156,7 @@
         @media (min-width: 1024px) { .nav-links { display: flex; } }
 
         .nav-link {
-            font-family: 'Inter', sans-serif;
+            font-family: 'Outfit', sans-serif;
             font-size: 0.73rem;
             font-weight: 500;
             letter-spacing: 0.05em;
@@ -169,7 +181,7 @@
             padding: 8px 18px;
             background: var(--gold);
             color: #080807;
-            font-family: 'Inter', sans-serif;
+            font-family: 'Outfit', sans-serif;
             font-size: 0.68rem;
             font-weight: 700;
             letter-spacing: 0.12em;
@@ -197,7 +209,7 @@
             padding: 7px 16px;
             background: transparent;
             color: var(--gold);
-            font-family: 'Inter', sans-serif;
+            font-family: 'Outfit', sans-serif;
             font-size: 0.68rem;
             font-weight: 600;
             letter-spacing: 0.10em;
@@ -234,6 +246,12 @@
         .hamburger:hover { background: var(--gold-glow); border-color: var(--gold-border-h); }
 
         @media (min-width: 1024px) { .hamburger { display: none; } }
+        @media (max-width: 640px) {
+            .nav-brand { min-width: 0; }
+            .nav-brand-text { display: none; }
+            .nav-actions .btn-gold { display: none; }
+            .nav-actions .btn-ghost-nav span { display: none; }
+        }
 
         /* ===== MOBILE DRAWER ===== */
         .mobile-drawer {
@@ -279,7 +297,7 @@
         }
 
         .drawer-header span {
-            font-family: 'Barlow', sans-serif;
+            font-family: 'Outfit', sans-serif;
             font-size: 1rem;
             font-weight: 800;
             color: var(--white);
@@ -348,7 +366,7 @@
             padding: 12px;
             background: var(--gold);
             color: #080807;
-            font-family: 'Inter', sans-serif;
+            font-family: 'Outfit', sans-serif;
             font-size: 0.72rem;
             font-weight: 700;
             letter-spacing: 0.12em;
@@ -422,7 +440,7 @@
         }
 
         .hero-eyebrow {
-            font-family: 'Inter', sans-serif;
+            font-family: 'Outfit', sans-serif;
             font-size: 0.65rem;
             font-weight: 600;
             letter-spacing: 0.22em;
@@ -433,11 +451,12 @@
         }
 
         .hero-title {
-            font-family: 'Bebas Neue', sans-serif;
-            font-size: clamp(2.8rem, 8.5vw, 7rem);
-            font-weight: 400;
-            line-height: 0.95;
-            letter-spacing: 0.025em;
+            font-family: 'Outfit', sans-serif;
+            font-size: clamp(2.3rem, 6.4vw, 5.6rem);
+            font-weight: 800;
+            line-height: 1.02;
+            letter-spacing: 0.03em;
+            text-transform: uppercase;
             color: var(--white);
             margin-bottom: 26px;
         }
@@ -471,7 +490,7 @@
             padding: 13px 28px;
             background: var(--gold);
             color: #080807;
-            font-family: 'Barlow', sans-serif;
+            font-family: 'Outfit', sans-serif;
             font-size: 0.82rem;
             font-weight: 800;
             letter-spacing: 0.12em;
@@ -496,7 +515,7 @@
             padding: 12px 26px;
             background: transparent;
             color: var(--gold);
-            font-family: 'Barlow', sans-serif;
+            font-family: 'Outfit', sans-serif;
             font-size: 0.82rem;
             font-weight: 700;
             letter-spacing: 0.10em;
@@ -536,7 +555,7 @@
         .hero-card-icon { font-size: 2.4rem; margin-bottom: 18px; display: block; }
 
         .hero-card h3 {
-            font-family: 'Barlow', sans-serif;
+            font-family: 'Outfit', sans-serif;
             font-size: 1.15rem;
             font-weight: 800;
             margin-bottom: 12px;
@@ -605,7 +624,7 @@
         .toc-card-header i { color: var(--gold); font-size: 0.78rem; }
 
         .toc-card-header span {
-            font-family: 'Barlow', sans-serif;
+            font-family: 'Outfit', sans-serif;
             font-size: 0.78rem;
             font-weight: 800;
             color: var(--white);
@@ -660,7 +679,7 @@
             padding: 11px;
             background: var(--gold);
             color: #080807;
-            font-family: 'Inter', sans-serif;
+            font-family: 'Outfit', sans-serif;
             font-size: 0.65rem;
             font-weight: 700;
             letter-spacing: 0.12em;
@@ -743,7 +762,7 @@
         }
 
         .toc-overlay-header span {
-            font-family: 'Barlow', sans-serif;
+            font-family: 'Outfit', sans-serif;
             font-size: 1rem;
             font-weight: 800;
             color: var(--white);
@@ -809,7 +828,9 @@
             margin-bottom: 16px;
         }
 
-        .section > h1 {
+        .florida-wrap > h2.sec-h { font-size: 2rem; }
+
+        .section > h1, .section > h2.sec-h {
             font-size: clamp(1.8rem, 3.8vw, 2.6rem);
             letter-spacing: 0.02em;
             margin-bottom: 6px;
@@ -826,7 +847,7 @@
         }
 
         .subsection-title {
-            font-family: 'Barlow', sans-serif;
+            font-family: 'Outfit', sans-serif;
             font-weight: 800;
             font-size: clamp(1.1rem, 2.3vw, 1.5rem);
             letter-spacing: 0.04em;
@@ -985,7 +1006,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            font-family: 'Barlow', sans-serif;
+            font-family: 'Outfit', sans-serif;
             font-size: 0.85rem;
             font-weight: 900;
             color: #080807;
@@ -1033,7 +1054,7 @@
         .material-card:hover { border-color: var(--gold-border-h); }
 
         .material-pct {
-            font-family: 'Bebas Neue', sans-serif;
+            font-family: 'Anton', sans-serif;
             font-size: 2rem;
             color: var(--gold);
             line-height: 1;
@@ -1099,7 +1120,7 @@
         }
 
         .surface-card .s-num {
-            font-family: 'Bebas Neue', sans-serif;
+            font-family: 'Anton', sans-serif;
             font-size: 2rem;
             color: var(--gold);
             line-height: 1;
@@ -1151,7 +1172,7 @@
         .table-bar i { color: var(--gold); font-size: 0.8rem; }
 
         .table-bar span {
-            font-family: 'Barlow', sans-serif;
+            font-family: 'Outfit', sans-serif;
             font-size: 0.78rem;
             font-weight: 800;
             color: var(--white);
@@ -1342,7 +1363,7 @@
         }
 
         .footer-col-title {
-            font-family: 'Barlow', sans-serif;
+            font-family: 'Outfit', sans-serif;
             font-size: 0.68rem;
             font-weight: 800;
             letter-spacing: 0.18em;
@@ -1357,7 +1378,7 @@
         .footer-col a:hover { color: var(--gold-light); }
 
         .footer-phone {
-            font-family: 'Inter', sans-serif;
+            font-family: 'Outfit', sans-serif;
             font-size: 0.88rem;
             font-weight: 600;
             letter-spacing: 0.06em;
@@ -1393,7 +1414,7 @@
             display: inline-flex;
             align-items: center;
             gap: 7px;
-            font-family: 'Inter', sans-serif;
+            font-family: 'Outfit', sans-serif;
             font-size: 0.68rem;
             font-weight: 600;
             letter-spacing: 0.10em;
@@ -1462,7 +1483,7 @@
         <div class="drawer-panel">
             <div class="drawer-header">
                 <span>Navigation</span>
-                <button class="icon-btn" onclick="closeDrawer()"><i class="fa-solid fa-xmark"></i></button>
+                <button class="icon-btn" onclick="closeDrawer()" aria-label="Close menu"><i class="fa-solid fa-xmark"></i></button>
             </div>
             <nav class="drawer-nav">
                 <button class="drawer-nav-link" onclick="goTo('fundamentals');closeDrawer()">
@@ -1485,7 +1506,7 @@
                 </button>
             </nav>
             <div class="drawer-cta">
-                <a href="index.html">Get a Free Quote — 352-887-7463</a>
+                <a href="index.html#contact">Get a Free Quote — 352-887-7463</a>
             </div>
         </div>
     </div>
@@ -1511,15 +1532,15 @@
                             Start Reading
                             <i class="fa-solid fa-arrow-right"></i>
                         </button>
-                        <a class="btn-hero-ghost" href="index.html">
-                            <i class="fa-solid fa-phone"></i>
+                        <a class="btn-hero-ghost" href="index.html#contact">
+                            <i class="fa-solid fa-arrow-right"></i>
                             Get a Free Quote
                         </a>
                     </div>
                 </div>
 
                 <div class="hero-card">
-                    <span class="hero-card-icon">🏠</span>
+                    <span class="hero-card-icon" aria-hidden="true"><svg width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="#b58f4a" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h14V9.5"/><rect x="9.5" y="13" width="5" height="5"/><path d="M12 13v5M9.5 15.5h5"/></svg></span>
                     <h3>Built for Florida Homeowners</h3>
                     <p>From glass manufacturing science to hurricane-proof certification — one authoritative source for everything fenestration.</p>
                     <div class="hero-checklist">
@@ -1561,7 +1582,7 @@
                 </div>
                 <ul class="toc-list" id="toc-list"></ul>
                 <div class="toc-cta">
-                    <a href="index.html">
+                    <a href="index.html#contact">
                         <i class="fa-solid fa-phone"></i>
                         Free Quote · 352-887-7463
                     </a>
@@ -1575,7 +1596,7 @@
             <!-- SECTION 1 · FUNDAMENTALS -->
             <section id="fundamentals" class="section">
                 <div class="section-label"><i class="fa-solid fa-star"></i> Section 01</div>
-                <h1>Fundamentals of Windows &amp; Doors</h1>
+                <h2 class="sec-h">Fundamentals of Windows &amp; Doors</h2>
                 <span class="gold-rule"></span>
                 <p class="lead">Windows and doors are the "eyes and mouths" of any building — they govern light, air, security, energy efficiency, and curb appeal while standing between your interior and everything the weather throws at it. In Florida especially, getting them right is one of the highest-leverage decisions in any construction or renovation project.</p>
 
@@ -1630,7 +1651,7 @@
             <!-- SECTION 2 · TYPES -->
             <section id="types" class="section">
                 <div class="section-label"><i class="fa-solid fa-border-all"></i> Section 02</div>
-                <h1>Types of Windows &amp; Doors</h1>
+                <h2 class="sec-h">Types of Windows &amp; Doors</h2>
                 <span class="gold-rule"></span>
                 <p class="lead">Every opening serves a specific architectural purpose. The operating style you choose directly affects ventilation capacity, energy sealing, hurricane rating, cleaning access, and long-term hardware reliability.</p>
 
@@ -1717,7 +1738,7 @@
             <!-- SECTION 3 · GLASS -->
             <section id="glass" class="section">
                 <div class="section-label"><i class="fa-solid fa-flask"></i> Section 03</div>
-                <h1>Glass: From Sand to Window Pane</h1>
+                <h2 class="sec-h">Glass: From Sand to Window Pane</h2>
                 <span class="gold-rule"></span>
                 <p class="lead">Every piece of glass in your home began as a pile of raw minerals. Understanding the journey from raw material to finished, coated, laminated, gas-filled unit is the foundation for every performance specification, safety requirement, and product comparison you'll ever encounter.</p>
 
@@ -1883,7 +1904,7 @@
             <!-- SECTION 4 · RATINGS -->
             <section id="ratings" class="section">
                 <div class="section-label"><i class="fa-solid fa-chart-bar"></i> Section 04</div>
-                <h1>Ratings, Pressure Designs &amp; Performance</h1>
+                <h2 class="sec-h">Ratings, Pressure Designs &amp; Performance</h2>
                 <span class="gold-rule"></span>
                 <p class="lead">Ratings replace marketing language with verifiable, independently tested numbers. Every window and door sold in the U.S. can be assessed on the same standardized scales — if you know what to look for. Here's the full translation guide.</p>
 
@@ -2013,7 +2034,7 @@
             <section id="florida" class="section">
                 <div class="florida-wrap">
                     <div class="florida-badge"><i class="fa-solid fa-wind"></i> Florida — Our Home Market</div>
-                    <h1>Windows &amp; Doors in Florida:<br>Evolution, Standards &amp; Compliance</h1>
+                    <h2 class="sec-h">Windows &amp; Doors in Florida:<br>Evolution, Standards &amp; Compliance</h2>
                     <span class="gold-rule"></span>
                     <p class="lead" style="margin-bottom: 0;">Hurricane Andrew struck South Florida on August 24, 1992 as a Category 5 storm with peak gusts above 175 mph. It destroyed or severely damaged over 125,000 homes — the majority of which failed not because of wind pressure, but because windows and doors failed first. Once an opening is breached, internal pressurization multiplies structural loads catastrophically. Andrew was a $27 billion lesson in fenestration engineering. Prime Windows &amp; Doors is headquartered in Ocala and serves all of Florida — this section is what we live and breathe every day.</p>
 
@@ -2114,7 +2135,7 @@
             <!-- SECTION 6 · BUYING GUIDE -->
             <section id="buying" class="section">
                 <div class="section-label"><i class="fa-solid fa-cart-shopping"></i> Section 06</div>
-                <h1>Buying Guide, Installation &amp; Maintenance</h1>
+                <h2 class="sec-h">Buying Guide, Installation &amp; Maintenance</h2>
                 <span class="gold-rule"></span>
                 <p class="lead">The best window or door is the one correctly specified for your climate zone, installed by a qualified contractor with proper permits, and maintained on a consistent schedule. This section gives you the framework to get all three right — and the questions to ask at every stage.</p>
 
@@ -2207,8 +2228,8 @@
                         <p>Prime Windows &amp; Doors serves all of Florida from our Ocala base. Impact-rated, energy-efficient, fully permitted — every time. Free quotes, no obligation.</p>
                     </div>
                     <div class="cta-band-actions">
-                        <a class="btn-gold" href="index.html">
-                            <i class="fa-solid fa-phone"></i>
+                        <a class="btn-gold" href="index.html#contact">
+                            <i class="fa-solid fa-arrow-right"></i>
                             Get a Free Quote
                         </a>
                         <button class="btn-ghost-nav" onclick="window.print()">
@@ -2229,9 +2250,9 @@
             <div class="footer-grid">
                 <div class="footer-col">
                     <span class="footer-col-title">Prime Windows &amp; Doors</span>
-                    <p>5100 W FL-40, Suite 300<br>Ocala, FL 34482</p>
+                    <p>5100 W FL-40 Suite 300<br>Ocala, FL 34482</p>
                     <p>Serving Central, North, Northeast, and South Florida — including Jacksonville, Orlando, Tampa, and beyond.</p>
-                    <a class="footer-phone" href="tel:+13528877463">352-887-7463</a>
+                    <a class="footer-phone" href="tel:3528877463">352-887-7463</a>
                 </div>
                 <div class="footer-col">
                     <span class="footer-col-title">This Guide</span>
@@ -2241,12 +2262,12 @@
                 <div class="footer-col">
                     <span class="footer-col-title">Jump to Section</span>
                     <p style="line-height: 2.2;">
-                        <a onclick="goTo('fundamentals')" style="cursor:pointer; display:block;">01 — Fundamentals</a>
-                        <a onclick="goTo('types')" style="cursor:pointer; display:block;">02 — Types</a>
-                        <a onclick="goTo('glass')" style="cursor:pointer; display:block;">03 — Glass Science</a>
-                        <a onclick="goTo('ratings')" style="cursor:pointer; display:block;">04 — Ratings</a>
-                        <a onclick="goTo('florida')" style="cursor:pointer; display:block;">05 — Florida</a>
-                        <a onclick="goTo('buying')" style="cursor:pointer; display:block;">06 — Buying Guide</a>
+                        <a href="#fundamentals" onclick="goTo('fundamentals');return false" style="display:block;">01 — Fundamentals</a>
+                        <a href="#types" onclick="goTo('types');return false" style="display:block;">02 — Types</a>
+                        <a href="#glass" onclick="goTo('glass');return false" style="display:block;">03 — Glass Science</a>
+                        <a href="#ratings" onclick="goTo('ratings');return false" style="display:block;">04 — Ratings</a>
+                        <a href="#florida" onclick="goTo('florida');return false" style="display:block;">05 — Florida</a>
+                        <a href="#buying" onclick="goTo('buying');return false" style="display:block;">06 — Buying Guide</a>
                     </p>
                 </div>
             </div>
@@ -2257,7 +2278,7 @@
                 <p>© 2026 Prime Windows &amp; Doors · Ocala, FL · Updated April 2026</p>
                 <a class="footer-back-link" href="index.html">
                     <i class="fa-solid fa-arrow-left"></i>
-                    Back to PrimeWindowsandDoors.com
+                    Back to Prime Windows &amp; Doors
                 </a>
             </div>
         </div>
@@ -2274,15 +2295,15 @@
         <div class="toc-overlay-panel">
             <div class="toc-overlay-header">
                 <span>Contents</span>
-                <button class="icon-btn" onclick="closeTOC()"><i class="fa-solid fa-xmark"></i></button>
+                <button class="icon-btn" onclick="closeTOC()" aria-label="Close contents"><i class="fa-solid fa-xmark"></i></button>
             </div>
             <ul class="toc-overlay-list">
-                <li class="toc-overlay-item"><a onclick="goTo('fundamentals');closeTOC()"><span class="toc-ol-num">1</span>Fundamentals of Windows &amp; Doors</a></li>
-                <li class="toc-overlay-item"><a onclick="goTo('types');closeTOC()"><span class="toc-ol-num">2</span>Types of Windows &amp; Doors</a></li>
-                <li class="toc-overlay-item"><a onclick="goTo('glass');closeTOC()"><span class="toc-ol-num">3</span>Glass — From Sand to Window</a></li>
-                <li class="toc-overlay-item"><a onclick="goTo('ratings');closeTOC()"><span class="toc-ol-num">4</span>Ratings &amp; Performance</a></li>
-                <li class="toc-overlay-item"><a onclick="goTo('florida');closeTOC()"><span class="toc-ol-num">5</span>Florida Hurricane Standards</a></li>
-                <li class="toc-overlay-item"><a onclick="goTo('buying');closeTOC()"><span class="toc-ol-num">6</span>Buying, Installation &amp; Maintenance</a></li>
+                <li class="toc-overlay-item"><a href="#fundamentals" onclick="goTo('fundamentals');closeTOC();return false"><span class="toc-ol-num">1</span>Fundamentals of Windows &amp; Doors</a></li>
+                <li class="toc-overlay-item"><a href="#types" onclick="goTo('types');closeTOC();return false"><span class="toc-ol-num">2</span>Types of Windows &amp; Doors</a></li>
+                <li class="toc-overlay-item"><a href="#glass" onclick="goTo('glass');closeTOC();return false"><span class="toc-ol-num">3</span>Glass — From Sand to Window</a></li>
+                <li class="toc-overlay-item"><a href="#ratings" onclick="goTo('ratings');closeTOC();return false"><span class="toc-ol-num">4</span>Ratings &amp; Performance</a></li>
+                <li class="toc-overlay-item"><a href="#florida" onclick="goTo('florida');closeTOC();return false"><span class="toc-ol-num">5</span>Florida Hurricane Standards</a></li>
+                <li class="toc-overlay-item"><a href="#buying" onclick="goTo('buying');closeTOC();return false"><span class="toc-ol-num">6</span>Buying, Installation &amp; Maintenance</a></li>
             </ul>
         </div>
     </div>
@@ -2290,27 +2311,40 @@
     <script>
         function goTo(id) {
             const el = document.getElementById(id);
-            if (el) el.scrollIntoView({ behavior: 'smooth' });
+            if (!el) return;
+            if (window.primeScrollTo) window.primeScrollTo(el, { offset: -(70 + 24) });
+            else el.scrollIntoView({ behavior: 'smooth' });
         }
+
+        document.addEventListener('keydown', e => {
+            if (e.key !== 'Escape') return;
+            if (document.getElementById('mobile-drawer').classList.contains('open')) closeDrawer();
+            const toc = document.getElementById('toc-overlay');
+            if (toc && toc.classList.contains('open')) closeTOC();
+        });
 
         function openDrawer() {
             document.getElementById('mobile-drawer').classList.add('open');
             document.body.style.overflow = 'hidden';
+            if (window.primeLenis) window.primeLenis.stop();
         }
 
         function closeDrawer() {
             document.getElementById('mobile-drawer').classList.remove('open');
             document.body.style.overflow = '';
+            if (window.primeLenis) window.primeLenis.start();
         }
 
         function openTOC() {
             document.getElementById('toc-overlay').classList.add('open');
             document.body.style.overflow = 'hidden';
+            if (window.primeLenis) window.primeLenis.stop();
         }
 
         function closeTOC() {
             document.getElementById('toc-overlay').classList.remove('open');
             document.body.style.overflow = '';
+            if (window.primeLenis) window.primeLenis.start();
         }
 
         const SECTIONS = [
@@ -2329,7 +2363,7 @@
                 const li = document.createElement('li');
                 li.className = 'toc-item';
                 li.dataset.id = s.id;
-                li.innerHTML = `<a onclick="goTo('${s.id}')"><span class="toc-num">${s.num}</span>${s.title}</a>`;
+                li.innerHTML = `<a href="#${s.id}" onclick="goTo('${s.id}');return false"><span class="toc-num">${s.num}</span>${s.title}</a>`;
                 list.appendChild(li);
             });
         }
@@ -2355,5 +2389,7 @@
             initScrollSpy();
         });
     </script>
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.20/dist/lenis.min.js"></script>
+<script src="assets/prime-polish.js"></script>
 </body>
 </html>

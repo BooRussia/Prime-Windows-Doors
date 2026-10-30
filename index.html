@@ -62,11 +62,6 @@
       "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday"],
       "opens": "09:00",
       "closes": "17:00"
-    },
-    {
-      "@type": "OpeningHoursSpecification",
-      "dayOfWeek": "Saturday",
-      "description": "By Appointment"
     }
   ],
   "areaServed": [
@@ -82,6 +77,11 @@
   "sameAs": []
 }
 </script>
+<link rel="preconnect" href="https://res.cloudinary.com" crossorigin>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+<link rel="stylesheet" href="assets/prime-polish.css">
 <link href="https://fonts.googleapis.com/css2?family=Anton&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600&family=Geist+Mono:wght@300;400;500&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
@@ -109,14 +109,14 @@
   --sans:"Outfit",sans-serif;
   --display:"Anton",sans-serif;
 }
-html{scrollbar-width:none;overscroll-behavior-y:none}
+html{scrollbar-width:none;overscroll-behavior-y:none;overflow-x:clip}
 html::-webkit-scrollbar{display:none}
 body{font-family:var(--sans);background:var(--bg);color:var(--t1);overflow-x:hidden;scrollbar-width:none}
 body::-webkit-scrollbar{display:none}
 @media(hover:hover){body{cursor:none}*{cursor:none!important}body.tour-hover,body.tour-hover *{cursor:pointer!important}}
 
 /* CURSOR */
-#cur{position:fixed;z-index:2147483647;pointer-events:none;will-change:transform;width:18px;height:22px;background:linear-gradient(148deg,#f0e0a8 0%,#d4af6a 28%,#b58f4a 62%,#8a6a2e 100%);clip-path:polygon(0% 0%,0% 83%,23% 65%,39% 96%,56% 91%,40% 60%,78% 60%);transform-origin:0 0;filter:drop-shadow(0 0 1.5px rgba(240,210,130,.85)) drop-shadow(0 1px 4px rgba(0,0,0,.85));transition:transform .15s ease,filter .15s ease}
+#cur{position:fixed;left:0;top:0;z-index:2147483647;pointer-events:none;will-change:transform;width:18px;height:22px;background:linear-gradient(148deg,#f0e0a8 0%,#d4af6a 28%,#b58f4a 62%,#8a6a2e 100%);clip-path:polygon(0% 0%,0% 83%,23% 65%,39% 96%,56% 91%,40% 60%,78% 60%);transform-origin:0 0;filter:drop-shadow(0 0 1.5px rgba(240,210,130,.85)) drop-shadow(0 1px 4px rgba(0,0,0,.85));transition:transform .15s ease,filter .15s ease}
 #cur-ring{display:none}
 @media(hover:hover){body:has(a:hover,button:hover,.sc-card:hover,.bp-cell:hover,.soc:hover,.prod-line:hover,.scroll-cue:hover,.about-badge:hover,.sn-item:hover) #cur{filter:drop-shadow(0 0 5px rgba(240,215,140,1)) drop-shadow(0 0 10px rgba(212,175,106,.7)) drop-shadow(0 1px 5px rgba(0,0,0,.9));transform:scale(1.2)}}
 
@@ -442,6 +442,33 @@ section{padding:8rem 2rem}
 #about::after{content:'';position:absolute;bottom:0;left:0;right:0;height:35%;background:linear-gradient(to bottom,transparent,#000000);pointer-events:none;z-index:2}
 /* Dark scrim behind text so it reads over the house image */
 #about::before{content:'';position:absolute;top:0;left:0;right:0;height:65%;background:linear-gradient(to bottom,rgba(0,0,0,0) 0%,rgba(0,0,0,.52) 22%,rgba(0,0,0,.38) 60%,transparent 100%);pointer-events:none;z-index:2}
+/* Night photo eases up into the opening screen as ONE continuous wash over the photo (it used to be two
+   section backgrounds that overlapped by 1px at the hero/About seam and drew a dark line):
+   - solid black through the top 60% of the landing screen (--land), where the logo and gold particles sit
+   - easing out across the landing screen's bottom edge, where the stars dissolve into the rising gold dust
+   - continuing under "Luxury That Lasts" and settling at 25% black over the house to soften the lit windows */
+.prime-bg-wrap{background:#000}
+.prime-bg-wrap::before{content:'';position:absolute;inset:0;z-index:1;pointer-events:none;--land:100svh;--fade:clamp(220px,34vh,380px);
+  background:linear-gradient(to bottom,#000 0,#000 calc(var(--land)*.6),rgba(0,0,0,.93) calc(var(--land)*.7),rgba(0,0,0,.8) calc(var(--land)*.8),rgba(0,0,0,.64) calc(var(--land)*.9),rgba(0,0,0,.5) var(--land),rgba(0,0,0,.41) calc(var(--land) + var(--fade)*.25),rgba(0,0,0,.32) calc(var(--land) + var(--fade)*.55),rgba(0,0,0,.26) calc(var(--land) + var(--fade)*.85),rgba(0,0,0,.25) calc(var(--land) + var(--fade)),rgba(0,0,0,.25) 100%)}
+/* "Push the house back" ~10% by giving the photo a smaller frame (object-fit:cover then renders it smaller):
+   - tall screens (photo fills by height): full-width frame, 10% shorter, anchored at the bottom; the room it
+     frees at the very top falls inside the solid-black part of the opening screen
+   - wide screens (photo fills by width): frame 10% narrower and centred. The 5% strips either side are filled
+     with mirrored copies of the photo, rendered at exactly the same size/position and flipped, so the column
+     at each seam is identical on both sides (horizon, lawn and tree line run straight through) — no stretching.
+     The mirrored strips dim gently toward the page edge like a vignette. */
+.prime-bg-img{top:auto;bottom:0;height:90%}
+.prime-bg-ext{display:none;position:absolute;inset:0;overflow:hidden;z-index:0;pointer-events:none}
+@media (min-aspect-ratio:11/10){
+  .prime-bg-img{top:0;height:100%;left:5%;right:auto;width:90%}
+  .prime-bg-ext{display:block}
+  .prime-bg-ext::before,.prime-bg-ext::after{content:'';position:absolute;top:0;bottom:0;width:90%;transform:scaleX(-1);
+    background:url('assets/img/luxury-that-lasts-bg.webp') center bottom/cover no-repeat;
+    background-image:image-set(url('assets/img/luxury-that-lasts-bg.avif') type('image/avif'),url('assets/img/luxury-that-lasts-bg.webp') type('image/webp'))}
+  /* flipped, so each copy's local left edge lands on its outer side for ::after and on the seam for ::before */
+  .prime-bg-ext::before{right:95%;-webkit-mask-image:linear-gradient(to right,#000 0,rgba(0,0,0,.5) 5.6%);mask-image:linear-gradient(to right,#000 0,rgba(0,0,0,.5) 5.6%)}
+  .prime-bg-ext::after{left:95%;-webkit-mask-image:linear-gradient(to left,#000 0,rgba(0,0,0,.5) 5.6%);mask-image:linear-gradient(to left,#000 0,rgba(0,0,0,.5) 5.6%)}
+}
 .about-content{position:relative;z-index:3;padding:clamp(60px,9vh,130px) 2rem clamp(60px,8vh,120px);max-width:700px;margin:0 auto;text-align:center}
 .about-content .lbl{margin-bottom:1.2rem}
 .about-content .stitle{font-size:clamp(3rem,5.5vw,5rem);margin-bottom:1.6rem;line-height:1.05;text-shadow:0 2px 24px rgba(0,0,0,.9),0 0 60px rgba(0,0,0,.6)}
@@ -457,11 +484,13 @@ section{padding:8rem 2rem}
 #seWrapper{height:300vh;position:relative;z-index:1;background:linear-gradient(to bottom,#06060a 0%,transparent 18%);}
 #seFx{position:fixed;inset:0;z-index:0;overflow:hidden;pointer-events:none;} /* clips the fixed expand layers so they can't bleed past the viewport on pinch-zoom-out */
 #seBg,#seMedia,#seTitle{position:absolute;inset:0;z-index:0;pointer-events:none;will-change:opacity,transform;}
-#seBg{background:url("https://res.cloudinary.com/drhayhi5y/image/upload/v1773696819/Contemporary_Silverthorne_1-scaled_tw2svx.jpg") center/cover no-repeat;opacity:0;}
+#seBg{background:url("https://res.cloudinary.com/drhayhi5y/image/upload/f_auto,q_auto:best,c_limit,w_2400/v1773696819/Contemporary_Silverthorne_1-scaled_tw2svx.jpg") center/cover no-repeat;opacity:0;}
 #seBg::after{content:"";position:absolute;inset:0;background:rgba(0,0,0,.45);pointer-events:none;}
 #seMedia{display:flex;align-items:center;justify-content:center;opacity:0;}
-#seImgWrap{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);border-radius:14px;overflow:hidden;box-shadow:0 0 80px rgba(0,0,0,.5);will-change:width,height,transform;}
-#seImgWrap img{width:100%;height:100%;object-fit:cover;display:block;}
+/* The card is a full-viewport layer cut to shape with clip-path (no per-frame layout); the photo is
+   scaled on the GPU so the framing matches object-fit:cover at the card's size. */
+#seImgWrap{position:absolute;inset:0;overflow:hidden;clip-path:inset(50% 50% round 14px);will-change:clip-path,transform;}
+#seImgWrap img{position:absolute;left:50%;top:50%;width:100%;height:100%;max-width:none;object-fit:cover;display:block;transform:translate(-50%,-50%);transform-origin:50% 50%;will-change:transform;}
 #seDim{position:absolute;inset:0;background:rgba(0,0,0,.5);}
 #seTitle{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.7rem;text-align:center;opacity:0;overflow:hidden;}
 #seTitleTop{font-family:var(--sans,sans-serif);font-size:clamp(2.4rem,7vw,8rem);font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:#f5f0e8;white-space:nowrap;will-change:transform;}
@@ -482,12 +511,13 @@ section{position:relative;z-index:1;}
 #showcase{padding:0 0 6rem}
 .gallery{max-width:1260px;margin:0 auto;padding:0 2rem}
 .gallery-stage{position:relative;margin-bottom:1.2rem}
-.gallery-frame{position:relative;width:100%;aspect-ratio:16/10;border-radius:16px;overflow:hidden;background:#0a0a08;border:1px solid var(--b)}
+.gallery-frame{position:relative;width:100%;aspect-ratio:16/10;border-radius:16px;overflow:hidden;background:#0a0a08;border:1px solid var(--b);touch-action:pan-y}
 .gallery-slides{position:absolute;inset:0}
 .gallery-slide{position:absolute;inset:0;opacity:0;z-index:0;overflow:hidden;transition:opacity .85s cubic-bezier(.4,0,.2,1)}
 .gallery-slide.active{opacity:1;z-index:2}
 .gallery-slide.out{z-index:1;transition-delay:.12s}
-.gallery-slide img{width:100%;height:100%;object-fit:cover;display:block;will-change:transform}
+.gallery-slide img{width:100%;height:100%;object-fit:cover;display:block}
+.gallery-slide.active img,.gallery-slide.out img{will-change:transform}
 @keyframes gKB1{from{transform:scale(1) translate(0,0)}to{transform:scale(1.07) translate(-.8%,-.4%)}}
 @keyframes gKB2{from{transform:scale(1) translate(0,0)}to{transform:scale(1.07) translate(.8%,-.4%)}}
 @keyframes gKB3{from{transform:scale(1) translate(0,0)}to{transform:scale(1.06) translate(0,-.8%)}}
@@ -559,6 +589,8 @@ section{position:relative;z-index:1;}
 #brands::before{content:'';position:absolute;top:0;left:0;right:0;height:18rem;background:linear-gradient(to bottom,var(--bg),transparent);pointer-events:none;z-index:3}
 #brands::after{content:'';position:absolute;bottom:0;left:0;right:0;height:16rem;background:linear-gradient(to bottom,transparent,var(--bg2));pointer-events:none;z-index:3}
 #brandsDots{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:0;contain:strict}
+#brandsDots,#footerDots{opacity:0;transition:opacity 1.6s ease}
+#brandsDots.dots-on,#footerDots.dots-on{opacity:1}
 /* BRANDS — sparkle horizon layout */
 .brands-scroll-outer{position:relative;z-index:4;padding:8rem 2rem 0;overflow:hidden}
 .brands-top{text-align:center;margin-bottom:5rem}
@@ -752,6 +784,15 @@ section{position:relative;z-index:1;}
 .h-day{color:var(--t3);font-family:var(--mono);font-size:.7rem}
 .h-time{color:var(--t2);font-family:var(--mono);font-size:.7rem}
 .h-cls{color:var(--t3);font-family:var(--mono);font-size:.7rem}
+.h-status{display:flex;align-items:center;gap:.55rem;font-family:var(--mono);font-size:.64rem;letter-spacing:.12em;text-transform:uppercase;color:var(--t2);margin-bottom:.9rem;min-height:1em}
+.h-status:empty{display:none}
+.h-status::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--t3);flex-shrink:0}
+.h-status.is-open{color:var(--gold-pale)}
+.h-status.is-open::before{background:#7fc28e;box-shadow:0 0 0 0 rgba(127,194,142,.5);animation:hOpen 2.4s ease-in-out infinite}
+@keyframes hOpen{0%,100%{box-shadow:0 0 0 0 rgba(127,194,142,.45)}60%{box-shadow:0 0 0 6px rgba(127,194,142,0)}}
+.h-row.h-today{border-bottom-color:var(--b2)}
+.h-row.h-today .h-day{color:var(--gold)}
+.h-row.h-today .h-time,.h-row.h-today .h-cls{color:var(--t1)}
 .form-wrap{background:var(--surf);border:1px solid var(--b2);padding:2.8rem}
 .form-ttl{font-family:var(--serif);font-size:1.5rem;font-weight:600;margin-bottom:.3rem}
 .form-sub{font-family:var(--mono);font-size:.6rem;color:var(--t3);letter-spacing:.08em;margin-bottom:2rem}
@@ -766,6 +807,12 @@ section{position:relative;z-index:1;}
 .btn-submit{width:100%;padding:.95rem;background:var(--gold);color:var(--bg);font-family:var(--mono);font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;font-weight:500;border:none;cursor:pointer;transition:all .25s;margin-top:.5rem}
 .btn-submit:hover{background:var(--gold-pale);box-shadow:0 0 34px var(--gold-glow);transform:translateY(-1px)}
 .btn-submit:disabled{opacity:.6;cursor:not-allowed;transform:none}
+.btn-submit.is-sending{opacity:1;background:var(--gold-lo);color:var(--t1);cursor:progress}
+.btn-submit .snd-dots i{font-style:normal;opacity:.2;animation:sndDot 1.2s ease-in-out infinite}
+.btn-submit .snd-dots i:nth-child(2){animation-delay:.2s}
+.btn-submit .snd-dots i:nth-child(3){animation-delay:.4s}
+@keyframes sndDot{0%,100%{opacity:.2}50%{opacity:1}}
+.fg input:user-invalid,.fg textarea:user-invalid{border-color:rgba(214,120,96,.7)!important;box-shadow:0 0 0 3px rgba(214,120,96,.12)}
 .form-note{font-family:var(--mono);font-size:.58rem;color:var(--t3);text-align:center;margin-top:.8rem}
 
 /* MAP */
@@ -827,6 +874,9 @@ details.disc-drop .disc-body a:hover{color:rgba(212,175,106,.7)}
 /* FLOAT DOCK */
 .float-dock{position:fixed;bottom:2rem;right:2rem;z-index:800;display:flex;flex-direction:column;gap:.6rem;align-items:stretch;width:148px;opacity:0;transform:translateY(16px);transition:opacity .4s,transform .4s;pointer-events:none}
 .float-dock.show{opacity:1;transform:translateY(0);pointer-events:all}
+/* tucks away while reading down the page (phones) and over the quote form; glides back on scroll-up / pause */
+.float-dock{transition:opacity .45s cubic-bezier(.22,1,.36,1),transform .55s cubic-bezier(.22,1,.36,1)}
+.float-dock.show.fd-tuck{opacity:0;transform:translateY(calc(100% + 2rem));pointer-events:none}
 .fd-btn{display:flex;align-items:center;justify-content:center;gap:.6rem;padding:.7rem 1.4rem;font-family:var(--mono);font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;border-radius:100px;text-decoration:none;transition:all .25s;white-space:nowrap;width:100%;box-sizing:border-box}
 .fd-call{background:var(--gold);color:var(--bg);box-shadow:0 4px 24px var(--gold-glow)}
 .fd-call:hover{background:var(--gold-pale);box-shadow:0 8px 36px var(--gold-glow2)}
@@ -861,13 +911,7 @@ details.disc-drop .disc-body a:hover{color:rgba(212,175,106,.7)}
 
 /* HERO PARTICLES canvas */
 #heroPtcl{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:0}
-@media(max-width:768px){
-  #heroPtcl{
-    opacity:.45;
-    -webkit-mask-image:linear-gradient(to bottom,black 0%,black 55%,transparent 100%);
-    mask-image:linear-gradient(to bottom,black 0%,black 55%,transparent 100%);
-  }
-}
+
 
 /* KINETIC SECTION DIVIDER — gold sweep line */
 .sec-sweep{display:none}
@@ -1112,6 +1156,43 @@ details.disc-drop .disc-body a:hover{color:rgba(212,175,106,.7)}
   #prod-preview{display:none!important}
 }
 
+/* ─── THE PRIME EXPERIENCE — process ─────────────────────── */
+/* sits between Luxury That Lasts and the scroll-expand photo: picks up About's fade-to-black, and its
+   own ::after fades that black back out into the photo (the job .prime-bg-wrap::after used to do) */
+#process{background:#000;padding:7rem 2rem 8.5rem;position:relative;z-index:2}
+#process::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 55% 40% at 50% 48%,rgba(181,143,74,.05),transparent 70%);pointer-events:none}
+#process::after{content:'';position:absolute;bottom:-12rem;left:0;right:0;height:12rem;background:linear-gradient(to bottom,#000000,transparent);pointer-events:none;z-index:2}
+.proc-hd{max-width:620px;margin:0 auto 5rem;text-align:center}
+.proc-steps{list-style:none;display:grid;grid-template-columns:repeat(4,1fr);gap:2.4rem;position:relative;max-width:1160px;margin:0 auto;padding:0}
+/* hairline that draws across the four numerals when the row scrolls in */
+.proc-steps::before,.proc-steps::after{content:'';position:absolute;top:2.1rem;left:12.5%;right:12.5%;height:1px;pointer-events:none}
+.proc-steps::before{background:rgba(181,143,74,.14)}
+.proc-steps::after{background:linear-gradient(90deg,var(--gold-lo),var(--gold-pale) 50%,var(--gold-lo));transform:scaleX(0);transform-origin:left;transition:transform 2.2s cubic-bezier(.65,0,.35,1) .15s}
+.proc-steps.in::after{transform:scaleX(1)}
+.proc-step{position:relative;text-align:center;padding:0 .4rem;opacity:0;transform:translateY(24px);transition:opacity 1s cubic-bezier(.22,1,.36,1),transform 1s cubic-bezier(.22,1,.36,1)}
+.proc-steps.in .proc-step{opacity:1;transform:none}
+.proc-steps.in .proc-step:nth-child(2){transition-delay:.35s}
+.proc-steps.in .proc-step:nth-child(3){transition-delay:.7s}
+.proc-steps.in .proc-step:nth-child(4){transition-delay:1.05s}
+.proc-n{position:relative;z-index:1;display:inline-flex;align-items:center;justify-content:center;width:4.2rem;height:4.2rem;border-radius:50%;background:var(--bg2);border:1px solid var(--b2);font-family:var(--serif);font-style:italic;font-weight:400;font-size:1.55rem;line-height:1;color:var(--gold);margin-bottom:1.7rem;transition:border-color .6s ease,box-shadow .6s ease,color .6s ease,transform .6s cubic-bezier(.22,1,.36,1)}
+.proc-step:hover .proc-n{border-color:var(--gold);color:var(--gold-pale);transform:translateY(-3px);box-shadow:0 0 0 7px rgba(181,143,74,.05),0 10px 34px rgba(212,175,106,.18)}
+.proc-t{font-family:var(--sans);font-size:1.02rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--t1);margin-bottom:.8rem}
+.proc-d{font-size:.88rem;color:var(--t2);line-height:1.8;font-weight:300;max-width:250px;margin:0 auto}
+.proc-cta{text-align:center;margin-top:4.5rem}
+@media(max-width:900px){
+  #process{padding:5rem 1.4rem 6rem}
+  .proc-hd{margin-bottom:3.5rem}
+  .proc-steps{grid-template-columns:1fr;gap:2.4rem;max-width:460px}
+  .proc-steps::before,.proc-steps::after{top:2.1rem;bottom:3rem;left:2.1rem;right:auto;width:1px;height:auto}
+  .proc-steps::after{background:linear-gradient(180deg,var(--gold-pale),var(--gold-lo));transform:scaleY(0);transform-origin:top}
+  .proc-steps.in::after{transform:scaleY(1)}
+  .proc-step{display:grid;grid-template-columns:4.2rem 1fr;column-gap:1.3rem;text-align:left;padding:0}
+  .proc-n{grid-row:span 2;margin-bottom:0}
+  .proc-t{margin:.95rem 0 .45rem;font-size:.95rem}
+  .proc-d{margin:0;max-width:none;font-size:.86rem}
+  .proc-cta{margin-top:3.2rem}
+}
+
 /* ─── 360 SHOWROOM TOUR ─────────────────────────────────── */
 #showroom{padding:9rem 0 8rem;background:var(--bg2);position:relative;overflow:hidden}
 #showroom::after{content:'';position:absolute;bottom:0;left:0;right:0;height:10rem;background:linear-gradient(to bottom,transparent,var(--bg2));pointer-events:none;z-index:0}
@@ -1125,7 +1206,7 @@ details.disc-drop .disc-body a:hover{color:rgba(212,175,106,.7)}
 
 .tour-frame-wrap{position:relative;width:100%;height:640px;background:#050504}
 .tour-placeholder{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1rem;background:#0d0c0a;cursor:pointer;overflow:hidden}
-.tour-bg-blur{position:absolute;inset:-8%;background:url('https://res.cloudinary.com/drhayhi5y/image/upload/v1775771206/360tour_v4z6qc.png') center/cover no-repeat;transform:scale(1.1);filter:blur(10px) brightness(.65);pointer-events:none;z-index:0;transition:opacity .4s}
+.tour-bg-blur{position:absolute;inset:-8%;background:url('https://res.cloudinary.com/drhayhi5y/image/upload/f_auto,q_auto,w_700/v1775771206/360tour_v4z6qc.png') center/cover no-repeat;transform:scale(1.1);filter:blur(10px) brightness(.65);pointer-events:none;z-index:0;transition:opacity .4s}
 .tour-placeholder:hover .tour-bg-blur{opacity:.85}
 .tour-bg-overlay{position:absolute;inset:0;background:rgba(0,0,0,.28);pointer-events:none;z-index:1}
 .tour-play-btn{display:flex;flex-direction:column;align-items:center;gap:1.2rem;background:none;border:none;cursor:pointer;padding:2.5rem 3rem;position:relative;z-index:2}
@@ -1148,9 +1229,31 @@ details.disc-drop .disc-body a:hover{color:rgba(212,175,106,.7)}
 @media(max-width:400px){
   .tour-frame-wrap{height:300px}
 }
+
+/* ─── POLISH: layout, focus, contrast ───────────────────── */
+/* sections that zero their side padding still need a gutter on tablets/phones */
+#services .wrap,#why .wrap,#showroom .wrap{padding-inline:clamp(1.2rem,4vw,2rem)}
+@media(max-width:960px){#showroom{padding:7rem 0 6rem}}
+@media(max-width:600px){#showroom{padding:5rem 0 4rem}#services .svc-list{padding-left:0;padding-right:0}}
+/* keyboard + touch-tablet visibility for controls that were hover-only */
+#sideNav:focus-within .sn-lbl{opacity:1;transform:translateX(0) scale(1);pointer-events:auto}
+.gallery-arrow:focus-visible{opacity:1}
+@media(hover:none) and (min-width:601px){.gallery-arrow{opacity:.85}}
+/* text fields keep a real I-beam; the gold pointer steps aside over them */
+@media(hover:hover){.fg input,.fg textarea{cursor:text!important}body:has(.fg input:hover,.fg textarea:hover) #cur{opacity:0}}
+/* small print that was too faint to read */
+.f-legal-links a{color:rgba(245,240,232,.5)}
+.fd-tour{color:rgba(245,240,232,.62)}
+.stat-sources li{color:rgba(245,240,232,.6)}
+.stat-sources-note{color:rgba(245,240,232,.45);font-size:.56rem}
+.tour-play-sub{color:rgba(212,175,106,.68)}
+sup.ln{color:rgba(245,240,232,.5)}
+@media(max-width:380px){.stat-row .sl{white-space:normal!important}}
 </style>
+<noscript><style>.rev,.prod-line,.svc-row,.fg-grid>div,.stat-wrap,.proc-step{opacity:1!important;transform:none!important}.hd-star{opacity:1!important}#pageLoader{display:none!important}</style></noscript>
 </head>
 <body>
+<a class="skip-link" href="#contact" onclick="setTimeout(function(){var f=document.getElementById('cf-first');if(f)f.focus({preventScroll:true})},60)">Skip to quote form</a>
 <div id="pageLoader" aria-label="Loading" role="status">
   <div class="wl-bars">
     <div class="wl-bar"></div>
@@ -1164,7 +1267,7 @@ details.disc-drop .disc-body a:hover{color:rgba(212,175,106,.7)}
 <div id="prog"></div>
 
 <!-- MOBILE NAV -->
-<nav class="mob-nav" id="mobNav">
+<nav class="mob-nav" id="mobNav" aria-label="Menu" aria-hidden="true">
   <a class="sn-item" href="#hero"         data-s="hero"         onclick="toggleNav()"><span class="sn-dot"></span><span class="sn-lbl">Home</span></a>
   <a class="sn-item" href="#about"        data-s="about"        onclick="toggleNav()"><span class="sn-dot"></span><span class="sn-lbl">About</span></a>
   <a class="sn-item" href="#services"     data-s="services"     onclick="toggleNav()"><span class="sn-dot"></span><span class="sn-lbl">Services</span></a>
@@ -1184,7 +1287,7 @@ details.disc-drop .disc-body a:hover{color:rgba(212,175,106,.7)}
     <div class="nav-right">
       <a class="nav-phone" href="tel:3528877463">352-887-7463</a>
     </div>
-    <button class="ham" id="ham" onclick="toggleNav()"><span></span><span></span><span></span></button>
+    <button class="ham" id="ham" onclick="toggleNav()" aria-label="Open menu" aria-expanded="false" aria-controls="mobNav"><span></span><span></span><span></span></button>
   </div>
 </nav>
 
@@ -1202,13 +1305,18 @@ details.disc-drop .disc-body a:hover{color:rgba(212,175,106,.7)}
 
 <!-- HERO + ABOUT share a single blended background image -->
 <div class="prime-bg-wrap">
-<img class="prime-bg-img" src="https://res.cloudinary.com/drhayhi5y/image/upload/v1775936508/Untitled_design_1_ovs9no.png" alt="">
+<div class="prime-bg-ext" aria-hidden="true"></div>
+<picture>
+  <!-- full-size 1920x3080 AVIF (~380KB) where supported; 1247px WebP fallback for older browsers -->
+  <source type="image/avif" srcset="assets/img/luxury-that-lasts-bg.avif">
+  <img class="prime-bg-img" src="assets/img/luxury-that-lasts-bg.webp" alt="" decoding="async" fetchpriority="high">
+</picture>
 <!-- HERO -->
 <section id="hero">
   <canvas id="heroStars"></canvas>
   <canvas id="heroPtcl"></canvas>
   <div class="hero-logo-wrap">
-    <img src="https://res.cloudinary.com/drhayhi5y/image/upload/e_bgremoval/e_trim/f_png/v1775817870/IMG_4178_h2yjji.png" alt="Prime Windows &amp; Doors">
+    <img src="https://res.cloudinary.com/drhayhi5y/image/upload/e_bgremoval/e_trim/f_png/v1775817870/IMG_4178_h2yjji.png" alt="" width="542" height="317" fetchpriority="high">
   </div>
   <h1 class="hero-title">
     <span class="hero-prime" id="heroPrime"><span class="hp-l">P</span><span class="hp-l">R</span><span class="hp-l">I</span><span class="hp-l">M</span><span class="hp-l">E</span></span>
@@ -1221,7 +1329,7 @@ details.disc-drop .disc-body a:hover{color:rgba(212,175,106,.7)}
     <a href="#showroom" class="btn-prim hero-cta">Tour the Showroom</a>
   </div>
 
-  <div class="scroll-cue" id="scrollCue" onclick="document.getElementById('about').scrollIntoView({behavior:'smooth'})">
+  <div class="scroll-cue" id="scrollCue" onclick="window.primeScrollTo(document.getElementById('about'))">
     <span>Scroll</span>
     <div class="sc-line"></div>
   </div>
@@ -1240,12 +1348,30 @@ details.disc-drop .disc-body a:hover{color:rgba(212,175,106,.7)}
 </section>
 </div><!-- /.prime-bg-wrap -->
 
+<!-- THE PRIME EXPERIENCE — what happens after you reach out -->
+<section id="process" aria-labelledby="processTitle">
+  <div class="wrap">
+    <div class="proc-hd">
+      <div class="lbl rev" style="justify-content:center">How It Works</div>
+      <h2 class="stitle rev rev-d1" id="processTitle" style="text-align:center">The Prime <em>Experience</em></h2>
+      <p class="ssub rev rev-d2" style="text-align:center;margin:0 auto">From the first conversation to the final walkthrough, one team carries your project with care.</p>
+    </div>
+    <ol class="proc-steps" id="procSteps">
+      <li class="proc-step"><span class="proc-n" aria-hidden="true">I</span><h3 class="proc-t">Consultation</h3><p class="proc-d">A free, unhurried conversation about your home, your style, and what you want your windows and doors to do.</p></li>
+      <li class="proc-step"><span class="proc-n" aria-hidden="true">II</span><h3 class="proc-t">Selection</h3><p class="proc-d">Compare premium brands side by side in our Ocala showroom and choose the glass, frames, and finishes made for Florida.</p></li>
+      <li class="proc-step"><span class="proc-n" aria-hidden="true">III</span><h3 class="proc-t">Precision Fit</h3><p class="proc-d">Every opening carefully measured, every unit custom sized to order. No shortcuts, no guesswork.</p></li>
+      <li class="proc-step"><span class="proc-n" aria-hidden="true">IV</span><h3 class="proc-t">White-Glove Install</h3><p class="proc-d">A clean, respectful installation, a final walkthrough together, and integrity behind every warranty.</p></li>
+    </ol>
+    <div class="proc-cta rev"><a href="#contact" class="btn-prim hero-cta">Request a Quote</a></div>
+  </div>
+</section>
+
 <!-- SCROLL EXPAND HERO -->
 <div id="seFx">
 <div id="seBg"></div>
 <div id="seMedia">
   <div id="seImgWrap">
-    <img src="https://res.cloudinary.com/drhayhi5y/image/upload/v1773696807/PremiumCoastal_A1A_5-scaled_ylkn3i.jpg" alt="Prime Windows and Doors">
+    <img src="https://res.cloudinary.com/drhayhi5y/image/upload/f_auto,q_auto:best,c_limit,w_2400/v1773696807/PremiumCoastal_A1A_5-scaled_ylkn3i.jpg" alt="Coastal home with impact windows and doors by Prime Windows &amp; Doors" decoding="async">
     <div id="seDim"></div>
   </div>
 </div>
@@ -1482,10 +1608,10 @@ details.disc-drop .disc-body a:hover{color:rgba(212,175,106,.7)}
       <p class="ssub rev rev-d2" style="text-align:center;margin:0 auto">A curated selection of our most prestigious product lines. Chosen for performance, craftsmanship, and Florida ready engineering.</p>
     </div>
     <div class="prod-list" id="prodList">
-      <a href="https://euro-wall.com" target="_blank" class="prod-line" data-brand="Euro-Wall" data-url="euro-wall.com"><span class="pl-num">01</span><div class="pll"><span class="pl-name">Euro-Wall <span style="color:var(--gold)">Glass Walls</span></span><span class="pl-desc">Folding + Sliding Glass Walls &nbsp;&middot;&nbsp; Aluminum Systems &nbsp;&middot;&nbsp; Impact-Rated</span></div><span class="pl-arr">&#8594;</span></a>
-      <a href="https://www.quartzluxurywindows.com/" target="_blank" class="prod-line" data-brand="Quartz Luxury by Quaker" data-url="quartzluxurywindows.com" data-thumb="thumbs/quartz.png"><span class="pl-num">02</span><div class="pll"><span class="pl-name">Quartz Luxury by <span style="color:var(--gold)">Quaker</span></span><span class="pl-desc">Windows + Doors &nbsp;&middot;&nbsp; Aluminum Systems &nbsp;&middot;&nbsp; Premium Series</span></div><span class="pl-arr">&#8594;</span></a>
-      <a href="https://weathershield.com/collection/vue/" target="_blank" class="prod-line" data-brand="The Vue by Weather Shield" data-url="weathershield.com" data-thumb="thumbs/weathershield.png"><span class="pl-num">03</span><div class="pll"><span class="pl-name">The Vue by <span style="color:var(--gold)">Weather Shield</span></span><span class="pl-desc">Windows + Doors &nbsp;&middot;&nbsp; Aluminum Systems &nbsp;&middot;&nbsp; Premium Series</span></div><span class="pl-arr">&#8594;</span></a>
-      <a href="https://www.viwinco.com/oceanview-impact-resistant-windows/" target="_blank" class="prod-line" data-brand="OceanView by Viwinco" data-url="viwinco.com" data-thumb="thumbs/viwinco.png"><span class="pl-num">04</span><div class="pll"><span class="pl-name">OceanView by <span style="color:var(--gold)">Viwinco</span></span><span class="pl-desc">Windows + Doors &nbsp;&middot;&nbsp; Vinyl Systems &nbsp;&middot;&nbsp; Impact Rated Series</span></div><span class="pl-arr">&#8594;</span></a>
+      <a href="https://euro-wall.com" target="_blank" rel="noopener" class="prod-line" data-brand="Euro-Wall" data-url="euro-wall.com"><span class="pl-num">01</span><div class="pll"><span class="pl-name">Euro-Wall <span style="color:var(--gold)">Glass Walls</span></span><span class="pl-desc">Folding + Sliding Glass Walls &nbsp;&middot;&nbsp; Aluminum Systems &nbsp;&middot;&nbsp; Impact-Rated</span></div><span class="pl-arr">&#8594;</span></a>
+      <a href="https://www.quartzluxurywindows.com/" target="_blank" rel="noopener" class="prod-line" data-brand="Quartz Luxury by Quaker" data-url="quartzluxurywindows.com" data-thumb="thumbs/quartz.jpg"><span class="pl-num">02</span><div class="pll"><span class="pl-name">Quartz Luxury by <span style="color:var(--gold)">Quaker</span></span><span class="pl-desc">Windows + Doors &nbsp;&middot;&nbsp; Aluminum Systems &nbsp;&middot;&nbsp; Premium Series</span></div><span class="pl-arr">&#8594;</span></a>
+      <a href="https://weathershield.com/collection/vue/" target="_blank" rel="noopener" class="prod-line" data-brand="The Vue by Weather Shield" data-url="weathershield.com" data-thumb="thumbs/weathershield.jpg"><span class="pl-num">03</span><div class="pll"><span class="pl-name">The Vue by <span style="color:var(--gold)">Weather Shield</span></span><span class="pl-desc">Windows + Doors &nbsp;&middot;&nbsp; Aluminum Systems &nbsp;&middot;&nbsp; Premium Series</span></div><span class="pl-arr">&#8594;</span></a>
+      <a href="https://www.viwinco.com/oceanview-impact-resistant-windows/" target="_blank" rel="noopener" class="prod-line" data-brand="OceanView by Viwinco" data-url="viwinco.com" data-thumb="thumbs/viwinco.jpg"><span class="pl-num">04</span><div class="pll"><span class="pl-name">OceanView by <span style="color:var(--gold)">Viwinco</span></span><span class="pl-desc">Windows + Doors &nbsp;&middot;&nbsp; Vinyl Systems &nbsp;&middot;&nbsp; Impact Rated Series</span></div><span class="pl-arr">&#8594;</span></a>
     </div>
   </div>
 </section>
@@ -1513,15 +1639,15 @@ details.disc-drop .disc-body a:hover{color:rgba(212,175,106,.7)}
     </div>
     <div class="tour-shell" id="tourShell">
       <div class="tour-frame-wrap" id="tourFrame">
-        <div class="tour-placeholder" id="tourPlaceholder" role="button" tabindex="0" aria-label="Launch 360 degree showroom tour">
+        <div class="tour-placeholder" id="tourPlaceholder" onclick="window.__launchTour()">
           <div class="tour-bg-blur"></div>
           <div class="tour-bg-overlay"></div>
           <div class="tour-title" style="position:relative;z-index:2;text-align:center;margin-bottom:2rem;pointer-events:none;display:flex;flex-direction:column;align-items:center;gap:.15em">
             <div style="font-family:var(--sans);font-size:clamp(2.8rem,6vw,5rem);font-weight:800;letter-spacing:.08em;text-transform:uppercase;line-height:1;background:linear-gradient(135deg,#e8c97a 0%,#f5d98a 30%,#c9a84c 55%,#f0d070 75%,#c9a84c 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent">Prime</div>
-            <div style="font-family:var(--sans);font-size:clamp(1.1rem,2.2vw,1.8rem);font-weight:800;letter-spacing:.12em;text-transform:uppercase;line-height:1;background:linear-gradient(135deg,#e8c97a 0%,#f5d98a 30%,#c9a84c 55%,#f0d070 75%,#c9a84c 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent">Window &amp; Door</div>
+            <div style="font-family:var(--sans);font-size:clamp(1.1rem,2.2vw,1.8rem);font-weight:800;letter-spacing:.12em;text-transform:uppercase;line-height:1;background:linear-gradient(135deg,#e8c97a 0%,#f5d98a 30%,#c9a84c 55%,#f0d070 75%,#c9a84c 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent">Windows &amp; Doors</div>
             <div style="font-family:var(--sans);font-size:clamp(.7rem,1.2vw,1rem);font-weight:700;letter-spacing:.3em;text-transform:uppercase;color:rgba(245,240,232,.45);margin-top:.3em">Showroom</div>
           </div>
-          <button class="tour-play-btn" id="tourPlayBtn" aria-label="Launch 360 tour" onclick="window.__launchTour()">
+          <button class="tour-play-btn" id="tourPlayBtn" aria-label="Launch the 360 degree showroom tour" onclick="event.stopPropagation();window.__launchTour()">
             <div class="tour-play-icon-wrap">
               <span class="tour-play-icon">&#9654;</span>
             </div>
@@ -1539,7 +1665,7 @@ details.disc-drop .disc-body a:hover{color:rgba(212,175,106,.7)}
   <span class="tick-item"><span class="tick-dot">&#9670;</span>Florida Product Approved</span>
   <span class="tick-item"><span class="tick-dot">&#9670;</span>Licensed &amp; Insured</span>
   <span class="tick-item"><span class="tick-dot">&#9670;</span>Free Estimates</span>
-  <span class="tick-item"><span class="tick-dot">&#9670;</span>Serving North, Central &amp; Southeast Florida</span>
+  <span class="tick-item"><span class="tick-dot">&#9670;</span>Serving Central, North, Northeast &amp; South Florida</span>
   <span class="tick-item"><span class="tick-dot">&#9670;</span>30+ Years Experience</span>
   <span class="tick-item"><span class="tick-dot">&#9670;</span>White Glove Installation</span>
   <span class="tick-item"><span class="tick-dot">&#9670;</span>Lifetime Warranty Available</span>
@@ -1551,7 +1677,7 @@ details.disc-drop .disc-body a:hover{color:rgba(212,175,106,.7)}
   <span class="tick-item"><span class="tick-dot">&#9670;</span>Florida Product Approved</span>
   <span class="tick-item"><span class="tick-dot">&#9670;</span>Licensed &amp; Insured</span>
   <span class="tick-item"><span class="tick-dot">&#9670;</span>Free Estimates</span>
-  <span class="tick-item"><span class="tick-dot">&#9670;</span>Serving North, Central &amp; Southeast Florida</span>
+  <span class="tick-item"><span class="tick-dot">&#9670;</span>Serving Central, North, Northeast &amp; South Florida</span>
   <span class="tick-item"><span class="tick-dot">&#9670;</span>30+ Years Experience</span>
   <span class="tick-item"><span class="tick-dot">&#9670;</span>White Glove Installation</span>
   <span class="tick-item"><span class="tick-dot">&#9670;</span>Lifetime Warranty Available</span>
@@ -1573,33 +1699,35 @@ details.disc-drop .disc-body a:hover{color:rgba(212,175,106,.7)}
         <div class="c-item"><div class="c-icon"><svg viewBox="0 0 16 16"><path d="M2 2h3l1.5 3.5-1.5 1a9 9 0 004.5 4.5l1-1.5L14 11v3a1 1 0 01-1 1C6 15 1 10 1 3a1 1 0 011-1z"/></svg></div><div><div class="c-lbl">Phone</div><div class="c-val"><a href="tel:3528877463">352-887-7463</a></div></div></div>
         <div class="c-item"><div class="c-icon"><svg viewBox="0 0 16 16"><rect x="1" y="3" width="14" height="10" rx="1"/><path d="M1 4l7 5 7-5"/></svg></div><div><div class="c-lbl">Email</div><div class="c-val"><a href="mailto:info@primewd.com">info@primewd.com</a></div></div></div>
         <div class="hours">
-          <div class="lbl" style="margin-bottom:1rem">Hours</div>
-          <div class="h-row"><span class="h-day">Monday</span><span class="h-time">09:00 &#8211; 17:00</span></div>
-          <div class="h-row"><span class="h-day">Tuesday</span><span class="h-time">09:00 &#8211; 17:00</span></div>
-          <div class="h-row"><span class="h-day">Wednesday</span><span class="h-time">09:00 &#8211; 17:00</span></div>
-          <div class="h-row"><span class="h-day">Thursday</span><span class="h-time">09:00 &#8211; 17:00</span></div>
-          <div class="h-row"><span class="h-day">Friday</span><span class="h-time">09:00 &#8211; 17:00</span></div>
-          <div class="h-row"><span class="h-day">Saturday</span><span class="h-cls">By Appointment</span></div>
-          <div class="h-row"><span class="h-day">Sunday</span><span class="h-cls">Closed</span></div>
+          <div class="lbl" style="margin-bottom:.6rem">Hours</div>
+          <div class="h-status" id="hStatus" aria-live="polite"></div>
+          <div class="h-row" data-d="1"><span class="h-day">Monday</span><span class="h-time">9 AM &#8211; 5 PM</span></div>
+          <div class="h-row" data-d="2"><span class="h-day">Tuesday</span><span class="h-time">9 AM &#8211; 5 PM</span></div>
+          <div class="h-row" data-d="3"><span class="h-day">Wednesday</span><span class="h-time">9 AM &#8211; 5 PM</span></div>
+          <div class="h-row" data-d="4"><span class="h-day">Thursday</span><span class="h-time">9 AM &#8211; 5 PM</span></div>
+          <div class="h-row" data-d="5"><span class="h-day">Friday</span><span class="h-time">9 AM &#8211; 5 PM</span></div>
+          <div class="h-row" data-d="6"><span class="h-day">Saturday</span><span class="h-cls">By Appointment</span></div>
+          <div class="h-row" data-d="0"><span class="h-day">Sunday</span><span class="h-cls">Closed</span></div>
         </div>
       </div>
       <div class="rev rev-d1">
         <div class="form-wrap">
           <div class="form-ttl">Send a Message</div>
           <div class="form-sub">// We respond within 1 business day</div>
-          <form name="contact" method="POST" data-netlify="true" action="/thank-you.html">
+          <form name="contact" method="POST" data-netlify="true" data-netlify-honeypot="bot-field" action="/thank-you.html" id="quoteForm">
             <input type="hidden" name="form-name" value="contact">
+            <p hidden><label>Leave this empty: <input name="bot-field" tabindex="-1" autocomplete="off"></label></p>
             <div class="form-row">
-              <div class="fg"><label>First Name *</label><input type="text" name="first-name" placeholder="John" required></div>
-              <div class="fg"><label>Last Name *</label><input type="text" name="last-name" placeholder="Smith" required></div>
+              <div class="fg"><label for="cf-first">First Name *</label><input id="cf-first" type="text" name="first-name" placeholder="John" autocomplete="given-name" required></div>
+              <div class="fg"><label for="cf-last">Last Name *</label><input id="cf-last" type="text" name="last-name" placeholder="Smith" autocomplete="family-name" required></div>
             </div>
             <div class="form-row">
-              <div class="fg"><label>Email *</label><input type="email" name="email" placeholder="john@example.com" required></div>
-              <div class="fg"><label>Phone</label><input type="tel" name="phone" placeholder="352-000-0000"></div>
+              <div class="fg"><label for="cf-email">Email *</label><input id="cf-email" type="email" name="email" placeholder="john@example.com" autocomplete="email" inputmode="email" required></div>
+              <div class="fg"><label for="cf-phone">Phone</label><input id="cf-phone" type="tel" name="phone" placeholder="352-000-0000" autocomplete="tel" inputmode="tel"></div>
             </div>
-            <div class="fg"><label>Address</label><input type="text" name="address" placeholder="Street, City, Zip Code"></div>
-            <div class="fg"><label>Interested In</label><select name="service"><option value="">Select a service...</option><option>Windows</option><option>Entry Doors</option><option>Sliding Glass Doors</option><option>Full Home Package</option><option>Specialty Shapes</option><option>Need Consultation</option></select></div>
-            <div class="fg"><label>Project Details</label><textarea name="details" placeholder="Number of windows/doors, home size, any specific requirements..."></textarea></div>
+            <div class="fg"><label for="cf-address">Address</label><input id="cf-address" type="text" name="address" placeholder="Street, City, Zip Code" autocomplete="street-address"></div>
+            <div class="fg"><label for="cf-service">Interested In</label><select id="cf-service" name="service"><option value="">Select a service...</option><option>Windows</option><option>Entry &amp; Swing Doors</option><option>Sliding Glass Doors</option><option>Specialty Shapes</option><option>Full Home Package</option><option>Remodel / Resize an Opening</option><option>Need Consultation</option></select></div>
+            <div class="fg"><label for="cf-details">Project Details</label><textarea id="cf-details" name="details" placeholder="Number of windows/doors, home size, any specific requirements..."></textarea></div>
             <button type="submit" class="btn-submit" id="submitBtn">Send Quote Request &#8594;</button>
             <p class="form-note">No spam, ever. Your info stays private.</p>
           </form>
@@ -1659,24 +1787,25 @@ details.disc-drop .disc-body a:hover{color:rgba(212,175,106,.7)}
   <div class="fi">
     <div class="fg-grid">
       <div>
-        <div class="f-logo"></div>
+        <div class="f-logo"><img src="https://res.cloudinary.com/drhayhi5y/image/upload/e_bgremoval/e_trim/c_scale,h_124/f_png/v1775817870/IMG_4178_h2yjji.png" alt="Prime Windows &amp; Doors" width="106" height="62" loading="lazy" decoding="async"></div>
         <div class="f-tag">// luxury that lasts</div>
         <p class="f-desc">Central Florida&#39;s trusted window and door specialist. Thirty years of experience. Serving Central, North, Northeast, and South Florida from our Ocala showroom since 2019.</p>
       </div>
       <div><div class="fh">Navigation</div><ul class="fl"><li><a href="#about">About</a></li><li><a href="#services">Services</a></li><li><a href="#brands">Brands</a></li><li><a href="#testimonials">Reviews</a></li><li><a href="#contact">Contact</a></li></ul></div>
-      <div><div class="fh">Product Lines</div><ul class="fl"><li><a href="https://www.viwinco.com" target="_blank">Viwinco</a></li><li><a href="https://weathershield.com" target="_blank">Weather Shield</a></li><li><a href="https://www.jeld-wen.com/en-us" target="_blank">Jeld-Wen</a></li><li><a href="https://www.thermatru.com" target="_blank">Therma-Tru</a></li><li><a href="https://euro-wall.com" target="_blank">Euro-Wall</a></li></ul></div>
+      <div><div class="fh">Product Lines</div><ul class="fl"><li><a href="brands/viwinco.html">Viwinco</a></li><li><a href="brands/weather-shield.html">Weather Shield</a></li><li><a href="brands/jeld-wen.html">Jeld-Wen</a></li><li><a href="brands/therma-tru.html">Therma-Tru</a></li><li><a href="brands/euro-wall.html">Euro-Wall</a></li></ul></div>
       <div><div class="fh">Contact</div><ul class="fl"><li><a href="tel:3528877463">352-887-7463</a></li><li><a href="mailto:info@primewd.com">Email Us</a></li><li><a href="#contact">Free Quote</a></li></ul><div style="margin-top:1.5rem"><div class="fh">Address</div><p style="font-family:var(--mono);font-size:.7rem;color:var(--t3);line-height:1.7">5100 W FL-40 Suite 300<br>Ocala, FL 34482</p></div></div>
     </div>
     <div class="f-bottom">
       <div class="f-copy">&#169; 2026 Prime Windows &amp; Doors &middot; All Rights Reserved &middot; Ocala, FL</div>
-      <div class="f-soc"><a class="soc" href="#">f</a><a class="soc" href="#">ig</a><a class="soc" href="#">hz</a></div>
+      <!-- Social links were placeholders (href="#"). Re-add with real profile URLs, e.g.
+           <div class="f-soc"><a class="soc" href="https://facebook.com/…" target="_blank" rel="noopener" aria-label="Facebook">f</a></div> -->
     </div>
     <div class="f-legal-links">
       <a href="disclaimers.html">Disclaimers &amp; Legal Notice</a>
-      <a href="disclaimers.html">Privacy Policy</a>
-      <a href="disclaimers.html">Terms of Use</a>
-      <a href="disclaimers.html">FTC Disclosure</a>
-      <a href="disclaimers.html">Warranty Terms</a>
+      <a href="disclaimers.html#s6">Privacy Policy</a>
+      <a href="disclaimers.html#s5">Terms of Use</a>
+      <a href="disclaimers.html#s3">FTC Disclosure</a>
+      <a href="disclaimers.html#s4">Warranty Terms</a>
     </div>
   </div>
 </footer>
@@ -1695,13 +1824,39 @@ details.disc-drop .disc-body a:hover{color:rgba(212,175,106,.7)}
 <div id="cur"></div>
 <div id="cur-ring"></div>
 
-<script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
 <script>
+// THREE.JS — loaded lazily. It was ~670KB of parser-blocking script at the top of the page,
+// used only by the two decorative dot grids (brands + footer). Now it downloads off the
+// critical path: when the browser is idle after load, or as soon as either grid nears view.
+var __threeQ=[];
+function onThree(fn){ if(window.THREE) fn(); else __threeQ.push(fn); }
+(function(){
+  var started=false;
+  function load(){
+    if(started)return; started=true;
+    var s=document.createElement('script');
+    s.src='https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js';
+    s.async=true;
+    s.onload=function(){ var q=__threeQ; __threeQ=[]; q.forEach(function(f){ try{ f(); }catch(e){ console.error(e); } }); };
+    document.head.appendChild(s);
+  }
+  window.addEventListener('load',function(){
+    (window.requestIdleCallback||function(f){ setTimeout(f,1500); })(load,{timeout:4000});
+  });
+  if('IntersectionObserver' in window){
+    var near=new IntersectionObserver(function(es){
+      if(es.some(function(e){ return e.isIntersecting; })){ near.disconnect(); load(); }
+    },{rootMargin:'150% 0px'});
+    document.addEventListener('DOMContentLoaded',function(){
+      ['brandsDots','footerDots'].forEach(function(id){ var el=document.getElementById(id); if(el)near.observe(el); });
+    });
+  } else { load(); }
+})();
+
 // CURSOR
 const cur=document.getElementById("cur"),ring=document.getElementById("cur-ring");
 let mx=0,my=0,rx=0,ry=0;
-document.addEventListener("mousemove",e=>{mx=e.clientX;my=e.clientY;cur.style.left=mx+"px";cur.style.top=my+"px"});
-(function loop(){rx+=(mx-rx)*.18;ry+=(my-ry)*.18;ring.style.left=rx+"px";ring.style.top=ry+"px";requestAnimationFrame(loop)})();
+document.addEventListener("mousemove",e=>{mx=e.clientX;my=e.clientY;cur.style.translate=mx+"px "+my+"px"},{passive:true});
 (function(){
   var tourEl=document.getElementById('showroom');
   if(!tourEl)return;
@@ -1799,7 +1954,8 @@ window.addEventListener("scroll",function(){
     var rect = sideNav.getBoundingClientRect();
     var pct = Math.max(0, Math.min(1, (clientY - rect.top) / rect.height));
     prog.style.height = (pct * 100).toFixed(2) + '%';
-    window.scrollTo(0, pct * scrollMax());
+    if(window.primeLenis) window.primeLenis.scrollTo(pct * scrollMax(), {immediate:true, force:true});
+    else window.scrollTo(0, pct * scrollMax());
   }
 
   function startDrag(e){
@@ -1808,6 +1964,12 @@ window.addEventListener("scroll",function(){
     document.documentElement.classList.add('sn-dragging');
     document.body.classList.add('sn-dragging');
     thumb.classList.add('sn-active-thumb');
+    // move/up listeners live only for the duration of a drag — a permanent non-passive
+    // document touchmove made every touch scroll on the page wait for the main thread
+    document.addEventListener('mousemove', moveDrag);
+    document.addEventListener('touchmove', moveDrag, {passive:false});
+    document.addEventListener('mouseup', endDrag);
+    document.addEventListener('touchend', endDrag);
     var clientY = e.touches ? e.touches[0].clientY : e.clientY;
     onDragMove(clientY);
   }
@@ -1825,19 +1987,19 @@ window.addEventListener("scroll",function(){
     document.documentElement.classList.remove('sn-dragging');
     document.body.classList.remove('sn-dragging');
     thumb.classList.remove('sn-active-thumb');
+    document.removeEventListener('mousemove', moveDrag);
+    document.removeEventListener('touchmove', moveDrag, {passive:false});
+    document.removeEventListener('mouseup', endDrag);
+    document.removeEventListener('touchend', endDrag);
     update();
   }
 
   thumb.addEventListener('mousedown', startDrag);
   thumb.addEventListener('touchstart', startDrag, {passive:false});
-  document.addEventListener('mousemove', moveDrag);
-  document.addEventListener('touchmove', moveDrag, {passive:false});
-  document.addEventListener('mouseup', endDrag);
-  document.addEventListener('touchend', endDrag);
 
   // ── Click on track to jump ──
   trackHit.addEventListener('click', function(e){
-    window.scrollTo({top: yToScroll(e.clientY), behavior:'smooth'});
+    window.primeScrollTo(yToScroll(e.clientY));
   });
 
   var _snRaf=false;
@@ -1848,7 +2010,8 @@ window.addEventListener("scroll",function(){
 })();
 
 // MOBILE NAV
-function toggleNav(){const m=document.getElementById("mobNav"),h=document.getElementById("ham"),b=document.querySelector(".nav-brand");m.classList.toggle("open");h.classList.toggle("open");var open=m.classList.contains("open");document.body.style.overflow=open?"hidden":"";if(b)b.style.opacity=open?"0":"1"}
+function toggleNav(){const m=document.getElementById("mobNav"),h=document.getElementById("ham"),b=document.querySelector(".nav-brand");m.classList.toggle("open");h.classList.toggle("open");var open=m.classList.contains("open");document.body.style.overflow=open?"hidden":"";if(b)b.style.opacity=open?"0":"1";h.setAttribute("aria-expanded",open?"true":"false");if(open){var f=m.querySelector(".sn-item");if(f)setTimeout(function(){f.focus({preventScroll:true})},300)}h.setAttribute("aria-label",open?"Close menu":"Open menu");m.setAttribute("aria-hidden",open?"false":"true");if(window.primeLenis){open?window.primeLenis.stop():window.primeLenis.start()}}
+document.addEventListener("keydown",function(e){if(e.key==="Escape"&&document.getElementById("mobNav").classList.contains("open")){toggleNav();document.getElementById("ham").focus()}});
 
 // REVEAL
 const ro=new IntersectionObserver(e=>e.forEach(x=>{if(x.isIntersecting)x.target.classList.add("in")}),{threshold:.1});
@@ -2004,45 +2167,18 @@ function count(id,to,sfx){
 })();
 
 // NAV ACTIVE
-// NAV — scroll proximity (exports navFloors for wipe engine)
-(function(){
-  var items=Array.from(document.querySelectorAll('#sideNav .sn-item'));
-  var sections=items.map(function(a){return document.getElementById(a.dataset.s)});
-  var smoothT=items.map(function(){return 0;});
-  var LERP=0.09, ZONE=0.52;
-  // shared floor refs read by wipe engine
-  var navFloors=items.map(function(){return {val:0};});
-  window._navFloors=navFloors;
-  function tick(){
-    var vc=window.scrollY+window.innerHeight*0.5;
-    var half=window.innerHeight*ZONE;
-    for(var i=0;i<items.length;i++){
-      var sec=sections[i];
-      var target=sec ? Math.max(0,1-Math.abs(sec.offsetTop+sec.offsetHeight*.5-vc)/half) : 0;
-      smoothT[i]+=(target-smoothT[i])*LERP;
-      navFloors[i].val=smoothT[i];
-      // dot — scales and glows with activation
-      var dot=items[i].querySelector('.sn-dot');
-      if(dot){
-        var t=smoothT[i];
-        dot.style.opacity=(0.2+t*0.8).toFixed(2);
-        dot.style.transform='scale('+(0.7+t*0.9).toFixed(2)+')';
-        dot.style.boxShadow=t>0.3?'0 0 '+(t*7).toFixed(1)+'px rgba(212,175,106,'+(t*0.85).toFixed(2)+')':'none';
-      }
-    }
-    requestAnimationFrame(tick);
-  }
-  requestAnimationFrame(tick);
-})();
 function highlightNav(){}
 
 // WIPE GOLD — hero title + all section titles + side nav hover
 (function(){
   var GR=181,GG=143,GB=74; // --gold #b58f4a
 
+  if(window.matchMedia('(hover:none),(pointer:coarse)').matches)return; // pointer-only effect
+
   function initWipe(titleEl,listenerEl,opts){
     if(!titleEl||!listenerEl)return;
     opts=opts||{};
+    titleEl.setAttribute('aria-label',titleEl.textContent.replace(/\s+/g,' ').trim()); // read as words, not letters
     var EDGE=opts.edge||72, LERP=opts.lerp||0.13;
     var floorRef=opts.floorRef||null;
     var BR=opts.br,BG=opts.bg,BB=opts.bb; // optional base color override
@@ -2097,8 +2233,11 @@ function highlightNav(){}
       });
     }
 
+    var posDirty=true, running=false;
+    function kick(){ if(!running){ running=true; requestAnimationFrame(loop); } }
     listenerEl.addEventListener('pointermove',function(e){
-      mouseY=e.clientY; fadingOut=false;
+      if(posDirty){ cachePos(); posDirty=false; }   // re-measure only when actually needed
+      mouseY=e.clientY; fadingOut=false; kick();
       if(fadeTimer){clearTimeout(fadeTimer);fadeTimer=null;}
       // route mouseX only to the line nearest the cursor
       if(lineGroups.length){
@@ -2115,16 +2254,17 @@ function highlightNav(){}
         fadeTimer=setTimeout(function(){
           mouseY=null; fadingOut=true; fadeTimer=null;
           lineGroups.forEach(function(g){g.mouseX=null;});
+          kick();
         },opts.fadeDelay);
       });
     }
     var _cpW=window.innerWidth;
-    window.addEventListener('resize',function(){if(window.innerWidth===_cpW)return;_cpW=window.innerWidth;cachePos();},{passive:true});
-    var _wpRaf=false,_wpTouch=window.matchMedia('(hover:none),(pointer:coarse)').matches;
-    window.addEventListener('scroll',function(){if(_wpTouch)return;if(!_wpRaf){_wpRaf=true;requestAnimationFrame(function(){cachePos();_wpRaf=false;});}},{passive:true}); // wipe is pointer-driven; on touch this per-frame char re-measure was pure reflow waste
+    window.addEventListener('resize',function(){if(window.innerWidth===_cpW)return;_cpW=window.innerWidth;posDirty=true;},{passive:true});
+    // positions are viewport-relative: flag them stale on scroll, measure on the next pointermove (no per-frame reflow)
+    window.addEventListener('scroll',function(){posDirty=true;},{passive:true});
 
-    (function loop(){
-      var floor=floorRef?floorRef.val:0;
+    function loop(){
+      var floor=floorRef?floorRef.val:0, moving=false;
       var lr=fadingOut?LERP_OUT:LERP;
       for(var i=0;i<chars.length;i++){
         var target;
@@ -2140,7 +2280,9 @@ function highlightNav(){}
             target=chars[i]._t; // cursor not on this line yet — hold value
           }
         }
-        chars[i]._t+=(target-chars[i]._t)*lr;
+        var dt=(target-chars[i]._t)*lr;
+        if(dt>0.0008||dt<-0.0008)moving=true;
+        chars[i]._t+=dt;
         var t=chars[i]._t;
         var inv=chars[i].dataset&&chars[i].dataset.inv==='1';
         var col='rgb('+
@@ -2150,9 +2292,8 @@ function highlightNav(){}
         chars[i].style.color=col;
         if(inv) chars[i].style.webkitTextFillColor=col;
       }
-      requestAnimationFrame(loop);
-    })();
-    requestAnimationFrame(cachePos);
+      if(moving) requestAnimationFrame(loop); else running=false;  // settle, then sleep until the next pointer move
+    }
   }
 
   // All section titles — listen on title itself, tight wipe zone, fade back
@@ -2436,10 +2577,12 @@ function parallaxOrbs(){
 
 // SMOOTH ANCHORS
 document.querySelectorAll("a[href^='#']").forEach(a=>a.addEventListener("click",e=>{
-  const t=document.querySelector(a.getAttribute("href"));
+  const h=a.getAttribute("href");
+  if(h.length<2)return; // querySelector('#') throws
+  const t=document.querySelector(h);
   if(t){
     e.preventDefault();
-    t.scrollIntoView({behavior:"smooth",block:"start"});
+    window.primeScrollTo(t);
   }
 }));
 
@@ -2571,6 +2714,7 @@ document.querySelectorAll("a[href^='#']").forEach(a=>a.addEventListener("click",
 // SVC CARD GLOW
 (function(){
   var cards=document.querySelectorAll('#services .svc-card');
+  if(!cards.length)return; // services are rows now — nothing to glow, so no loop or listeners
   var state=new Map();
   cards.forEach(function(c){
     var g=document.createElement('div');
@@ -2623,33 +2767,42 @@ document.querySelectorAll("a[href^='#']").forEach(a=>a.addEventListener("click",
     c.style.setProperty('--active','0');
     state.set(c,{cur:0,tgt:0,active:false});
   });
-  var lx=0,ly=0;
+  var lx=0,ly=0,bpGridEl=document.getElementById('bpGrid'),anyActive=false,ticking=false;
   var isTouch=window.matchMedia('(hover:none),(pointer:coarse)').matches;
   function update(x,y){
     lx=x;ly=y;
-    cells.forEach(function(c){
-      var r=c.getBoundingClientRect(),prox=64;
+    if(!isTouch&&bpGridEl){
+      var g=bpGridEl.getBoundingClientRect();
+      if(x<g.left-64||x>g.right+64||y<g.top-64||y>g.bottom+64){ if(anyActive)bpClear(); return; }
+    }
+    var rects=[]; cells.forEach(function(c){rects.push(c.getBoundingClientRect());}); // all reads, then all writes
+    cells.forEach(function(c,i){
+      var r=rects[i],prox=64;
       var cx=r.left+r.width*.5,cy=r.top+r.height*.5;
       var near=x>r.left-prox&&x<r.right+prox&&y>r.top-prox&&y<r.bottom+prox;
       var s=state.get(c);
       if(!near){s.active=false;c.style.setProperty('--active','0');return;}
-      s.active=true;c.style.setProperty('--active','1');
+      s.active=true;anyActive=true;c.style.setProperty('--active','1');
       var raw=(180*Math.atan2(y-cy,x-cx))/Math.PI+90;
       s.tgt+=((raw-s.tgt+180)%360)-180;
     });
+    if(anyActive&&!isTouch&&!ticking){ticking=true;requestAnimationFrame(tick);}
   }
-  function bpClear(){cells.forEach(function(c){state.get(c).active=false;c.style.setProperty('--active','0');});}
+  function bpClear(){anyActive=false;cells.forEach(function(c){state.get(c).active=false;c.style.setProperty('--active','0');});}
+  // DESKTOP: eased pointer-follow glow — runs only while a cell is lit
+  function tick(){
+    var busy=false;
+    cells.forEach(function(c){
+      var s=state.get(c);
+      if(!s.active)return;
+      var d=(s.tgt-s.cur)*.1;
+      if(d>.05||d<-.05)busy=true;
+      s.cur+=d;
+      c.style.setProperty('--start',String(s.cur));
+    });
+    if(busy&&anyActive)requestAnimationFrame(tick); else ticking=false;
+  }
   if(!isTouch){
-    // DESKTOP: original eased pointer-follow glow (unchanged)
-    (function tick(){
-      cells.forEach(function(c){
-        var s=state.get(c);
-        if(!s.active)return;
-        s.cur+=(s.tgt-s.cur)*.1;
-        c.style.setProperty('--start',String(s.cur));
-      });
-      requestAnimationFrame(tick);
-    })();
     document.addEventListener('pointermove',function(e){update(e.clientX,e.clientY);},{passive:true});
     document.addEventListener('pointerdown',function(e){update(e.clientX,e.clientY);},{passive:true});
     document.addEventListener('pointerup',bpClear,{passive:true});
@@ -2717,6 +2870,19 @@ document.querySelectorAll("a[href^='#']").forEach(a=>a.addEventListener("click",
     railDraw();
   }
 })();
+// HERO VISIBILITY — decorative hero loops sleep while the hero is off-screen and resume on return
+var heroVis={on:true,wait:[]};
+var _reduceMotion=window.matchMedia('(prefers-reduced-motion: reduce)').matches; // decorative loops hold still
+(function(){
+  var h=document.getElementById('hero');
+  if(!h||!('IntersectionObserver' in window))return;
+  new IntersectionObserver(function(es){
+    heroVis.on=es[0].isIntersecting;
+    if(heroVis.on){var w=heroVis.wait;heroVis.wait=[];w.forEach(function(f){requestAnimationFrame(f);});}
+  }).observe(h);
+})();
+var _dpr=Math.min(window.devicePixelRatio||1,2);
+
 // ─── HERO TWINKLING STARS (parallax + shooting stars) ────────────────────────
 (function(){
   var cvs=document.getElementById('heroStars');
@@ -2749,8 +2915,8 @@ document.querySelectorAll("a[href^='#']").forEach(a=>a.addEventListener("click",
   }
 
   function resize(){
-    W=cvs.width=cvs.offsetWidth;
-    H=cvs.height=cvs.offsetHeight;
+    W=cvs.offsetWidth; H=cvs.offsetHeight;
+    cvs.width=W*_dpr; cvs.height=H*_dpr; ctx.setTransform(_dpr,0,0,_dpr,0,0); // crisp on retina
     stars=[];
     LAYER_CFG.forEach(function(cfg,li){
       for(var i=0;i<cfg.count;i++) stars.push(mkStar(li,i));
@@ -2781,6 +2947,8 @@ document.querySelectorAll("a[href^='#']").forEach(a=>a.addEventListener("click",
 
   var t=0;
   (function draw(){
+    if(!heroVis.on){heroVis.wait.push(draw);return;}
+    if(_reduceMotion&&t>0)return;   // one still frame of stars, no motion
     requestAnimationFrame(draw);
     ctx.clearRect(0,0,W,H);
     t+=0.016;
@@ -3029,8 +3197,8 @@ document.querySelectorAll("a[href^='#']").forEach(a=>a.addEventListener("click",
   update();
 })();
 
-// BRANDS DOTTED ROOM — same mouse-reactive Three.js effect as about section
-(function(){
+// BRANDS DOTTED ROOM — same mouse-reactive Three.js effect as about section (runs once three.js lazy-loads)
+onThree(function(){
   var section=document.getElementById('brands');
   var cvs=document.getElementById('brandsDots');
   if(!section||!cvs||typeof THREE==='undefined')return;
@@ -3136,10 +3304,11 @@ document.querySelectorAll("a[href^='#']").forEach(a=>a.addEventListener("click",
 
   // one-time correction once layout settles — covers a 0-width section measurement at script-run time
   setTimeout(function(){var w=section.offsetWidth,h=section.offsetHeight;if(w&&w!==lastW){lastW=w;camera.aspect=w/h;camera.updateProjectionMatrix();renderer.setSize(w,h);dirty=true;}},350);
-})();
+  requestAnimationFrame(function(){ cvs.classList.add('dots-on'); });
+});
 
-// FOOTER DOTTED ROOM — same mouse-reactive Three.js effect
-(function(){
+// FOOTER DOTTED ROOM — same mouse-reactive Three.js effect (runs once three.js lazy-loads)
+onThree(function(){
   var section=document.querySelector('footer');
   var cvs=document.getElementById('footerDots');
   if(!section||!cvs||typeof THREE==='undefined')return;
@@ -3157,7 +3326,7 @@ document.querySelectorAll("a[href^='#']").forEach(a=>a.addEventListener("click",
   camera.position.set(0,420,1100);
   camera.lookAt(0,0,0);
 
-  var renderer=new THREE.WebGLRenderer({canvas:cvs,alpha:true,antialias:true});
+  var renderer=new THREE.WebGLRenderer({canvas:cvs,alpha:true,antialias:true,preserveDrawingBuffer:true});
   renderer.setPixelRatio(Math.min(window.devicePixelRatio,2));
   renderer.setSize(W,H);
   renderer.setClearColor(0x000000,0);
@@ -3191,38 +3360,44 @@ document.querySelectorAll("a[href^='#']").forEach(a=>a.addEventListener("click",
   var ndcMouse=new THREE.Vector2(-9999,-9999);
   var groundPlane=new THREE.Plane(new THREE.Vector3(0,1,0),0);
   var mouseWorld=new THREE.Vector3();
-  var mouseActive=false;
+  var mouseActive=false, dirty=true;
 
   section.addEventListener('mousemove',function(e){
     var r=section.getBoundingClientRect();
     ndcMouse.x=((e.clientX-r.left)/r.width)*2-1;
     ndcMouse.y=-((e.clientY-r.top)/r.height)*2+1;
-    mouseActive=true;
+    mouseActive=true; dirty=true;
   });
   section.addEventListener('mouseleave',function(){ mouseActive=false; });
 
   var INFLUENCE=440,AMPLITUDE=160,LERP_IN=0.10,LERP_OUT=0.055;
 
   var footerVisible=false;
-  var fio=new IntersectionObserver(function(entries){footerVisible=entries[0].isIntersecting;},{threshold:0});
+  var fio=new IntersectionObserver(function(entries){footerVisible=entries[0].isIntersecting;if(footerVisible)dirty=true;},{threshold:0});
   fio.observe(section);
 
+  /* Same idle guard as the brands room: render only while the dots are actually moving.
+     preserveDrawingBuffer keeps the last frame on screen while identical WebGL frames are skipped. */
   (function animate(){
     requestAnimationFrame(animate);
     if(!footerVisible) return;
     if(mouseActive){ raycaster.setFromCamera(ndcMouse,camera); raycaster.ray.intersectPlane(groundPlane,mouseWorld); }
+    var moved=false;
     for(var i=0;i<FLOOR_COUNT;i++){
       var px=positions[i*3],pz=positions[i*3+2],targetY=0;
       if(mouseActive){
         var dx=px-mouseWorld.x,dz=pz-mouseWorld.z,dist=Math.sqrt(dx*dx+dz*dz);
         if(dist<INFLUENCE){ var t=1-dist/INFLUENCE; targetY=AMPLITUDE*t*t*(3-2*t); }
       }
-      var spd=targetY>currentY[i]?LERP_IN:LERP_OUT;
-      currentY[i]+=(targetY-currentY[i])*spd;
-      positions[i*3+1]=currentY[i];
+      var spd=targetY>currentY[i]?LERP_IN:LERP_OUT,ny=currentY[i]+(targetY-currentY[i])*spd;
+      if(!moved&&Math.abs(ny-currentY[i])>0.02)moved=true;
+      currentY[i]=ny; positions[i*3+1]=ny;
     }
-    geometry.attributes.position.needsUpdate=true;
+    if(moved)dirty=true;
+    if(!dirty)return;
+    if(moved)geometry.attributes.position.needsUpdate=true;
     renderer.render(scene,camera);
+    if(!moved&&!mouseActive)dirty=false;
   })();
 
   var _rzW=section.offsetWidth,_rzT;
@@ -3230,9 +3405,10 @@ document.querySelectorAll("a[href^='#']").forEach(a=>a.addEventListener("click",
     if(section.offsetWidth===_rzW)return;   // ignore height-only changes (iOS address bar) -> no WebGL setSize thrash
     _rzW=section.offsetWidth;
     clearTimeout(_rzT);
-    _rzT=setTimeout(function(){var W=section.offsetWidth,H=section.offsetHeight;camera.aspect=W/H;camera.updateProjectionMatrix();renderer.setSize(W,H);},200);
+    _rzT=setTimeout(function(){var W=section.offsetWidth,H=section.offsetHeight;camera.aspect=W/H;camera.updateProjectionMatrix();renderer.setSize(W,H);dirty=true;},200);
   }).observe(section);
-})();
+  requestAnimationFrame(function(){ cvs.classList.add('dots-on'); });
+});
 
 // SCROLL CUE EASTER EGG — confetti cannons
 (function(){
@@ -3245,8 +3421,8 @@ document.querySelectorAll("a[href^='#']").forEach(a=>a.addEventListener("click",
     var colors=['#b58f4a','#f5d97a','#fffbe6','#e2c06a','#d4af37','#fff8dc'];
     function frame(){
       if(Date.now()>end)return;
-      confetti({particleCount:3,angle:60,spread:52,startVelocity:62,origin:{x:0,y:0.55},colors:colors});
-      confetti({particleCount:3,angle:120,spread:52,startVelocity:62,origin:{x:1,y:0.55},colors:colors});
+      confetti({particleCount:3,angle:60,spread:52,startVelocity:62,origin:{x:0,y:0.55},colors:colors,disableForReducedMotion:true});
+      confetti({particleCount:3,angle:120,spread:52,startVelocity:62,origin:{x:1,y:0.55},colors:colors,disableForReducedMotion:true});
       requestAnimationFrame(frame);
     }
     frame();
@@ -3324,7 +3500,43 @@ document.querySelectorAll("a[href^='#']").forEach(a=>a.addEventListener("click",
   fitFx();
 
   var mob = window.innerWidth < 768;
-  window.addEventListener("resize", function(){ mob = window.innerWidth < 768; fitFx(); update(); });
+
+  // Two viewport heights on purpose:
+  //  - vH (cached) drives scroll PROGRESS. Touch devices re-measure it only when the WIDTH changes,
+  //    so the iOS toolbar showing/hiding on a direction switch can't shift the progress mid-gesture.
+  //  - the live innerHeight drives the card GEOMETRY, so the card always fits the real screen.
+  var vW = 0, vH = 0, lastW = window.innerWidth;
+  var coarse = window.matchMedia('(pointer:coarse)').matches;
+  function measure(){ vW = document.documentElement.clientWidth; vH = window.innerHeight; }
+  measure();
+  window.addEventListener("resize", function(){
+    if(coarse && window.innerWidth === lastW) return;
+    lastW = window.innerWidth; mob = lastW < 768; fitFx(); measure(); update();
+  });
+
+  // The photo gets a natural-aspect box just big enough to cover the screen (resized only when the
+  // screen size changes); per frame we only scale it, so the framing matches object-fit:cover at
+  // the card's size and nothing triggers layout.
+  var img = imgWrap.querySelector('img'), iw = 2400, ih = 1600, boxW = 0, sizedW = -1, sizedH = -1;
+  function natural(){ if(img && img.naturalWidth){ iw = img.naturalWidth; ih = img.naturalHeight; sizedW = -1; } }
+  if(img){ if(img.complete) natural(); else img.addEventListener('load', function(){ natural(); update(); }); }
+  function sizePhoto(liveH){
+    if(!img || (vW === sizedW && liveH === sizedH)) return;
+    sizedW = vW; sizedH = liveH;
+    boxW = Math.max(vW, liveH * iw / ih);
+    img.style.width = boxW.toFixed(1) + 'px';
+    img.style.height = (boxW * ih / iw).toFixed(1) + 'px';
+  }
+  function photoScale(k){ if(img) img.style.transform = 'translate(-50%,-50%) scale(' + k.toFixed(4) + ')'; }
+
+  // Draw the card: a w×h window (rounded by br) centred on screen, lifted by slideVh.
+  function card(w, h, br, slideVh, liveH){
+    sizePhoto(liveH);
+    var x = Math.max(0, (vW - w) / 2), y = Math.max(0, (liveH - h) / 2);
+    imgWrap.style.clipPath = 'inset(' + y.toFixed(1) + 'px ' + x.toFixed(1) + 'px round ' + br.toFixed(1) + 'px)';
+    imgWrap.style.transform = slideVh ? 'translate3d(0,' + (-slideVh).toFixed(2) + 'vh,0)' : 'none';
+    photoScale(Math.max(w / iw, h / ih) * iw / boxW);
+  }
 
   function easeInOut(t){ return t<0.5?2*t*t:1-Math.pow(-2*t+2,2)/2; }
 
@@ -3340,14 +3552,10 @@ document.querySelectorAll("a[href^='#']").forEach(a=>a.addEventListener("click",
     media.style.opacity = "1";
     title.style.opacity = '1';
     // image expands from card to fullscreen
-    var vW = window.innerWidth, vH = window.innerHeight;
+    var liveH = window.innerHeight;
     var w = (mob ? 300 + 650*e  : 300 + (vW-300)*e);
-    var h = 400 + (vH-400)*e;
-    var br= 14*(1-e);
-    imgWrap.style.transform    = 'translate(-50%,-50%)';
-    imgWrap.style.width        = w+"px";
-    imgWrap.style.height       = h+"px";
-    imgWrap.style.borderRadius = br+"px";
+    var h = 400 + (liveH-400)*e;
+    card(w, h, 14*(1-e), 0, liveH);
     // dim overlay lifts
     dim.style.opacity = String(Math.max(0, 0.5 - p*0.5));
     // title splits
@@ -3359,11 +3567,11 @@ document.querySelectorAll("a[href^='#']").forEach(a=>a.addEventListener("click",
   }
 
   function setFullscreen(){
-    var vW=window.innerWidth, vH=window.innerHeight;
     bg.style.opacity="1";
     media.style.opacity="1";
-    imgWrap.style.width=vW+"px"; imgWrap.style.height=vH+"px";
-    imgWrap.style.borderRadius="0";
+    sizePhoto(window.innerHeight);
+    imgWrap.style.clipPath="none"; imgWrap.style.transform="none";
+    photoScale(1);
     dim.style.opacity="0";
     title.style.opacity="0";
     hint.style.opacity="0";
@@ -3371,7 +3579,6 @@ document.querySelectorAll("a[href^='#']").forEach(a=>a.addEventListener("click",
 
   function update(){
     var r     = wrapper.getBoundingClientRect();
-    var vH    = window.innerHeight;
     var total = wrapper.offsetHeight - vH;
 
     if(r.top > vH){ hide(); return; }                        // fully above viewport
@@ -3383,10 +3590,7 @@ document.querySelectorAll("a[href^='#']").forEach(a=>a.addEventListener("click",
       title.style.opacity = String(eap);
       hint.style.opacity = '0';
       var slideY = (1 - eap) * 40;
-      imgWrap.style.width     = (mob ? '280px' : '300px');
-      imgWrap.style.height    = (mob ? '350px' : '400px');
-      imgWrap.style.borderRadius = '14px';
-      imgWrap.style.transform = 'translate(-50%, calc(-50% - ' + slideY + 'vh))';
+      card(mob ? 280 : 300, mob ? 350 : 400, 14, slideY, window.innerHeight);
       tTop.style.transform = 'translateY(-' + ((1-eap)*30) + 'vh)';
       tBot.style.transform = 'translateY(-' + ((1-eap)*30) + 'vh)';
       return;
@@ -3415,7 +3619,9 @@ document.querySelectorAll("a[href^='#']").forEach(a=>a.addEventListener("click",
     var r  = showcase.getBoundingClientRect();
     var vH = window.innerHeight;
     var progress = Math.min(1, Math.max(0, (vH - r.top) / (vH * 0.65)));
-    media.style.opacity = progress > 0 ? String(Math.max(0, 1 - progress).toFixed(3)) : '1';
+    // only take over once #showcase is entering; before that the scroll-expand owns #seMedia's opacity
+    // (writing '1' here overrode its approach fade-in and hide())
+    if(progress > 0) media.style.opacity = String(Math.max(0, 1 - progress).toFixed(3));
   }
 
   var _fadeRaf=false;
@@ -3458,21 +3664,25 @@ document.querySelectorAll("a[href^='#']").forEach(a=>a.addEventListener("click",
 
   function lerp(a,b,t){ return a+(b-a)*t; }
 
-  (function tick(){
+  // runs only while hovered (+ the .5s shrink after leaving); size is measured on enter, not every frame
+  var hovering=false, running=false, until=0;
+  function tick(){
     cPos.x = lerp(cPos.x, mPos.x, 0.15);
     cPos.y = lerp(cPos.y, mPos.y, 0.15);
     circle.style.transform = 'translate('+cPos.x+'px,'+cPos.y+'px) translate(-50%,-50%)';
-    inner.style.width  = wrap.offsetWidth  + 'px';
-    inner.style.height = wrap.offsetHeight + 'px';
     inner.style.transform = 'translate('+ -cPos.x +'px,'+ -cPos.y +'px)';
-    requestAnimationFrame(tick);
-  })();
+    if(hovering || performance.now() < until) requestAnimationFrame(tick); else running=false;
+  }
+  function kick(){ if(!running){ running=true; requestAnimationFrame(tick); } }
 
   wrap.addEventListener('mouseenter', function(e){
     var r = wrap.getBoundingClientRect();
+    inner.style.width  = wrap.offsetWidth  + 'px';
+    inner.style.height = wrap.offsetHeight + 'px';
     mPos.x = cPos.x = e.clientX - r.left;
     mPos.y = cPos.y = e.clientY - r.top;
     circle.classList.add('active');
+    hovering = true; kick();
   });
   wrap.addEventListener('mousemove', function(e){
     var r = wrap.getBoundingClientRect();
@@ -3481,6 +3691,7 @@ document.querySelectorAll("a[href^='#']").forEach(a=>a.addEventListener("click",
   });
   wrap.addEventListener('mouseleave', function(){
     circle.classList.remove('active');
+    hovering = false; until = performance.now() + 600;
   });
 })();
 
@@ -3496,6 +3707,12 @@ document.querySelectorAll("a[href^='#']").forEach(a=>a.addEventListener("click",
     'https://res.cloudinary.com/drhayhi5y/image/upload/v1773696813/Contemporary_DesertFlower_2_vq7oo6.jpg',
     'https://res.cloudinary.com/drhayhi5y/image/upload/v1773696813/Contemporary_Ellingson_3_e1pzjj.jpg'
   ];
+
+  // Cloudinary delivery transforms — originals are 1–1.6MB 2560px JPEGs.
+  // f_auto/q_auto serves WebP/AVIF at a fraction of the weight; thumbs get a
+  // tiny cropped rendition instead of the full original.
+  function cld(src, t){ return src.replace('/image/upload/', '/image/upload/' + t + '/'); }
+  var SLIDE_T = 'f_auto,q_auto:best,c_limit,w_2200', THUMB_T = 'f_auto,q_auto,c_fill,w_240,h_160';
 
   var kbAnims = ['gKB1','gKB2','gKB3','gKB4'];
   var gallery = document.getElementById('gallery');
@@ -3518,9 +3735,10 @@ document.querySelectorAll("a[href^='#']").forEach(a=>a.addEventListener("click",
     var slide = document.createElement('div');
     slide.className = 'gallery-slide' + (i === 0 ? ' active' : '');
     var img = document.createElement('img');
-    img.src = src;
-    img.alt = 'Prime Windows and Doors';
+    img.src = cld(src, SLIDE_T);
+    img.alt = 'Home featuring windows and doors installed by Prime Windows & Doors (' + (i + 1) + ' of ' + images.length + ')';
     img.loading = i < 2 ? 'eager' : 'lazy';
+    img.decoding = 'async';
     img.draggable = false;
     slide.appendChild(img);
     slidesEl.appendChild(slide);
@@ -3532,9 +3750,10 @@ document.querySelectorAll("a[href^='#']").forEach(a=>a.addEventListener("click",
     thumb.className = 'gallery-thumb' + (i === 0 ? ' active' : '');
     thumb.setAttribute('aria-label', 'View image ' + (i + 1));
     var img = document.createElement('img');
-    img.src = src;
+    img.src = cld(src, THUMB_T);
     img.alt = '';
     img.loading = 'lazy';
+    img.decoding = 'async';
     img.draggable = false;
     thumb.appendChild(img);
     thumb.addEventListener('click', function(){ goTo(i); });
@@ -3587,7 +3806,11 @@ document.querySelectorAll("a[href^='#']").forEach(a=>a.addEventListener("click",
     }
 
     // Scroll active thumb into view
-    thumbs[current].scrollIntoView({behavior:'smooth',block:'nearest',inline:'center'});
+    // center the active thumb by scrolling ONLY the strip — scrollIntoView also scrolled the page under the reader every 6s
+    if(thumbsEl.scrollWidth > thumbsEl.clientWidth){
+      var tr = thumbs[current].getBoundingClientRect(), cr = thumbsEl.getBoundingClientRect();
+      thumbsEl.scrollBy({left: (tr.left + tr.width/2) - (cr.left + cr.width/2), behavior:'smooth'});
+    }
 
     // Counter
     curEl.textContent = pad(current + 1);
@@ -3642,6 +3865,7 @@ document.querySelectorAll("a[href^='#']").forEach(a=>a.addEventListener("click",
   }
 
   pauseBtn.addEventListener('click', function(){ setPaused(!isPaused); });
+  if(_reduceMotion) setPaused(true); // no autoplay / Ken Burns drift; arrows, thumbs and swipe still work
 
   // Touch swipe (mobile)
   var touchStartX = 0, touchStartY = 0, isSwiping = false;
@@ -3652,12 +3876,8 @@ document.querySelectorAll("a[href^='#']").forEach(a=>a.addEventListener("click",
     stopAuto();
   }, {passive: true});
 
-  frame.addEventListener('touchmove', function(e){
-    if(!isSwiping) return;
-    var dx = Math.abs(e.touches[0].clientX - touchStartX);
-    var dy = Math.abs(e.touches[0].clientY - touchStartY);
-    if(dx > dy * 1.2) e.preventDefault();
-  }, {passive: false});
+  // (no non-passive touchmove: .gallery-frame{touch-action:pan-y} lets the browser keep vertical
+  //  scrolling instant while horizontal swipes stay with us)
 
   frame.addEventListener('touchend', function(e){
     if(!isSwiping) return;
@@ -4033,17 +4253,25 @@ document.querySelectorAll("a[href^='#']").forEach(a=>a.addEventListener("click",
     l.style.opacity='0';
     setTimeout(function(){l.style.display='none';},750);
   }
-  if(document.readyState==='complete'){
-    setTimeout(dismiss,600);
-  } else {
-    window.addEventListener('load',function(){setTimeout(dismiss,600);});
-    setTimeout(dismiss,4000); // fallback — dismiss after 4s no matter what
+  // Lift as soon as the hero backdrop is ready (or the page loads) — not after every
+  // below-the-fold image — and never hold the visitor longer than ~1.8s.
+  var lifted=false;
+  function go(delay){ if(lifted)return; lifted=true; setTimeout(dismiss,delay); }
+  if(document.readyState==='complete'){ go(450); }
+  else {
+    var heroImg=document.querySelector('.prime-bg-img');
+    if(heroImg){
+      if(heroImg.complete) go(450);
+      else { heroImg.addEventListener('load',function(){go(300);}); heroImg.addEventListener('error',function(){go(0);}); }
+    }
+    window.addEventListener('load',function(){go(300);});
+    setTimeout(function(){go(0);},1800);
   }
 })();
 
 // ─── CURSOR TRAIL ────────────────────────────────────────────────────────────
 (function(){
-  if(window.matchMedia('(hover:none)').matches) return;
+  if(window.matchMedia('(hover:none)').matches||_reduceMotion) return;
   var COUNT=12;
   var trail=[];
   var tx=window.innerWidth/2, ty=window.innerHeight/2;
@@ -4055,64 +4283,93 @@ document.querySelectorAll("a[href^='#']").forEach(a=>a.addEventListener("click",
     document.body.appendChild(d);
     trail.push({el:d,x:tx,y:ty});
   }
-  document.addEventListener('mousemove',function(e){tx=e.clientX;ty=e.clientY;});
-  (function loop(){
-    var lx=tx,ly=ty;
+  var trailRun=false;
+  document.addEventListener('mousemove',function(e){tx=e.clientX;ty=e.clientY;if(!trailRun){trailRun=true;requestAnimationFrame(loop);}},{passive:true});
+  function loop(){
+    var lx=tx,ly=ty,busy=false;
     for(var i=0;i<COUNT;i++){
-      var t=trail[i];
-      t.x+=(lx-t.x)*0.25;
-      t.y+=(ly-t.y)*0.25;
+      var t=trail[i],dx=(lx-t.x)*0.25,dy=(ly-t.y)*0.25;
+      if(dx>.05||dx<-.05||dy>.05||dy<-.05)busy=true;
+      t.x+=dx; t.y+=dy;
       t.el.style.transform='translate(calc('+t.x.toFixed(1)+'px - 50%),calc('+t.y.toFixed(1)+'px - 50%))';
       lx=t.x; ly=t.y;
     }
-    requestAnimationFrame(loop);
-  })();
+    if(busy)requestAnimationFrame(loop); else trailRun=false; // caught up with the cursor — sleep until it moves
+  }
+  requestAnimationFrame(loop);
 })();
 
-// ─── HERO PARTICLES ──────────────────────────────────────────────────────────
+// ─── HERO PIXIE DUST ─────────────────────────────────────────────────────────
+// The night photo's stars fade out toward the top of the screen and "turn into" gold dust: motes are
+// born along the hero's bottom edge as cool star-white points, warm to gold as they rise and sway, and
+// fade out roughly a third of the way up. On landing, gold dust is creeping up from the bottom of the
+// screen, inviting a scroll. Count and rise height scale with the screen; motion is time-based.
 (function(){
   var canvas=document.getElementById('heroPtcl');
-  if(!canvas)return;
+  if(!canvas||_reduceMotion)return;
   var ctx=canvas.getContext('2d');
-  var W,H,pts=[];
+  var W=0,H=0,BASE=0,RISE=300,pts=[];
+
+  // star-white -> champagne -> gold, pre-rendered as soft sprites (no per-frame shadowBlur)
+  var STEPS=10,sprites=[],C0=[226,232,255],C1=[246,224,160],C2=[212,175,106];
+  function mix(a,b,t){return[a[0]+(b[0]-a[0])*t,a[1]+(b[1]-a[1])*t,a[2]+(b[2]-a[2])*t];}
+  for(var k=0;k<STEPS;k++){
+    var u=k/(STEPS-1),c=u<.5?mix(C0,C1,u*2):mix(C1,C2,(u-.5)*2),rgb=(c[0]|0)+','+(c[1]|0)+','+(c[2]|0);
+    var cv=document.createElement('canvas');cv.width=cv.height=32;
+    var g=cv.getContext('2d'),rg=g.createRadialGradient(16,16,0,16,16,16);
+    rg.addColorStop(0,'rgba('+rgb+',1)');rg.addColorStop(.18,'rgba('+rgb+',.85)');rg.addColorStop(.42,'rgba('+rgb+',.2)');rg.addColorStop(1,'rgba('+rgb+',0)');
+    g.fillStyle=rg;g.fillRect(0,0,32,32);sprites.push(cv);
+  }
+
+  function spawn(p,first){
+    p.x=Math.random()*W;
+    p.y=BASE+4+Math.random()*16;                  // born just below the bottom of the landing screen
+    p.life=RISE*(.45+Math.random()*.55);          // each mote fades out at its own height
+    p.d=first?Math.random()*p.life:0;             // stagger the first frame so the band is already alive
+    p.v=14+Math.random()*30;                      // rise speed, px/s
+    p.r=.6+Math.random()*1.5;
+    p.sw=Math.random()*6.283;p.sf=.5+Math.random()*.9;p.sa=3+Math.random()*9;   // gentle sway
+    p.tw=Math.random()*6.283;p.tf=1.5+Math.random()*2.5;                         // twinkle
+    return p;
+  }
   function resize(){
-    W=canvas.width=canvas.offsetWidth;
-    H=canvas.height=canvas.offsetHeight;
+    W=canvas.offsetWidth;H=canvas.offsetHeight;
+    canvas.width=W*_dpr;canvas.height=H*_dpr;ctx.setTransform(_dpr,0,0,_dpr,0,0);
+    BASE=Math.min(H,window.innerHeight);           // bottom of the screen you land on (hero may be taller)
+    RISE=Math.max(180,Math.min(440,BASE*.4));     // how far the dust climbs
+    var n=Math.round(Math.max(44,Math.min(160,W/9)));   // ~44 motes on phones, up to 160 on wide screens
+    pts.length=Math.min(pts.length,n);
+    for(var i=0;i<n;i++)pts[i]=spawn(pts[i]||{},true);
   }
   resize();
-  var _cvW=window.innerWidth;window.addEventListener('resize',function(){if(window.innerWidth===_cvW)return;_cvW=window.innerWidth;resize();},{passive:true}); // width-only: skip canvas/particle rebuilds on iOS address-bar height toggles
-  var COUNT=window.innerWidth<=768?22:55;
-  for(var i=0;i<COUNT;i++){
-    pts.push({
-      x:Math.random()*W, y:H+Math.random()*H,
-      vx:(Math.random()-.5)*0.35, vy:-(0.25+Math.random()*0.65),
-      r:Math.random()*1.8+0.4,
-      a:Math.random(),
-      va: -(0.0015+Math.random()*0.002)  // fade in then out
-    });
-  }
-  function draw(){
+  // rebuild on width changes; on touch screens ignore height-only changes (iOS address bar), on desktop follow them
+  var _cvW=window.innerWidth,_cvH=window.innerHeight,_coarse=window.matchMedia('(pointer:coarse)').matches;
+  window.addEventListener('resize',function(){
+    if(window.innerWidth===_cvW&&(_coarse||window.innerHeight===_cvH))return;
+    _cvW=window.innerWidth;_cvH=window.innerHeight;resize();
+  },{passive:true});
+
+  var last=0;
+  function draw(now){
+    if(!heroVis.on){heroVis.wait.push(draw);last=0;return;}
+    var dt=last?Math.min(.05,(now-last)/1000):.016;last=now;
     ctx.clearRect(0,0,W,H);
     for(var i=0;i<pts.length;i++){
       var p=pts[i];
-      p.x+=p.vx; p.y+=p.vy; p.a+=p.va;
-      if(p.a<=0||p.y<-10){
-        p.x=Math.random()*W; p.y=H+10;
-        p.a=0; p.va=0.002+Math.random()*0.002;
-        p.vx=(Math.random()-.5)*0.35;
-        p.vy=-(0.25+Math.random()*0.65);
-      }
-      if(p.a>0.55) p.va=-Math.abs(p.va);
-      ctx.beginPath();
-      ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
-      ctx.fillStyle='rgba(212,175,106,'+Math.max(0,p.a).toFixed(3)+')';
-      ctx.shadowBlur=6;
-      ctx.shadowColor='rgba(212,175,106,.6)';
-      ctx.fill();
+      p.d+=p.v*dt;p.sw+=p.sf*dt;p.tw+=p.tf*dt;
+      if(p.d>=p.life){spawn(p,false);continue;}
+      var t=p.d/p.life;
+      // quick fade-in at the edge, long soft fade-out as it climbs, a little twinkle throughout
+      var a=(t<.1?t/.1:Math.pow(1-(t-.1)/.9,1.4))*(.72+.26*Math.sin(p.tw));
+      var spr=sprites[Math.min(STEPS-1,(t*2.6*STEPS)|0)];   // star-white at the edge, fully gold by ~40% of the climb
+      var sz=p.r*8,x=p.x+Math.sin(p.sw)*p.sa,y=p.y-p.d;
+      ctx.globalAlpha=a;
+      ctx.drawImage(spr,x-sz/2,y-sz/2,sz,sz);
     }
+    ctx.globalAlpha=1;
     requestAnimationFrame(draw);
   }
-  draw();
+  requestAnimationFrame(draw);
 })();
 
 // ─── LABEL SCRAMBLE — section .lbl elements ─────────────────────────────────
@@ -4135,7 +4392,9 @@ document.querySelectorAll("a[href^='#']").forEach(a=>a.addEventListener("click",
       if(frame>FRAMES){clearInterval(id);el.textContent=orig;}
     },38);
   }
-  var labels=document.querySelectorAll('.lbl');
+  if(window.matchMedia('(prefers-reduced-motion: reduce)').matches)return;
+  // .txt-rise labels are split into word spans for the rise reveal — rewriting their text would snap it
+  var labels=document.querySelectorAll('.lbl:not(.txt-rise)');
   var io=new IntersectionObserver(function(entries){
     entries.forEach(function(e){
       if(e.isIntersecting){
@@ -4403,45 +4662,41 @@ document.querySelectorAll("a[href^='#']").forEach(a=>a.addEventListener("click",
     link.addEventListener('mouseleave',hidePreview);
   });
 
-  // Pre-warm all snapshots when section enters viewport
+  // Pre-warm the preview images (hover devices only) so the first hover is instant.
+  // (Replaces a leftover block that referenced undefined cache/SNAP and threw on every visit.)
   var warmIo=new IntersectionObserver(function(entries){
-    if(entries[0].isIntersecting){
-      warmIo.disconnect();
-      lines.forEach(function(link,i){
-        setTimeout(function(){
-          var url=link.dataset.preview;
-          if(cache[url])return;
-          var t=new Image();
-          t.onload=function(){cache[url]=SNAP+url;};
-          t.src=SNAP+url;
-        },i*400);
-      });
-    }
+    if(!entries[0].isIntersecting)return;
+    warmIo.disconnect();
+    if(!window.matchMedia('(hover:hover)').matches)return;
+    lines.forEach(function(link,i){
+      var src=link.dataset.thumb;
+      if(!src)return;
+      setTimeout(function(){var t=new Image();t.decoding='async';t.src=src;},i*250);
+    });
   },{threshold:0.05});
   warmIo.observe(section);
 
   document.addEventListener('mousemove',function(e){mx=e.clientX;my=e.clientY;},{passive:true});
 
-  // ── Scroll parallax ──
+  // ── Scroll + mouse parallax, composed into ONE transform per frame ──
+  // (they used to overwrite each other, so the list jumped when the mouse moved after scrolling)
+  var _ty=0,_tx=0,_ptRaf=false,_prodIn=false;
+  function applyProd(){_ptRaf=false;if(prodList)prodList.style.transform='translate('+_tx.toFixed(1)+'px,'+_ty.toFixed(1)+'px)';}
+  function queueProd(){if(!_ptRaf){_ptRaf=true;requestAnimationFrame(applyProd);}}
+  new IntersectionObserver(function(es){_prodIn=es[0].isIntersecting;}).observe(section);
   var _prodRaf=false;
   window.addEventListener('scroll',function(){
-    if(!_prodRaf){_prodRaf=true;requestAnimationFrame(function(){
+    if(!_prodIn||_prodRaf)return;
+    _prodRaf=true;requestAnimationFrame(function(){
       _prodRaf=false;
-      if(!prodList)return;
       var r=section.getBoundingClientRect();
-      if(r.bottom<0||r.top>window.innerHeight)return;
       var p=(window.innerHeight-r.top)/(window.innerHeight+r.height);
-      prodList.style.transform='translateY('+((p-.5)*-16).toFixed(1)+'px)';
-    });}
+      _ty=(p-.5)*-16; applyProd();
+    });
   },{passive:true});
-
-  // ── Mouse parallax ──
   document.addEventListener('mousemove',function(e){
-    if(!prodList)return;
-    var r=section.getBoundingClientRect();
-    if(r.bottom<0||r.top>window.innerHeight)return;
-    var rx=(e.clientX/window.innerWidth-.5)*7;
-    prodList.style.transform='translateX('+rx.toFixed(1)+'px)';
+    if(!_prodIn||!prodList)return;
+    _tx=(e.clientX/window.innerWidth-.5)*7; queueProd();
   },{passive:true});
 })();
 
@@ -4550,7 +4805,8 @@ document.querySelectorAll("a[href^='#']").forEach(a=>a.addEventListener("click",
   function movePoints(time){
     lines.forEach(function(pts){
       pts.forEach(function(p){
-        var move=noise(p.x*.003,p.y*.002)*8+time*WAVE_SPEED*.002;
+        if(p.n===undefined)p.n=noise(p.x*.003,p.y*.002)*8; // static per point — compute once, not every frame
+        var move=p.n+time*WAVE_SPEED*.002;
         p.wave.x=Math.cos(move)*12*WAVE_AMP*2;
         p.wave.y=Math.sin(move)*6*WAVE_AMP*2;
         var dx=p.x-mouse.sx, dy=p.y-mouse.sy;
@@ -4592,11 +4848,18 @@ document.querySelectorAll("a[href^='#']").forEach(a=>a.addEventListener("click",
     mouse.vs+=(mouse.v-mouse.vs)*.1; mouse.vs=Math.min(100,mouse.vs);
     mouse.lx=mouse.x; mouse.ly=mouse.y;
     movePoints(time); drawLines();
-    requestAnimationFrame(tick);
+    if(linesOn) requestAnimationFrame(tick); else linesRaf=false;
   }
+  // sleep while the section is off-screen (it used to animate ~20 SVG paths every frame for the whole visit)
+  var linesOn=false, linesRaf=false;
+  if(!_reduceMotion) new IntersectionObserver(function(es){
+    linesOn=es[0].isIntersecting;
+    if(linesOn&&!linesRaf){linesRaf=true;requestAnimationFrame(tick);}
+  }).observe(section);
 
   // ── Events ──────────────────────────────────────────────────────────────────
   window.addEventListener('mousemove',function(e){
+    if(!linesOn)return;
     var r=section.getBoundingClientRect();
     mouse.x=e.clientX-r.left; mouse.y=e.clientY-r.top;
     if(!mouse.set){mouse.sx=mouse.x;mouse.sy=mouse.y;mouse.lx=mouse.x;mouse.ly=mouse.y;mouse.set=true;}
@@ -4605,7 +4868,7 @@ document.querySelectorAll("a[href^='#']").forEach(a=>a.addEventListener("click",
   var _wlW=-1;
   window.addEventListener('resize',function(){setSize();if(W!==_wlW){_wlW=W;setLines();}},{passive:true}); // rebuild the SVG path grid only on WIDTH change, not iOS address-bar height toggles
 
-  setSize(); setLines(); requestAnimationFrame(tick);
+  setSize(); setLines(); drawLines();
 })();
 
 // ─── FOOTER COLUMN STAGGER ───────────────────────────────────────────────────
@@ -4704,7 +4967,7 @@ document.querySelectorAll("a[href^='#']").forEach(a=>a.addEventListener("click",
   var visible = false;
   var io = new IntersectionObserver(function(entries){
     entries.forEach(function(e){
-      if(e.isIntersecting && !visible){
+      if(e.isIntersecting && !visible && canvas.offsetParent !== null){ // canvas is display:none on phones
         visible = true; resize(); frame();
       } else if(!e.isIntersecting && visible){
         visible = false; cancelAnimationFrame(rafId);
@@ -4755,6 +5018,15 @@ html{background:#0a0a0f}
       setTimeout(function(){portal.classList.add('active');},160);
       setTimeout(function(){window.location.href=href;},500);
     });
+  });
+  // Back/forward restores this page from the bfcache with the black portal
+  // still up — clear the transition state so the visitor lands on the grid.
+  window.addEventListener('pageshow',function(e){
+    if(!e.persisted)return;
+    busy=false;
+    portal.classList.remove('active');
+    grid.classList.remove('bp-fading');
+    grid.querySelectorAll('.bp-source').forEach(function(c){c.classList.remove('bp-source');});
   });
 })();
 </script>
@@ -5183,15 +5455,18 @@ html{background:#0a0a0f}
     iframe.setAttribute('allowfullscreen','');
     iframe.setAttribute('allow','xr-spatial-tracking; gyroscope; accelerometer');
     iframe.setAttribute('loading','lazy');
+    iframe.setAttribute('title','360\u00b0 virtual tour of the Prime Windows & Doors showroom');
+    iframe.setAttribute('tabindex','0');
     iframe.style.cssText='position:absolute;inset:0;width:100%;height:100%;border:none;display:block';
     frame.appendChild(iframe);
+    setTimeout(function(){ try{iframe.focus({preventScroll:true});}catch(e){} },450); // keep keyboard focus with the tour
   };
 
-  /* Hide custom cursor while mouse is inside the iframe (iframe swallows mousemove) */
-  var shell=document.getElementById('tourShell');
-  if(shell){
-    var curEl=document.getElementById('cur');
-    var trailEls=document.querySelectorAll('.cur-trail');
+  /* Hide custom cursor while mouse is inside an iframe (iframes swallow mousemove, so it would freeze at the edge) */
+  var curEl=document.getElementById('cur');
+  var trailEls=document.querySelectorAll('.cur-trail');
+  [document.getElementById('tourShell'),document.getElementById('map-sec')].forEach(function(shell){
+    if(!shell)return;
     shell.addEventListener('mouseenter',function(){
       if(curEl) curEl.style.opacity='0';
       trailEls.forEach(function(t){t.style.opacity='0';});
@@ -5200,30 +5475,96 @@ html{background:#0a0a0f}
       if(curEl) curEl.style.opacity='1';
       trailEls.forEach(function(t){t.style.removeProperty('opacity');});
     });
-  }
+  });
 
-  /* Keyboard accessibility */
-  var ph=document.getElementById('tourPlaceholder');
-  if(ph){
-    ph.addEventListener('keydown',function(e){
-      if(e.key==='Enter'||e.key===' '){e.preventDefault();window.__launchTour();}
-    });
-  }
+  /* Keyboard: the inner <button> is the single focus target (Enter/Space work natively) */
 })();
 
 // ─── SIDE NAV PEEK — one-time hint on first visit ────────────────────────────
 (function(){
-  if(sessionStorage.getItem('snPeeked'))return;
+  try{ if(sessionStorage.getItem('snPeeked'))return; }catch(e){ return; } // storage can throw in private modes
   var nav=document.getElementById('sideNav');
   if(!nav||window.innerWidth<=960)return;
   setTimeout(function(){
     nav.classList.add('sn-peek');
     setTimeout(function(){
       nav.classList.remove('sn-peek');
-      sessionStorage.setItem('snPeeked','1');
+      try{ sessionStorage.setItem('snPeeked','1'); }catch(e){}
     },2000);
   },3200);
 })();
 </script>
+<script>
+// THE PRIME EXPERIENCE — draw the hairline and lift the steps in once
+(function(){
+  var steps=document.getElementById('procSteps');
+  if(!steps)return;
+  var io=new IntersectionObserver(function(es){
+    if(es[0].isIntersecting){steps.classList.add('in');io.disconnect();}
+  },{threshold:.3});
+  io.observe(steps);
+})();
+
+// FLOAT DOCK — get out of the way: tuck while scrolling down on phones, and over the contact form
+(function(){
+  var dock=document.getElementById('floatDock'),contact=document.getElementById('contact');
+  if(!dock)return;
+  var small=window.matchMedia('(max-width:768px)'),lastY=window.scrollY,idle=null,overForm=false;
+  function sync(down){
+    var tuck=overForm||(small.matches&&down);
+    dock.classList.toggle('fd-tuck',tuck);
+  }
+  if(contact&&'IntersectionObserver' in window){
+    new IntersectionObserver(function(es){overForm=es[0].isIntersecting;sync(false);},{rootMargin:'-35% 0px -35% 0px'}).observe(contact);
+  }
+  window.addEventListener('scroll',function(){
+    var y=window.scrollY,dy=y-lastY;
+    if(Math.abs(dy)<6)return;
+    lastY=y;
+    sync(dy>0);
+    clearTimeout(idle);
+    idle=setTimeout(function(){sync(false);},900); // reappear once the reader pauses
+  },{passive:true});
+})();
+
+// QUOTE FORM — graceful "sending" state (the native Netlify POST still does the work)
+(function(){
+  var f=document.getElementById('quoteForm'),b=document.getElementById('submitBtn');
+  if(!f||!b)return;
+  var label=b.innerHTML;
+  f.addEventListener('submit',function(e){
+    if(b.disabled){e.preventDefault();return;}   // no double submissions
+    b.disabled=true;b.classList.add('is-sending');
+    b.innerHTML='Sending<span class="snd-dots"><i>.</i><i>.</i><i>.</i></span>';
+  });
+  window.addEventListener('pageshow',function(e){if(e.persisted){b.disabled=false;b.classList.remove('is-sending');b.innerHTML=label;}});
+})();
+
+// HOURS — highlight today and show open/closed in Ocala time (America/New_York)
+(function(){
+  var st=document.getElementById('hStatus');
+  if(!st)return;
+  function render(){
+    var parts={};
+    try{
+      new Intl.DateTimeFormat('en-US',{timeZone:'America/New_York',weekday:'short',hour:'numeric',minute:'numeric',hour12:false})
+        .formatToParts(new Date()).forEach(function(p){parts[p.type]=p.value;});
+    }catch(e){return;}
+    var day=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'].indexOf(parts.weekday);
+    var mins=(parseInt(parts.hour,10)%24)*60+parseInt(parts.minute,10);
+    document.querySelectorAll('.h-row').forEach(function(r){r.classList.toggle('h-today',+r.dataset.d===day);});
+    var weekday=day>=1&&day<=5, open=weekday&&mins>=540&&mins<1020;
+    st.classList.toggle('is-open',open);
+    if(open) st.textContent='Open now · until 5 PM';
+    else if(weekday&&mins<540) st.textContent='Opens today at 9 AM';
+    else if(day===6) st.textContent='Showroom visits by appointment today';
+    else st.textContent='Closed now · opens '+(day===5||day===0?'Monday':'tomorrow')+' at 9 AM';
+  }
+  render();
+  setInterval(render,60000);
+})();
+</script>
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.20/dist/lenis.min.js"></script>
+<script src="assets/prime-polish.js"></script>
 </body>
 </html>
